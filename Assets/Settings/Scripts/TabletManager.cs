@@ -66,4 +66,12 @@ public class TabletManager : MonoBehaviour
         isTabletOpen = false;
         tabletPanel.SetActive(false);
     }
+
+    
+    public void CloseTablet()
+    {
+        isTabletOpen = false;           // Sisteme tabletin kapandığını söyle
+        tabletPanel.SetActive(false);   // Ekrandaki görseli gizle
+    }
 }
+
