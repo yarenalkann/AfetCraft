@@ -5,12 +5,17 @@ public class TabletManager : MonoBehaviour
     public bool isTabletOpen = false;
     public GameObject tabletPanel; 
 
+    
+    [Header("Sayfa Panelleri")]
     public GameObject basvurularPage;
     public GameObject gorevlerPage;
+    public GameObject hasarKriterleriPage; 
+    public GameObject insaKriterleriPage;  
     public GameObject magazaPage;
 
     void Start()
     {
+        // Oyun başında tableti gizle
         if (tabletPanel != null)
         {
             tabletPanel.SetActive(false);
@@ -19,6 +24,7 @@ public class TabletManager : MonoBehaviour
 
     void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             isTabletOpen = !isTabletOpen;
@@ -28,6 +34,7 @@ public class TabletManager : MonoBehaviour
                 tabletPanel.SetActive(isTabletOpen);
             }
 
+            
             if (isTabletOpen)
             {
                 OpenBasvurular();
@@ -35,43 +42,60 @@ public class TabletManager : MonoBehaviour
         }
     }
 
+    
+    
+
     public void OpenBasvurular()
     {
+        CloseAllPages();
         basvurularPage.SetActive(true);
-        gorevlerPage.SetActive(false);
-        magazaPage.SetActive(false);
     }
 
     public void OpenGorevler()
     {
-        basvurularPage.SetActive(false);
+        CloseAllPages();
         gorevlerPage.SetActive(true);
-        magazaPage.SetActive(false);
+    }
+
+    public void OpenHasarKriterleri() // YENİ
+    {
+        CloseAllPages();
+        hasarKriterleriPage.SetActive(true);
+    }
+
+    public void OpenInsaKriterleri() // YENİ
+    {
+        CloseAllPages();
+        insaKriterleriPage.SetActive(true);
     }
 
     public void OpenMagaza()
     {
-        basvurularPage.SetActive(false);
-        gorevlerPage.SetActive(false);
+        CloseAllPages();
         magazaPage.SetActive(true);
     }
 
-    // --- YENİ EKLENEN KISIM: GÖREV ONAYLAMA SİSTEMİ ---
-    public void GoreviOnayla()
+   
+    private void CloseAllPages()
     {
-        // 1. Sisteme mesaj gönder (Test için Unity konsoluna yazdırıyoruz)
-        Debug.Log("GÖREV ALINDI: #1001 numaralı hasarlı ev için onarım süreci başlatılıyor!");
-
-        // 2. Tableti otomatik kapat ve oyuncuyu oyuna döndür
-        isTabletOpen = false;
-        tabletPanel.SetActive(false);
+        basvurularPage.SetActive(false);
+        gorevlerPage.SetActive(false);
+        hasarKriterleriPage.SetActive(false);
+        insaKriterleriPage.SetActive(false);
+        magazaPage.SetActive(false);
     }
 
     
     public void CloseTablet()
     {
-        isTabletOpen = false;           // Sisteme tabletin kapandığını söyle
-        tabletPanel.SetActive(false);   // Ekrandaki görseli gizle
+        isTabletOpen = false;
+        tabletPanel.SetActive(false);
+    }
+
+    
+    public void GoreviOnayla()
+    {
+        Debug.Log("GÖREV ALINDI: #1001 numaralı ev için onarım süreci başlatılıyor!");
+        CloseTablet(); 
     }
 }
-
