@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement; // <-- IŞINLANMA MOTORU (YENİ EKLENDİ)
 
 public class TabletManager : MonoBehaviour
 {
@@ -32,6 +33,13 @@ public class TabletManager : MonoBehaviour
     public int demirSayisi = 0;
     public int tuglaSayisi = 0;
     public int tamirKitiSayisi = 0;
+
+    [Header("Görevler Sistemi (Operasyon Merkezi)")]
+    public TMP_Text sagBaslikText;      // Sağdaki büyük görev başlığı
+    public TMP_Text sagGereksinimText;  // Gerekli ekipman yazısı
+    
+    // Arka planda hangi görevin seçili olduğunu tutarız
+    private int secilenGorevID = -1; 
 
     private bool isTabletOpen = false;
 
@@ -134,7 +142,7 @@ public class TabletManager : MonoBehaviour
         insaKriterleriPage.SetActive(false);
     }
 
-    // ---- BAŞVURU (GÖREV) SİSTEMİ ----
+    // ---- BAŞVURU SİSTEMİ ----
 
     public void BasvuruGoster(int basvuruID)
     {
@@ -160,5 +168,70 @@ public class TabletManager : MonoBehaviour
         isTabletOpen = false;
         tabletPanel.SetActive(false);
         Debug.Log(baslikText.text + " haritada işaretlendi!");
+    }
+
+    // ---- GÖREVLER (OPERASYON) SİSTEMİ ----
+
+    // Sol taraftaki butonlara tıklandığında çalışacak metod
+   public void GorevSec(int gorevID)
+    {
+        secilenGorevID = gorevID;
+
+        if (gorevID == 1)
+        {
+            sagBaslikText.text = "Görev 1: Enkaz Altından Sesler";
+            sagGereksinimText.text = "Gerekli Ekipman: Yok";
+            sagGereksinimText.color = Color.white;
+            // Detay metnini de buraya ekleyebiliriz (İsteğe bağlı)
+        }
+        else if (gorevID == 2)
+        {
+            sagBaslikText.text = "Görev 2: Gaz Sızıntısı";
+            sagGereksinimText.text = "Gerekli Ekipman: Tamir Kiti";
+            sagGereksinimText.color = Color.yellow;
+        }
+        else if (gorevID == 3)
+        {
+            sagBaslikText.text = "Görev 3: Çatlak Kolon Desteği";
+            sagGereksinimText.text = "Gerekli Ekipman: Çimento ve Demir";
+            sagGereksinimText.color = Color.cyan;
+        }
+    }
+
+    // Yeşil "OPERASYONU BAŞLAT" butonuna tıklandığında çalışacak metod
+    public void OperasyonuBaslat()
+    {
+        if (secilenGorevID == -1) 
+        {
+            Debug.Log("Önce sol taraftan bir görev seçmelisin!");
+            return;
+        }
+
+        if (secilenGorevID == 1)
+        {
+            Debug.Log("Level 1 Yükleniyor! Eğitime başlanıyor...");
+            // İŞTE IŞINLANMA KODU BURASI:
+            SceneManager.LoadScene("Level1_Enkaz"); 
+        }
+        else if (secilenGorevID == 2)
+        {
+            // Level 2 için envanter kontrolü!
+            if (tamirKitiSayisi > 0)
+            {
+                tamirKitiSayisi--; // Kiti kullandık
+                MiktarlariGuncelle(); // Ekranda sayıyı düşürdük
+                Debug.Log("Tamir kiti kullanıldı! Level 2'ye giriliyor...");
+                
+                // İleride Level 2 sahnesini açtığında buradaki // işaretlerini sileceksin:
+                // SceneManager.LoadScene("Level2_GazSizintisi"); 
+            }
+            else
+            {
+                // Çantada kit yoksa oyuncuyu uyar!
+                sagGereksinimText.color = Color.red;
+                sagGereksinimText.text = "YETERSİZ EKİPMAN! Mağazadan Tamir Kiti Almalısın.";
+                Debug.Log("Giremezsin, tamir kiti lazım!");
+            }
+        }
     }
 }
