@@ -35,7 +35,9 @@ public class TabletManager : MonoBehaviour
     public int tamirKitiSayisi = 0;
 
     [Header("Görevler Sistemi (Operasyon Merkezi)")]
-    public TMP_Text sagBaslikText;      // Sağdaki büyük görev başlığı
+    public TMP_Text sagBaslikText;   
+    public TMP_Text sagDetayText;
+   // Sağdaki büyük görev başlığı
     public TMP_Text sagGereksinimText;  // Gerekli ekipman yazısı
     
     // Arka planda hangi görevin seçili olduğunu tutarız
@@ -180,6 +182,7 @@ public class TabletManager : MonoBehaviour
         if (gorevID == 1)
         {
             sagBaslikText.text = "Görev 1: Enkaz Altından Sesler";
+            sagDetayText.text = "İhbar: Binanın 1. katından yardım sesleri geliyor. İçeri gir ve afetzedeyi güvenli bölgeye taşı.";
             sagGereksinimText.text = "Gerekli Ekipman: Yok";
             sagGereksinimText.color = Color.white;
             // Detay metnini de buraya ekleyebiliriz (İsteğe bağlı)
@@ -187,12 +190,14 @@ public class TabletManager : MonoBehaviour
         else if (gorevID == 2)
         {
             sagBaslikText.text = "Görev 2: Gaz Sızıntısı";
+            sagDetayText.text = "İhbar: Binada yoğun gaz kokusu var. Kıvılcım çıkmadan vanayı tamir etmelisin!";
             sagGereksinimText.text = "Gerekli Ekipman: Tamir Kiti";
             sagGereksinimText.color = Color.yellow;
         }
         else if (gorevID == 3)
         {
             sagBaslikText.text = "Görev 3: Çatlak Kolon Desteği";
+            sagDetayText.text = "İhbar: Ana taşıyıcı kolonlar çatlamış. Bina çökmeden kolonları beton ve demirle güçlendir.";
             sagGereksinimText.text = "Gerekli Ekipman: Çimento ve Demir";
             sagGereksinimText.color = Color.cyan;
         }
