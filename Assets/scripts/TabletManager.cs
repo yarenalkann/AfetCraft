@@ -68,13 +68,24 @@ public class TabletManager : MonoBehaviour
             isTabletOpen = !isTabletOpen; 
             tabletPanel.SetActive(isTabletOpen);
 
-            // Tablet açıldığında otomatik Başvurular sayfasını göster
             if (isTabletOpen)
             {
-                OpenBasvurular();
+                OpenBasvurular(); // Açıldığında ilk sayfayı göster
+                // Fareyi serbest bırak
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                // Fareyi oyuna geri kilitle
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
         }
     }
+            
+        
+    
 
     // ---- EKONOMİ VE MAĞAZA SİSTEMİ ----
 
@@ -148,6 +159,13 @@ public class TabletManager : MonoBehaviour
 
     public void BasvuruGoster(int basvuruID)
     {
+        // Eğer detay penceresi kapalıysa butona basınca aç
+        if (tabletPanel != null) 
+        {
+            // Eğer RaporKapsayici diye bir değişkenin varsa onu aktif et
+            // Şimdilik sadece yazıları değiştiriyoruz:
+        }
+
         if (basvuruID == 0)
         {
             baslikText.text = "Yeşil Apartmanı";
