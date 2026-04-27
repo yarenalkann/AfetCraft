@@ -1,66 +1,58 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
 {
     [Header("Referanslar")]
-    // Adım 1'de kafa yüzüne koyduğumuz boş objeyi buraya sürükle
-    public Transform laserOrigin; 
-    
-    // Adım 2'de yarattığımız küçük yeşil küreyi (Sphere) buraya sürükle
-    public GameObject worldCursor; 
-    
-    // Yürüme animasyonunu kilitlediğimiz 'Neck' pivotunu buraya sürükle (Yön için)
-    public Transform neckPivot; 
+    public Transform laserOrigin;   // Kafa yüzündeki boş obje
+    public Transform neckPivot;     // Boyun/Kafa pivotu (Yön için)
+    public GameObject interactionUI; // Ekranda çıkan "E'ye Bas" yazısı
 
-    [Header("Ayarlar")]
-    public float interactionDistance = 10f; // TPS için biraz daha uzak menzil
-    public bool showLaserBeam = true; // Sahnede lazer çizgisi görünsün mü?
+    [Header("Lazer Ayarları")]
+    public bool showLaser = true;   // Lazer görünsün mü? (Buradan açıp kapatabilirsin)
+    public float interactionDistance = 3f; // Etkileşim mesafesi
+    public Color laserColor = Color.green; // Lazerin rengi
 
-    // Lazer çizgisini Game View'da da göstermek istersek LineRenderer ekleyebiliriz
     private LineRenderer lineRenderer;
 
     void Start()
     {
+        // LineRenderer bileşenini kontrol et, yoksa ekle
         lineRenderer = GetComponent<LineRenderer>();
         if (lineRenderer == null)
         {
-            // Eğer LineRenderer yoksa kod hata vermesin diye ekliyoruz
             lineRenderer = gameObject.AddComponent<LineRenderer>();
-            lineRenderer.startWidth = 0.02f;
-            lineRenderer.endWidth = 0.02f;
-            lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
-            lineRenderer.material.color = Color.green;
         }
+
+        // Lazerin görsel ayarları
+        lineRenderer.startWidth = 0.01f; // Çizgi kalınlığı başı
+        lineRenderer.endWidth = 0.01f;   // Çizgi kalınlığı sonu
+        lineRenderer.positionCount = 2;
+        
+        // Pembe görünmemesi için basit bir materyal atayalım
+        lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
+        lineRenderer.material.color = laserColor;
     }
 
     void Update()
     {
-        if (laserOrigin == null || worldCursor == null || neckPivot == null) return;
+        if (laserOrigin == null || neckPivot == null || interactionUI == null) return;
 
-        // --- 1. MÜHENDİSLİK MATEMATİĞİ: Işını Oluştur ---
-        // Başlangıç: Göz hizası (laserOrigin)
-        // Yön: Boyun/Kafa pivotunun baktığı yön (neckPivot.forward)
+        // Görünmez Raycast ışınını oluştur
         Ray ray = new Ray(laserOrigin.position, -neckPivot.right);
         RaycastHit hit;
 
-        Vector3 endPoint; // Lazerin bittiği nokta (Çarpma noktası veya max menzil)
+        
+        Vector3 endPoint = laserOrigin.position + (-neckPivot.right * interactionDistance);
 
-        // --- 2. RAYCAST: Işını Ateşle ---
         if (Physics.Raycast(ray, out hit, interactionDistance))
         {
-            endPoint = hit.point; // Lazer objeye çarptı
-            
-            // Yeşil noktayı çarptığımız yere ışınla
-            worldCursor.SetActive(true);
-            worldCursor.transform.position = hit.point;
+            endPoint = hit.point; // Lazer bir şeye çarptıysa orada bitsin
 
-            // Eğer Tag 'Interactable' ise kontrolleri yap
             if (hit.collider.CompareTag("Interactable"))
             {
-                Debug.Log("Odaklandın: " + hit.collider.gameObject.name);
+                interactionUI.SetActive(true);
                 
-                // Yeşil noktayı büyütüp belli edebilirsin
-                worldCursor.transform.localScale = Vector3.one * 0.2f;
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -69,35 +61,29 @@ public class PlayerInteraction : MonoBehaviour
             }
             else
             {
-                // Normal bir şeye çarpıyorsan nokta küçük kalsın
-                worldCursor.transform.localScale = Vector3.one * 0.08f;
+                interactionUI.SetActive(false);
             }
         }
         else
         {
-            // Işın havada kaldı, hiçbir şeye çarpmadı
-            endPoint = ray.origin + (ray.direction * interactionDistance);
-            
-            // Yeşil noktayı max menzilde göster veya gizle
-            worldCursor.SetActive(true); 
-            worldCursor.transform.position = endPoint;
-            worldCursor.transform.localScale = Vector3.one * 0.08f;
+            interactionUI.SetActive(false);
         }
 
-        // --- 3. GÖRSEL İLLÜZYON: Lazer Çizgisini Çiz (Game View'da görünür) ---
-        if (showLaserBeam && lineRenderer != null)
+        // --- LAZERİ GÖSTERME KISMI ---
+        if (showLaser)
         {
-            lineRenderer.SetPosition(0, laserOrigin.position); // Lazer gözden başlar
-            lineRenderer.SetPosition(1, endPoint); // Lazer çarptığı yerde biter
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, laserOrigin.position); // Başlangıç: Göz hizası
+            lineRenderer.SetPosition(1, endPoint);             // Bitiş: Çarptığı yer veya max menzil
         }
-
-        // Scene Debug (Sadece geliştirici için sahne ekranında kırmızı çizgi)
-        Debug.DrawRay(laserOrigin.position, neckPivot.forward * interactionDistance, Color.red);
+        else
+        {
+            lineRenderer.enabled = false;
+        }
     }
 
     void DoInteraction(GameObject obj)
     {
         Debug.Log(obj.name + " ile etkileşime geçildi!");
-        // Örnek: Destroy(obj); // Kutuyu yok et
     }
 }
