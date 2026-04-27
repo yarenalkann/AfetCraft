@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7c4f8590d06bb458e4615d403a91a3, type: 3}
+  m_Name: Ev_10
+  m_EditorClassIdentifier: Assembly-CSharp::EvVerisi
+  evAdi: "\xC7aml\u0131ca Sitesi"
+  basvuruSahibi: "Bekir Orta\xE7"
+  adres: Eski Kasaba, Tarihi Meydan No:4
+  tarih: 03.04.2026
+  evKonumu: {x: 0, y: 0, z: 0}
+  raporDetayi: "Alt kat kom\u015Fusu, \xFCst kat\u0131n banyosundan s\xFCrekli su
+    s\u0131zd\u0131\u011F\u0131n\u0131 ve tavan\u0131n karard\u0131\u011F\u0131n\u0131
+    belirtmi\u015F."

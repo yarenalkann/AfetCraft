@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7c4f8590d06bb458e4615d403a91a3, type: 3}
+  m_Name: Ev_11
+  m_EditorClassIdentifier: Assembly-CSharp::EvVerisi
+  evAdi: Dereboyu Evleri
+  basvuruSahibi: "Fatma G\xFCl"
+  adres: "Ye\u015Fil Vadi Sitesi, B Blok Daire:5"
+  tarih: 09.04.2026
+  evKonumu: {x: 0, y: 0, z: 0}
+  raporDetayi: "Binan\u0131n yan\u0131ndaki istinat duvar\u0131 \xE7\xF6km\xFC\u015F.
+    Temel seviyesinde \xE7atlaklar oldu\u011Fu iddia ediliyor."

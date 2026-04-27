@@ -1887,7 +1887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &134519192
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1904,8 +1904,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00018310547, y: -0.000030517578}
-  m_SizeDelta: {x: -0.00036621, y: 0}
+  m_AnchoredPosition: {x: -4.253784, y: -0.000030517578}
+  m_SizeDelta: {x: -42.5406, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &134519193
 MonoBehaviour:
@@ -1928,23 +1928,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<b><color=#FF8C00>Madde 1: Temel ve Zemin G\xFCvenli\u011Fi</color></b>\r\nDo\u011Frudan
-    toprak zemin \xFCzerine kat \xE7\u0131k\u0131lamaz! Yap\u0131n\u0131n ilk katman\u0131nda
-    (temelde) mutlaka en az 1 blok kal\u0131nl\u0131\u011F\u0131nda <b><color=#A9A9A9>'\xC7imento'</color></b>
-    kullan\u0131lmal\u0131d\u0131r. Sa\u011Flam temeli olmayan yap\u0131lar ilk sars\u0131nt\u0131da
-    y\u0131k\u0131l\u0131r.\r\n\r\n<b><color=#FF8C00>Madde 2: Ta\u015F\u0131y\u0131c\u0131
-    Kolon Sistemi</color></b>\r\nBinalar\u0131n k\xF6\u015Fe noktalar\u0131nda \xFCst
-    katlar\u0131n y\xFCk\xFCn\xFC da\u011F\u0131tacak ta\u015F\u0131y\u0131c\u0131lar
-    olmak zorundad\u0131r. Sadece tu\u011Fla ile \xF6r\xFClm\xFC\u015F yap\u0131lar
-    ta\u015F\u0131y\u0131c\u0131 \xF6zellik g\xF6steremez. Kolon in\u015Fas\u0131nda
-    mutlaka <b><color=#778899>'Demir'</color></b> ile g\xFC\xE7lendirilmi\u015F bloklar
-    kullan\u0131lmal\u0131d\u0131r.\r\n\r\n<b><color=#FF8C00>Madde 3: Kat Y\xFCk\xFC
-    ve Malzeme Da\u011F\u0131l\u0131m\u0131</color></b>\r\nStandart temelli binalarda
-    maksimum 3 kat s\u0131n\u0131r\u0131na uyulmal\u0131d\u0131r. Alt katlarda a\u011F\u0131r
-    (\xC7imento/Demir), \xFCst katlarda ise nispeten daha hafif (Tu\u011Fla) malzemeler
-    tercih edilerek binan\u0131n a\u011F\u0131rl\u0131k merkezi dengede tutulmal\u0131d\u0131r.\r\n\r\n<i><color=#FF4500>D\u0130KKAT:</color>
-    Kurallara uymayan yap\u0131lar, sim\xFClasyondaki test dalgas\u0131nda do\u011Frudan
-    'A\u011F\u0131r Hasarl\u0131' stat\xFCs\xFCne ge\xE7ecektir! L\xFCtfen in\u015Faat\u0131
-    m\xFChendislik kurallar\u0131na g\xF6re yap\u0131n.</i>"
+    toprak \xFCzerine in\u015Faat yap\u0131lamaz. Sa\u011Flam bir temel i\xE7in yap\u0131n\u0131n
+    ilk katman\u0131nda mutlaka <b><color=#A9A9A9>'\xC7imento'</color></b> bloklar
+    kullan\u0131lmal\u0131d\u0131r.\r\n\r\n<b><color=#FF8C00>Madde 2: Ta\u015F\u0131y\u0131c\u0131
+    Kolon Sistemi</color></b>\r\nK\xF6\u015Fe noktalar\u0131nda y\xFCk\xFC da\u011F\u0131tacak
+    ta\u015F\u0131y\u0131c\u0131lar bulunmal\u0131d\u0131r. Kolon in\u015Fas\u0131nda
+    sadece tu\u011Fla yeterli de\u011Fildir; mutlaka <b><color=#778899>'Demir'</color></b>
+    takviyeli bloklar tercih edilmelidir.\r\n\r\n<b><color=#FF8C00>Madde 3: Kat Y\xFCk\xFC
+    ve Malzeme Dengesi</color></b>\r\nBinalarda 3 kat s\u0131n\u0131r\u0131 korunmal\u0131d\u0131r.
+    Alt katlarda dayan\u0131kl\u0131l\u0131k i\xE7in a\u011F\u0131r (\xC7imento),
+    \xFCst katlarda ise a\u011F\u0131rl\u0131k merkezini korumak i\xE7in hafif (Tu\u011Fla)
+    malzeme kullan\u0131lmal\u0131d\u0131r.\r\n\r\n<i><color=#FF4500>D\u0130KKAT:</color>
+    Bu kurallara uymayan yap\u0131lar, deprem sim\xFClasyonunda <b>'A\u011F\u0131r
+    Hasarl\u0131'</b> stat\xFCs\xFCnde de\u011Ferlendirilecektir.</i>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b4b2174f9b589744b883288078603e1a, type: 2}
   m_sharedMaterial: {fileID: -1000140019581859520, guid: b4b2174f9b589744b883288078603e1a, type: 2}
@@ -2058,7 +2054,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -269, y: 58}
+  m_AnchoredPosition: {x: -234, y: 72}
   m_SizeDelta: {x: 600, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &139415242
@@ -2081,11 +2077,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<color=red>D\u0130KKAT:</color=red> HASAR TESP\u0130T REHBER\u0130\r\n\r\n<color=red>1.
-    A\u011F\u0131r Hasar:</color> Kolonlarda 'X' \u015Feklinde derin \xE7atlaklar.
-    Kesinlikle girilmez!\r\n\r\n<color=yellow>2. Orta Hasar:</color> Duvarlarda d\xF6k\xFClme,
-    kolonlarda ufak s\u0131va \xE7atlaklar\u0131. Desteklenmeli.\r\n\r\n<color=green>3.
-    Hafif Hasar:</color> Sadece boya d\xF6k\xFClmesi. Risk d\xFC\u015F\xFCk."
+  m_text: "<b><color=#B22222>D\u0130KKAT: HASAR TESP\u0130T REHBER\u0130</color></b>\r\n\r\n<b><color=#B22222>1.
+    A\u011F\u0131r Hasar:</color></b> <color=#1A1A1A>Kolonlarda 'X' \u015Feklinde
+    derin \xE7atlaklar. Kesinlikle girilmez!</color>\r\n\r\n<b><color=#A88C00>2.
+    Orta Hasar:</color></b> <color=#1A1A1A>Duvarlarda d\xF6k\xFClme, kolonlarda ufak
+    s\u0131va \xE7atlaklar\u0131. Desteklenmeli.</color>\r\n\r\n<b><color=#006400>3.
+    Hafif Hasar:</color></b> <color=#1A1A1A>Sadece boya d\xF6k\xFClmesi. Risk d\xFC\u015F\xFCk.</color>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 12f62981dfb213842850b07660d05acb, type: 2}
   m_sharedMaterial: {fileID: 1309802570192972294, guid: 12f62981dfb213842850b07660d05acb, type: 2}
@@ -2112,13 +2109,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.8
+  m_fontSize: 31.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 8
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -3433,6 +3430,118 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347852444}
   m_CullTransparentMesh: 1
+--- !u!1 &394873315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 394873319}
+  - component: {fileID: 394873318}
+  - component: {fileID: 394873317}
+  - component: {fileID: 394873316}
+  m_Layer: 0
+  m_Name: Minimap_hedef
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &394873316
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394873315}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &394873317
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394873315}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &394873318
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394873315}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &394873319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394873315}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -8, z: -10}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &398673082
 GameObject:
   m_ObjectHideFlags: 0
@@ -4697,6 +4806,28 @@ MonoBehaviour:
   magazaPage: {fileID: 1558326103}
   hasarKriterleriPage: {fileID: 2055513782}
   insaKriterleriPage: {fileID: 1856836557}
+  tumEvHavuzu:
+  - {fileID: 11400000, guid: c9578b22ef11a724d8fbf6baba77d9a7, type: 2}
+  - {fileID: 11400000, guid: 923cfde20c1a7754482f4e3c4a0535d3, type: 2}
+  - {fileID: 11400000, guid: 027527c3967d28d41837785a52fd56f4, type: 2}
+  - {fileID: 11400000, guid: 53b2e4d45fa3faa4794a6cbb13cadf99, type: 2}
+  - {fileID: 11400000, guid: e9d33ded5cc985144802856849c5d5a1, type: 2}
+  - {fileID: 11400000, guid: 16604f6e7ea5bc64a82be5892084da8a, type: 2}
+  - {fileID: 11400000, guid: 978089c1d92ceb442b1fa9870621e55c, type: 2}
+  - {fileID: 11400000, guid: bf274359b9db43a48ad9b2c45cb2bbf9, type: 2}
+  - {fileID: 11400000, guid: e9951b7f1d399014080331edfc9de529, type: 2}
+  - {fileID: 11400000, guid: a9b6d81ac18dece4abf290c64742f79b, type: 2}
+  - {fileID: 11400000, guid: 4a0f6e1fa043db14d8e901cf445e0fda, type: 2}
+  - {fileID: 11400000, guid: f5962f7554ba82b428cbc13bc8c3826f, type: 2}
+  - {fileID: 11400000, guid: 8be3a7177c1ca994e8c689b3d6d8b589, type: 2}
+  - {fileID: 11400000, guid: 43d98c7771b026d4d84d4a2d5fcd4f5a, type: 2}
+  - {fileID: 11400000, guid: 85d406073b99d4f4fa7e62f7bdda39a7, type: 2}
+  - {fileID: 11400000, guid: 0b651153ae26e33409707dd7713b5068, type: 2}
+  - {fileID: 11400000, guid: 3fecc85db7437b14baed55af107df9f2, type: 2}
+  solButonYazilari:
+  - {fileID: 2021580176}
+  - {fileID: 597670244}
+  - {fileID: 623817595}
   baslikText: {fileID: 990507553}
   detayText: {fileID: 28120168}
   oyuncuParasi: 1000
@@ -4712,6 +4843,7 @@ MonoBehaviour:
   sagBaslikText: {fileID: 272255303}
   sagDetayText: {fileID: 602738231}
   sagGereksinimText: {fileID: 521034548}
+  haritaIsaretcisi: {fileID: 394873315}
 --- !u!1 &482732929
 GameObject:
   m_ObjectHideFlags: 0
@@ -5202,6 +5334,37 @@ RectTransform:
   m_AnchoredPosition: {x: 30, y: -30}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &509188995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 509188996}
+  m_Layer: 0
+  m_Name: "Test_Ev_Noktas\u0131_2"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &509188996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509188995}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -8, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &521034546
 GameObject:
   m_ObjectHideFlags: 0
@@ -5969,8 +6132,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 23
+  m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6318,7 +6481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 6, y: -6}
+  m_EffectDistance: {x: 8, y: -8}
   m_UseGraphicAlpha: 1
 --- !u!1 &623817593
 GameObject:
@@ -6919,7 +7082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 6, y: -6}
+  m_EffectDistance: {x: 8, y: -8}
   m_UseGraphicAlpha: 1
 --- !u!1 &696120639
 GameObject:
@@ -7172,7 +7335,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170, y: 80}
+  m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &716029438
 MonoBehaviour:
@@ -7293,7 +7456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 7, y: -7}
+  m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
 --- !u!1 &744253023
 GameObject:
@@ -7668,7 +7831,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 465257053}
         m_TargetAssemblyTypeName: TabletManager, Assembly-CSharp
-        m_MethodName: GoreviOnayla
+        m_MethodName: GorevAlButonunaBasildi
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8769,7 +8932,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170, y: 80}
+  m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &911494461
 MonoBehaviour:
@@ -8890,8 +9053,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 7, y: -7}
+  m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
+--- !u!1 &915737175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 915737176}
+  m_Layer: 0
+  m_Name: "Test_Ev_Noktas\u0131_1"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &915737176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915737175}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10, y: 2, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &931659826
 GameObject:
   m_ObjectHideFlags: 0
@@ -10055,7 +10249,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170, y: 80}
+  m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1130061630
 MonoBehaviour:
@@ -10176,7 +10370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 7, y: -7}
+  m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
 --- !u!1 &1151192141
 GameObject:
@@ -10353,7 +10547,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170, y: 80}
+  m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1166956439
 MonoBehaviour:
@@ -10474,7 +10668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 7, y: -7}
+  m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
 --- !u!1 &1169517750
 GameObject:
@@ -11294,6 +11488,8 @@ GameObject:
   - component: {fileID: 1323988654}
   - component: {fileID: 1323988656}
   - component: {fileID: 1323988655}
+  - component: {fileID: 1323988658}
+  - component: {fileID: 1323988657}
   m_Layer: 5
   m_Name: BasvurularPage
   m_TagString: Untagged
@@ -11361,6 +11557,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323988653}
   m_CullTransparentMesh: 1
+--- !u!114 &1323988657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323988653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.87058824, g: 0.85490197, b: 0.63529414, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
+--- !u!114 &1323988658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323988653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 8, y: -8}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1324385857
 GameObject:
   m_ObjectHideFlags: 0
@@ -11453,18 +11679,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TabletManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12860,10 +13074,10 @@ RectTransform:
   - {fileID: 911494460}
   m_Father: {fileID: 398673083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 9, y: -12}
-  m_SizeDelta: {x: 800, y: 80}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1479604723
 MonoBehaviour:
@@ -14665,7 +14879,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 465257053}
         m_TargetAssemblyTypeName: TabletManager, Assembly-CSharp
-        m_MethodName: HaritadaGosterButonunaBasildi
+        m_MethodName: GorevAlButonunaBasildi
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15399,6 +15613,8 @@ GameObject:
   - component: {fileID: 1856836558}
   - component: {fileID: 1856836560}
   - component: {fileID: 1856836559}
+  - component: {fileID: 1856836562}
+  - component: {fileID: 1856836561}
   m_Layer: 0
   m_Name: InsaKriterleriPage
   m_TagString: Untagged
@@ -15423,8 +15639,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -40}
-  m_SizeDelta: {x: 0, y: -80}
+  m_AnchoredPosition: {x: -7.5, y: -36}
+  m_SizeDelta: {x: -15, y: -108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1856836559
 MonoBehaviour:
@@ -15464,6 +15680,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856836557}
   m_CullTransparentMesh: 1
+--- !u!114 &1856836561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856836557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.5450981, g: 0.2705882, b: 0.07450981, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
+--- !u!114 &1856836562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856836557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
+  m_EffectColor: {r: 1, g: 0.85490197, b: 0.7254902, a: 0.54901963}
+  m_EffectDistance: {x: 8, y: -8}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1861291743
 GameObject:
   m_ObjectHideFlags: 0
@@ -16224,7 +16470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 6, y: -6}
+  m_EffectDistance: {x: 8, y: -8}
   m_UseGraphicAlpha: 1
 --- !u!1 &1900806560
 GameObject:
@@ -16772,7 +17018,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170, y: 80}
+  m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2003132054
 MonoBehaviour:
@@ -16893,7 +17139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 7, y: -7}
+  m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
 --- !u!1 &2021580174
 GameObject:
@@ -17257,6 +17503,8 @@ GameObject:
   - component: {fileID: 2055513783}
   - component: {fileID: 2055513785}
   - component: {fileID: 2055513784}
+  - component: {fileID: 2055513787}
+  - component: {fileID: 2055513786}
   m_Layer: 5
   m_Name: HasarKriterleriPage
   m_TagString: Untagged
@@ -17281,8 +17529,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 13.5, y: -43}
-  m_SizeDelta: {x: -8.9999, y: -92}
+  m_AnchoredPosition: {x: 1.5, y: -38.500008}
+  m_SizeDelta: {x: -33, y: -107.000015}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2055513784
 MonoBehaviour:
@@ -17291,20 +17539,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2055513782}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9333334, g: 0.8666667, b: 0.509804, a: 1}
+  m_Color: {r: 1, g: 0.85490197, b: 0.7254902, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17322,6 +17570,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2055513782}
   m_CullTransparentMesh: 1
+--- !u!114 &2055513786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055513782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.5450981, g: 0.2705882, b: 0.07450981, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
+--- !u!114 &2055513787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055513782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
+  m_EffectColor: {r: 1, g: 0.8705883, b: 0.6784314, a: 1}
+  m_EffectDistance: {x: 8, y: -8}
+  m_UseGraphicAlpha: 1
 --- !u!1 &2066673178
 GameObject:
   m_ObjectHideFlags: 0
@@ -18272,6 +18550,9 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 915737176}
+  - {fileID: 509188996}
+  - {fileID: 394873319}
   - {fileID: 330585546}
   - {fileID: 465257051}
   - {fileID: 410087041}

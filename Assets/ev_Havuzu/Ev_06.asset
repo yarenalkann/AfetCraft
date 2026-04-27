@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7c4f8590d06bb458e4615d403a91a3, type: 3}
+  m_Name: Ev_06
+  m_EditorClassIdentifier: Assembly-CSharp::EvVerisi
+  evAdi: Park Evleri
+  basvuruSahibi: Caner Parlak
+  adres: "\xC7\u0131nar Mahallesi, Huzur Sokak No:12"
+  tarih: 14.02.2026
+  evKonumu: {x: 0, y: 0, z: 0}
+  raporDetayi: "Binan\u0131n d\u0131\u015F cephe kaplamalar\u0131 tamamen d\xF6k\xFClm\xFC\u015F
+    durumda ve pencerelerin etraf\u0131nda geni\u015F ayr\u0131lmalar var. Giri\u015F
+    kat\u0131ndaki d\xFCkkan\u0131n kepenkleri s\u0131k\u0131\u015Fm\u0131\u015F,
+    a\xE7\u0131lm\u0131yor."

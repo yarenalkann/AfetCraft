@@ -52,6 +52,7 @@ TemporaryDependencyNodeTargetIdentifier=netstandard2.1
 [sourceFiles]
 Assets/scripts/
  EnvanterSistemi.cs
+ EvVerisi.cs
  SekmeRenkYoneticisi.cs
  TabletManager.cs
 Assets/

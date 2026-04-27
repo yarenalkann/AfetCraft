@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7c4f8590d06bb458e4615d403a91a3, type: 3}
+  m_Name: Ev_13
+  m_EditorClassIdentifier: Assembly-CSharp::EvVerisi
+  evAdi: Vadi Evleri
+  basvuruSahibi: "R\u0131za Soylu"
+  adres: "Vadi Evleri Mevkii, Dere kenar\u0131 No:19"
+  tarih: 25.04.2026
+  evKonumu: {x: 0, y: 0, z: 0}
+  raporDetayi: "Binan\u0131n bodrum kat\u0131nda kolonlar\u0131n etraf\u0131ndaki
+    toprakta garip bir kabarma g\xF6zlemlenmi\u015F."

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7c4f8590d06bb458e4615d403a91a3, type: 3}
+  m_Name: Ev_08
+  m_EditorClassIdentifier: Assembly-CSharp::EvVerisi
+  evAdi: Huzur Rezidans
+  basvuruSahibi: Mert Can
+  adres: "Yeni \u015Eehir Mahallesi, G\xF6kdelenler Cad."
+  tarih: 27.03.2026
+  evKonumu: {x: 0, y: 0, z: 0}
+  raporDetayi: "L\xFCks asans\xF6r sisteminin depremden beri \xE7al\u0131\u015Fmad\u0131\u011F\u0131,
+    raylar\u0131n s\u0131k\u0131\u015Ft\u0131\u011F\u0131 bildirilmi\u015F."
