@@ -220,16 +220,46 @@ public class TabletManager : MonoBehaviour
         Debug.Log("<color=green>BUTONA BASILDI!</color>"); 
         Debug.Log("Seçili Görev ID'si: " + secilenGorevID);
 
+        // 1. ADIM: Görev seçildi mi?
         if (secilenGorevID == -1) 
         {
             Debug.Log("<color=red>HATA: Görev seçilmedi!</color>");
             return;
         }
 
-        if (secilenGorevID == 1)
+        // 2. ADIM: Malzeme Kontrolleri (Kritik Kısım Burası)
+        
+        if (secilenGorevID == 1) // Görev 1: Enkaz Altından Sesler
         {
-            Debug.Log("Sahne yükleniyor...");
+            // Bu görev ekipman istemiyordu, direkt yüklüyoruz.
+            Debug.Log("Sahne yükleniyor: Level 1...");
             SceneManager.LoadScene("Level1_Enkaz"); 
+        }
+        else if (secilenGorevID == 2) // Görev 2: Gaz Sızıntısı
+        {
+            // KONTROL: Elimizde tamir kiti var mı?
+            if (tamirKitiSayisi >= 1) 
+            {
+                Debug.Log("Tamir kiti mevcut. Sahne yükleniyor: Level 2...");
+                SceneManager.LoadScene("Level2_GazSizintisi"); // Sahne adını arkadaşına sor!
+            }
+            else 
+            {
+                Debug.Log("<color=yellow>UYARI: Gaz sızıntısını tamir etmek için Tamir Kiti almalısın!</color>");
+            }
+        }
+        else if (secilenGorevID == 3) // Görev 3: Çatlak Kolon Desteği
+        {
+            // KONTROL: Elimizde yeterli malzeme var mı?
+            if (cimentoSayisi >= 1 && demirSayisi >= 1)
+            {
+                Debug.Log("Malzemeler hazır. Sahne yükleniyor: Level 3...");
+                SceneManager.LoadScene("Level3_Insaat"); // Sahne adını arkadaşına sor!
+            }
+            else
+            {
+                Debug.Log("<color=yellow>UYARI: Kolonu güçlendirmek için en az 1 Çimento ve 1 Demir gerekiyor!</color>");
+            }
         }
     }
 }
