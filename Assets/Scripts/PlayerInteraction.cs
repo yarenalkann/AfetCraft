@@ -4,32 +4,30 @@ using UnityEngine.UI;
 public class PlayerInteraction : MonoBehaviour
 {
     [Header("Referanslar")]
-    public Transform laserOrigin;   // Kafa yüzündeki boş obje
-    public Transform neckPivot;     // Boyun/Kafa pivotu (Yön için)
-    public GameObject interactionUI; // Ekranda çıkan "E'ye Bas" yazısı
+    public Transform laserOrigin;   
+    public Transform neckPivot;     
+    public GameObject interactionUI; 
 
     [Header("Lazer Ayarları")]
-    public bool showLaser = true;   // Lazer görünsün mü? (Buradan açıp kapatabilirsin)
-    public float interactionDistance = 3f; // Etkileşim mesafesi
-    public Color laserColor = Color.green; // Lazerin rengi
+    public bool showLaser = true;   
+    public float interactionDistance = 3f; 
+    public Color laserColor = Color.green; 
+    public LayerMask interactableLayer; // Sadece etkileşimli objeleri taramak için
 
     private LineRenderer lineRenderer;
+    private IInteractable lastHighlighted; // Hafızadaki son parlatılan obje
 
     void Start()
     {
-        // LineRenderer bileşenini kontrol et, yoksa ekle
         lineRenderer = GetComponent<LineRenderer>();
         if (lineRenderer == null)
         {
             lineRenderer = gameObject.AddComponent<LineRenderer>();
         }
 
-        // Lazerin görsel ayarları
-        lineRenderer.startWidth = 0.01f; // Çizgi kalınlığı başı
-        lineRenderer.endWidth = 0.01f;   // Çizgi kalınlığı sonu
+        lineRenderer.startWidth = 0.01f;
+        lineRenderer.endWidth = 0.01f;
         lineRenderer.positionCount = 2;
-        
-        // Pembe görünmemesi için basit bir materyal atayalım
         lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
         lineRenderer.material.color = laserColor;
     }
@@ -38,43 +36,51 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (laserOrigin == null || neckPivot == null || interactionUI == null) return;
 
-        // Görünmez Raycast ışınını oluştur
+        // Senin karakter yönüne göre lazer: -neckPivot.right
         Ray ray = new Ray(laserOrigin.position, -neckPivot.right);
         RaycastHit hit;
-
-        
         Vector3 endPoint = laserOrigin.position + (-neckPivot.right * interactionDistance);
 
-        if (Physics.Raycast(ray, out hit, interactionDistance))
+        // --- HIGHLIGHT VE RAYCAST MANTIĞI ---
+        if (Physics.Raycast(ray, out hit, interactionDistance, interactableLayer))
         {
-            endPoint = hit.point; // Lazer bir şeye çarptıysa orada bitsin
+            endPoint = hit.point;
 
-            if (hit.collider.CompareTag("Interactable"))
+            // Çarptığımız şey IInteractable arayüzüne sahip mi?
+            if (hit.collider.TryGetComponent(out IInteractable currentInteractable))
             {
                 interactionUI.SetActive(true);
-                
 
+                // Eğer yeni bir objeye bakıyorsak parlatalım
+                if (currentInteractable != lastHighlighted)
+                {
+                    if (lastHighlighted != null) lastHighlighted.ToggleHighlight(false);
+                    currentInteractable.ToggleHighlight(true);
+                    lastHighlighted = currentInteractable;
+                }
+
+                // ETKİLEŞİM (E Tuşu)
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    DoInteraction(hit.collider.gameObject);
+                    currentInteractable.Interact();
                 }
             }
             else
             {
-                interactionUI.SetActive(false);
+                ClearHighlight();
             }
         }
         else
         {
-            interactionUI.SetActive(false);
+            ClearHighlight();
         }
 
-        // --- LAZERİ GÖSTERME KISMI ---
+        // --- LAZERİ GÖSTERME ---
         if (showLaser)
         {
             lineRenderer.enabled = true;
-            lineRenderer.SetPosition(0, laserOrigin.position); // Başlangıç: Göz hizası
-            lineRenderer.SetPosition(1, endPoint);             // Bitiş: Çarptığı yer veya max menzil
+            lineRenderer.SetPosition(0, laserOrigin.position);
+            lineRenderer.SetPosition(1, endPoint);
         }
         else
         {
@@ -82,8 +88,14 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    void DoInteraction(GameObject obj)
+    // Parlamayı söndüren ve UI'ı kapatan yardımcı fonksiyon
+    void ClearHighlight()
     {
-        Debug.Log(obj.name + " ile etkileşime geçildi!");
+        interactionUI.SetActive(false);
+        if (lastHighlighted != null)
+        {
+            lastHighlighted.ToggleHighlight(false);
+            lastHighlighted = null;
+        }
     }
 }

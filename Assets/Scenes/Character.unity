@@ -261,7 +261,8 @@ GameObject:
   - component: {fileID: 363000978}
   - component: {fileID: 363000977}
   - component: {fileID: 363000976}
-  m_Layer: 0
+  - component: {fileID: 363000980}
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -361,6 +362,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &363000980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363000975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ea35d6d5144bc9478355ae8be6e1bc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!1 &472279543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,6 +1214,9 @@ MonoBehaviour:
   showLaser: 0
   interactionDistance: 5
   laserColor: {r: 0, g: 1, b: 0, a: 1}
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1001 &7128634211667853782
 PrefabInstance:
   m_ObjectHideFlags: 0
