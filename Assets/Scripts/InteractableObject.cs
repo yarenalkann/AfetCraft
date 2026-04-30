@@ -21,7 +21,7 @@ public class InteractableObject : MonoBehaviour, IInteractable
         // İsteğe bağlı görsel ayarlar
         outline.OutlineMode = Outline.Mode.OutlineAll;
         outline.OutlineWidth = 5f; // Kenar kalınlığı
-        outline.OutlineColor = Color.yellow; // Parlama rengi
+        outline.OutlineColor = Color.white; // Parlama rengi
     }
 
     public void Interact()
