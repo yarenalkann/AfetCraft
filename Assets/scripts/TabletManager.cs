@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class TabletManager : MonoBehaviour
 {
@@ -50,19 +51,45 @@ public class TabletManager : MonoBehaviour
 
     [Header("Hedef ve Minimap Sistemi")] // <--- YENİ EKLENEN KISIM
     public GameObject haritaIsaretcisi; // Minimap'teki pin objesi
+    public TextMeshProUGUI hataMesaji;
+    public int oyuncuSeviyesi = 1; // Başlangıç seviyesi
+    public Button[] gorevButonlari; // 3 adet görev butonunu tutacak dizi
+    public int bilincPuani = 0; // Mevcut puan
+    public int seviyeAtlamaSiniri = 100; // Seviye 2'ye geçmek için gereken toplam puan
+    [Header("Seviye ve Puan Sistemi")]
 
+    [Header("Dinamik Görev Sistemi")]
+    public GameObject bildirimUnlemi; // Unity'den kırmızı ünlemi buraya sürükle
+    public GameObject gorevBasariliPanel; // Bunu eklediğin an Inspector'da kutucuk çıkacak
+    
+    public TMP_Text bilincPuaniText; // Unity'den sürükleyeceğin yazı objesi
     void Start()
     {
+        // 1. Tabletin başlangıç durumu
         if (tabletPanel != null)
         {
             tabletPanel.SetActive(false);
             isTabletOpen = false;
         }
-        
+
+        // 2. KAYITLI VERİLERİ YÜKLE (PlayerPrefs)
+        // Eğer cihazda kayıt yoksa; para 500, diğerleri 0 olarak gelir.
+        oyuncuParasi = PlayerPrefs.GetInt("K_Para", 500); 
+        cimentoSayisi = PlayerPrefs.GetInt("K_Cimento", 0);
+        demirSayisi = PlayerPrefs.GetInt("K_Demir", 0);
+        tamirKitiSayisi = PlayerPrefs.GetInt("K_TamirKiti", 0);
+
+        // 3. EKRAN YAZILARINI VE SİSTEMLERİ GÜNCELLE
         ParaYazisiniGuncelle();
+        
         MiktarlariGuncelle();
-        BasvurulariYenile(); 
+        BasvurulariYenile();
+        SeviyeKontrolEt();
     }
+
+
+
+    // Bu fonksiyon Update'in dışında olmalı!
 
     void Update()
     {
@@ -82,7 +109,9 @@ public class TabletManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-        }
+        }  
+
+        
     }
 
     // ---- EKONOMİ VE MAĞAZA SİSTEMİ (DOKUNULMADI) ----
@@ -118,7 +147,16 @@ public class TabletManager : MonoBehaviour
 
     // ---- SAYFA DEĞİŞTİRME SİSTEMİ (DOKUNULMADI) ----
     public void OpenBasvurular() { KapatTumSayfalar(); basvurularPage.SetActive(true); }
-    public void OpenGorevler() { KapatTumSayfalar(); gorevlerPage.SetActive(true); }
+    public void OpenGorevler() 
+    { // Fonksiyon burada başlar
+        KapatTumSayfalar(); 
+        gorevlerPage.SetActive(true); 
+ 
+        if (bildirimUnlemi != null)
+        {
+            bildirimUnlemi.SetActive(false);
+        }
+    } // Fonksiyon burada biter
     public void OpenMagaza() { KapatTumSayfalar(); magazaPage.SetActive(true); }
     public void OpenHasarKriterleri() { KapatTumSayfalar(); hasarKriterleriPage.SetActive(true); }
     public void OpenInsaKriterleri() { KapatTumSayfalar(); insaKriterleriPage.SetActive(true); }
@@ -155,6 +193,35 @@ public class TabletManager : MonoBehaviour
         }
     }
 
+    public void GorevTamamlandi()
+    {
+    // 1. Puanı ver (Seviye 2'ye geçişi tetikler)
+        BilincPuaniArtir(100); 
+
+    // 2. Hazırladığın siyah paneli ekrana getir
+        if (gorevBasariliPanel != null)
+        {
+            gorevBasariliPanel.SetActive(true);
+        }
+
+    // 3. 3 saniye sonra her şeyi kapatmak için zamanlayıcıyı çalıştır
+        Invoke("KapatBasariEkrani", 3f); 
+    }
+
+    void KapatBasariEkrani()
+    {
+        if (gorevBasariliPanel != null)
+        {
+            gorevBasariliPanel.SetActive(false);
+        }
+    
+    // Tableti kapat ve fareyi normal moda döndür
+        isTabletOpen = false;
+        tabletPanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     public void GorevAlButonunaBasildi()
     {
         if (suAnkiSeciliEv != null && haritaIsaretcisi != null)
@@ -168,6 +235,52 @@ public class TabletManager : MonoBehaviour
         }
     }
 
+    public void UpdateUI()
+    {
+    // Bakiye kontrolü
+    if (bakiyeEkrani != null)
+        bakiyeEkrani.text = oyuncuParasi.ToString() + " TL";
+
+    // Puan kontrolü
+    if (bilincPuaniText != null)
+        bilincPuaniText.text = "Bilinç Puanı: " + bilincPuani + " / " + seviyeAtlamaSiniri;
+
+    Debug.Log("Arayüz ve Puanlar güncellendi.");
+    }
+
+
+
+    public void BilincPuaniArtir(int miktar)
+    {
+    bilincPuani += miktar;
+    Debug.Log("Puan Eklendi! Yeni Puan: " + bilincPuani);
+
+    // Seviye Atlama Kontrolü
+    if (bilincPuani >= seviyeAtlamaSiniri && oyuncuSeviyesi == 1)
+    {
+        oyuncuSeviyesi = 2;
+        SeviyeKontrolEt(); // Butonların kilidini açar
+        HataMesajiniGoster("TEBRİKLER! Seviye 2'ye ulaştınız.");
+    }
+
+    UpdateUI(); // Yazıları tazele
+    VerileriKaydet(); // Veriyi hafızaya al
+    }
+
+
+    public void HataMesajiniGoster(string mesaj)
+    {
+    hataMesaji.text = mesaj;
+    hataMesaji.gameObject.SetActive(true); // Yazıyı görünür yap
+    Invoke("HataMesajiniGizle", 5f); // 3 saniye sonra gizle fonksiyonunu çağır
+    }
+
+
+
+    public void HataMesajiniGizle()
+    {
+    hataMesaji.gameObject.SetActive(false);
+    }
     public void BasvuruGoster(int basvuruID)
     {
         if (basvuruID < secilenGununEvleri.Count)
@@ -215,51 +328,81 @@ public class TabletManager : MonoBehaviour
         }
     }
 
+
+
+    
+    public void VerileriKaydet()
+    {
+    PlayerPrefs.SetInt("K_Para", oyuncuParasi);
+    PlayerPrefs.SetInt("K_Cimento", cimentoSayisi);
+    PlayerPrefs.SetInt("K_Demir", demirSayisi);
+    PlayerPrefs.SetInt("K_TamirKiti", tamirKitiSayisi);
+    PlayerPrefs.Save(); 
+    Debug.Log("<color=green>SİSTEM: Veriler Hafızaya Yazıldı!</color>");
+    }
+
+    public void SeviyeKontrolEt()
+    {
+    // Görev 1 hep görünür olsun
+    gorevButonlari[0].gameObject.SetActive(true);
+
+    // Seviye 2 ise Görev 2'yi "yoktan var et"
+    if (oyuncuSeviyesi >= 2)
+    {
+        if(gorevButonlari[1].gameObject.activeSelf == false) // Eğer henüz kapalıysa
+        {
+             gorevButonlari[1].gameObject.SetActive(true); // Görünür yap
+             bildirimUnlemi.SetActive(true); // Ünlemi yak!
+        }
+    }
+    else {
+        gorevButonlari[1].gameObject.SetActive(false); // Seviye yetmiyorsa listede hiç olmasın
+    }
+    
+    // Görev 3 için de aynısını yapabilirsin...
+    }
     public void OperasyonuBaslat()
     {
-        Debug.Log("<color=green>BUTONA BASILDI!</color>"); 
-        Debug.Log("Seçili Görev ID'si: " + secilenGorevID);
+    VerileriKaydet();
 
-        // 1. ADIM: Görev seçildi mi?
-        if (secilenGorevID == -1) 
-        {
-            Debug.Log("<color=red>HATA: Görev seçilmedi!</color>");
-            return;
-        }
+    if (secilenGorevID == -1) 
+    {
+        HataMesajiniGoster("Lütfen önce bir görev seçin!"); // Görsel uyarı
+        return;
+    }
 
-        // 2. ADIM: Malzeme Kontrolleri (Kritik Kısım Burası)
-        
-        if (secilenGorevID == 1) // Görev 1: Enkaz Altından Sesler
+    if (secilenGorevID == 1) 
+    {
+        SceneManager.LoadScene("Level1_Enkaz"); 
+    }
+    else if (secilenGorevID == 2) 
+    {
+        if (tamirKitiSayisi >= 1) 
         {
-            // Bu görev ekipman istemiyordu, direkt yüklüyoruz.
-            Debug.Log("Sahne yükleniyor: Level 1...");
-            SceneManager.LoadScene("Level1_Enkaz"); 
+            SceneManager.LoadScene("Level2_Gaz");
         }
-        else if (secilenGorevID == 2) // Görev 2: Gaz Sızıntısı
+        else 
         {
-            // KONTROL: Elimizde tamir kiti var mı?
-            if (tamirKitiSayisi >= 1) 
-            {
-                Debug.Log("Tamir kiti mevcut. Sahne yükleniyor: Level 2...");
-                SceneManager.LoadScene("Level2_GazSizintisi"); // Sahne adını arkadaşına sor!
-            }
-            else 
-            {
-                Debug.Log("<color=yellow>UYARI: Gaz sızıntısını tamir etmek için Tamir Kiti almalısın!</color>");
-            }
+            // Debug.Log yerine artık ekranda bunu göreceğiz:
+            HataMesajiniGoster("Tamir Kiti gerekli!"); 
         }
-        else if (secilenGorevID == 3) // Görev 3: Çatlak Kolon Desteği
+    }
+    else if (secilenGorevID == 3) 
+    {
+        if (cimentoSayisi >= 1 && demirSayisi >= 1)
         {
-            // KONTROL: Elimizde yeterli malzeme var mı?
-            if (cimentoSayisi >= 1 && demirSayisi >= 1)
-            {
-                Debug.Log("Malzemeler hazır. Sahne yükleniyor: Level 3...");
-                SceneManager.LoadScene("Level3_Insaat"); // Sahne adını arkadaşına sor!
-            }
+            SceneManager.LoadScene("Level3_Kolon");
+        }
+        else
+        {
+            // Hangi malzeme eksikse onu söyleyelim:
+            if (cimentoSayisi < 1 && demirSayisi < 1)
+                HataMesajiniGoster("Çimento ve Demir eksik!");
+            else if (cimentoSayisi < 1)
+                HataMesajiniGoster("Çimento eksik!");
             else
-            {
-                Debug.Log("<color=yellow>UYARI: Kolonu güçlendirmek için en az 1 Çimento ve 1 Demir gerekiyor!</color>");
-            }
+                HataMesajiniGoster("Demir eksik!");
         }
+    }
     }
 }
