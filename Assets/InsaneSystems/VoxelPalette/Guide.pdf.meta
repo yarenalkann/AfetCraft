@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 76de5e6ef198eb34d9da2512075bfcc5
+timeCreated: 1538842241
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130163
+  packageName: Voxel Palette
+  packageVersion: 1.1.0
+  assetPath: Assets/InsaneSystems/VoxelPalette/Guide.pdf
+  uploadId: 589961

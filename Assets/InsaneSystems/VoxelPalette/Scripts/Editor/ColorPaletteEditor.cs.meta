@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: ab43baf185789c945aef5e182f05601e
+timeCreated: 1538757926
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130163
+  packageName: Voxel Palette
+  packageVersion: 1.1.0
+  assetPath: Assets/InsaneSystems/VoxelPalette/Scripts/Editor/ColorPaletteEditor.cs
+  uploadId: 589961

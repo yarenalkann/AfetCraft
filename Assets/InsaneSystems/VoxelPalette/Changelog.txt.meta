@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d6d496ac0aa24d744b50b3d8fe01d9a8
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130163
+  packageName: Voxel Palette
+  packageVersion: 1.1.0
+  assetPath: Assets/InsaneSystems/VoxelPalette/Changelog.txt
+  uploadId: 589961

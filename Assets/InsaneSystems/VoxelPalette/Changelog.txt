@@ -1,0 +1,15 @@
+
+Version 1.1.0 (current):
+- Improved Palette user interface, it now more compact and works a bit faster.
+- Improved logging, now it contains more information.
+- Added possibility to set name prefix for the export texture.
+- Fixed problem, when texture was not applied to the affected materials.
+
+Version 1.0.1 - Nov 15, 2019:
+- Code improvements and fixes.
+- Scene hint added.
+
+Some new improvements and fixes planned.
+
+Version 1.0 - Oct 8, 2018:
+First release

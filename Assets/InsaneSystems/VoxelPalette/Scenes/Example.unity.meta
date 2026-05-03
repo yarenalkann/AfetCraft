@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bf12f599f79bf974eba9d2364c0a481e
+timeCreated: 1538758049
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130163
+  packageName: Voxel Palette
+  packageVersion: 1.1.0
+  assetPath: Assets/InsaneSystems/VoxelPalette/Scenes/Example.unity
+  uploadId: 589961

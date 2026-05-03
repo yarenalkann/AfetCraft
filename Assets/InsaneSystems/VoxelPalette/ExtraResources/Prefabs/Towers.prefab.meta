@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7ca0511f63585844b8b3c908782f175d
+timeCreated: 1538820158
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130163
+  packageName: Voxel Palette
+  packageVersion: 1.1.0
+  assetPath: Assets/InsaneSystems/VoxelPalette/ExtraResources/Prefabs/Towers.prefab
+  uploadId: 589961

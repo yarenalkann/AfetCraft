@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8b347f4f2a9634d409bc85cffb627662
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130163
+  packageName: Voxel Palette
+  packageVersion: 1.1.0
+  assetPath: Assets/InsaneSystems/VoxelPalette/Resources/Data/ExampleColorPalette
+    1.asset
+  uploadId: 589961

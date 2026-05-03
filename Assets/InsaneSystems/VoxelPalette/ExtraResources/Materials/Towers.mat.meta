@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a76359254afdd464b9ea554415815d7c
+timeCreated: 1538820123
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130163
+  packageName: Voxel Palette
+  packageVersion: 1.1.0
+  assetPath: Assets/InsaneSystems/VoxelPalette/ExtraResources/Materials/Towers.mat
+  uploadId: 589961
