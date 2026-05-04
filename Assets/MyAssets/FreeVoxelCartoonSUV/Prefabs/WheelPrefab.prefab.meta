@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6ab9b8269fe76b442add73a9597b9afd
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 192980
+  packageName: Free Voxel Cartoon SUV
+  packageVersion: 1.0
+  assetPath: Assets/FreeVoxelCartoonSUV/Prefabs/WheelPrefab.prefab
+  uploadId: 447546

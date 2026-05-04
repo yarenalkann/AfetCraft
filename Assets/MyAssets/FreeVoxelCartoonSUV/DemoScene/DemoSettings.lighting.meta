@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4ea291dd8fc6ab34f99ba98d305a2e6b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 192980
+  packageName: Free Voxel Cartoon SUV
+  packageVersion: 1.0
+  assetPath: Assets/FreeVoxelCartoonSUV/DemoScene/DemoSettings.lighting
+  uploadId: 447546

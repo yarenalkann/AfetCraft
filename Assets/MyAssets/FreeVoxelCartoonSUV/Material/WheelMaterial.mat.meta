@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b74df1f3c02b6ef4eb714b7ea337d972
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 192980
+  packageName: Free Voxel Cartoon SUV
+  packageVersion: 1.0
+  assetPath: Assets/FreeVoxelCartoonSUV/Material/WheelMaterial.mat
+  uploadId: 447546
