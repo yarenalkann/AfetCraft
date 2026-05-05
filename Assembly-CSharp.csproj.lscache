@@ -54,6 +54,7 @@ Assets/scripts/
  EnvanterSistemi.cs
  EvVerisi.cs
  GeriDonusManager.cs
+ GorevTakipSistemi.cs
  SekmeRenkYoneticisi.cs
  TabletManager.cs
 Assets/

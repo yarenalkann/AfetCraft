@@ -35,7 +35,11 @@ public class TabletManager : MonoBehaviour
     public TMP_Text demirMiktarText;
     public TMP_Text tuglaMiktarText;
     public TMP_Text tamirKitiMiktarText;
+    public TMP_Text cekicMiktarText; // Çekiç sayısı yazısı
+    public TMP_Text balyozMiktarText;
 
+    public int balyozSayisi = 0;
+    public int cekicSayisi = 0; // Kaç çekiç var?
     public int cimentoSayisi = 0;
     public int demirSayisi = 0;
     public int tuglaSayisi = 0;
@@ -45,7 +49,7 @@ public class TabletManager : MonoBehaviour
     public TMP_Text sagBaslikText;   
     public TMP_Text sagDetayText;
     public TMP_Text sagGereksinimText;
-
+    public int kontrolEdilenBinaSayisi = 0; // Kaç bina kontrol edildiğini tutan değişken
     private int secilenGorevID = -1; 
     private bool isTabletOpen = false;
 
@@ -63,6 +67,9 @@ public class TabletManager : MonoBehaviour
     public GameObject gorevBasariliPanel; // Bunu eklediğin an Inspector'da kutucuk çıkacak
     
     public TMP_Text bilincPuaniText; // Unity'den sürükleyeceğin yazı objesi
+    public GameObject[] gorevGruplari; // 3 görev grubunu buraya bağlayacağız
+    public Transform operasyonBolgesi; // Binaların olduğu yerin koordinatı
+    public GameObject player; // Senin karakterin
     void Start()
     {
         // 1. Tabletin başlangıç durumu
@@ -78,6 +85,8 @@ public class TabletManager : MonoBehaviour
         cimentoSayisi = PlayerPrefs.GetInt("K_Cimento", 0);
         demirSayisi = PlayerPrefs.GetInt("K_Demir", 0);
         tamirKitiSayisi = PlayerPrefs.GetInt("K_TamirKiti", 0);
+
+        kontrolEdilenBinaSayisi = 0;
 
         // 3. EKRAN YAZILARINI VE SİSTEMLERİ GÜNCELLE
         ParaYazisiniGuncelle();
@@ -123,6 +132,8 @@ public class TabletManager : MonoBehaviour
         else if (esyaID == 1) { fiyat = 250; esyaAdi = "Demir"; }
         else if (esyaID == 2) { fiyat = 50;  esyaAdi = "Tuğla"; }
         else if (esyaID == 3) { fiyat = 100; esyaAdi = "Tamir Kiti"; }
+        else if (esyaID == 4) { fiyat = 300; esyaAdi = "Çekiç"; }
+        else if (esyaID == 5) { fiyat = 500; esyaAdi = "Balyoz"; }
 
         if (oyuncuParasi >= fiyat)
         {
@@ -131,6 +142,8 @@ public class TabletManager : MonoBehaviour
             else if (esyaID == 1) demirSayisi++;
             else if (esyaID == 2) tuglaSayisi++;
             else if (esyaID == 3) tamirKitiSayisi++;
+            else if (esyaID == 4) cekicSayisi++;
+            else if (esyaID == 5) balyozSayisi++;
             ParaYazisiniGuncelle();
             MiktarlariGuncelle();
         }
@@ -143,6 +156,8 @@ public class TabletManager : MonoBehaviour
         if (demirMiktarText != null) demirMiktarText.text = "x" + demirSayisi;
         if (tuglaMiktarText != null) tuglaMiktarText.text = "x" + tuglaSayisi;
         if (tamirKitiMiktarText != null) tamirKitiMiktarText.text = "x" + tamirKitiSayisi;
+        if (cekicMiktarText != null) cekicMiktarText.text = "x" + cekicSayisi;
+        if (balyozMiktarText != null) balyozMiktarText.text = "x" + balyozSayisi;
     }
 
     // ---- SAYFA DEĞİŞTİRME SİSTEMİ (DOKUNULMADI) ----
@@ -234,7 +249,18 @@ public class TabletManager : MonoBehaviour
              
         }
     }
+    public void BinaKontrolEt()
+    {
+        kontrolEdilenBinaSayisi++; // Her bina bittiğinde bu sayı 1 artar
+        Debug.Log("Kontrol Edilen Bina: " + kontrolEdilenBinaSayisi);
 
+    // EĞER 3 BİNAYA ULAŞILDIYSA:
+        if (kontrolEdilenBinaSayisi >= 3)
+        {
+            GorevTamamlandi(); // Daha önce yazdığımız o siyah ekranlı fonksiyonu çağırır
+            kontrolEdilenBinaSayisi = 0; // Bir sonraki görev için sayacı sıfırlıyoruz
+        }
+    }
     public void UpdateUI()
     {
     // Bakiye kontrolü
@@ -273,6 +299,19 @@ public class TabletManager : MonoBehaviour
     hataMesaji.text = mesaj;
     hataMesaji.gameObject.SetActive(true); // Yazıyı görünür yap
     Invoke("HataMesajiniGizle", 5f); // 3 saniye sonra gizle fonksiyonunu çağır
+    } 
+
+    public void SonrakiGoreviHazirla(int tamamlananGorevIndex) 
+    {
+    // Mevcut (biten) görev binalarını gizle
+        gorevGruplari[tamamlananGorevIndex].SetActive(false);
+
+    // Bir sonraki görev grubunu aç (Eğer varsa)
+        if (tamamlananGorevIndex + 1 < gorevGruplari.Length) 
+        {
+            gorevGruplari[tamamlananGorevIndex + 1].SetActive(true);
+            YeniGorevBildirimi(); // Daha önce yazdığımız ünlem fonksiyonu!
+        }
     }
 
 
@@ -337,6 +376,8 @@ public class TabletManager : MonoBehaviour
     PlayerPrefs.SetInt("K_Cimento", cimentoSayisi);
     PlayerPrefs.SetInt("K_Demir", demirSayisi);
     PlayerPrefs.SetInt("K_TamirKiti", tamirKitiSayisi);
+    PlayerPrefs.SetInt("K_Cekic", cekicSayisi);
+    PlayerPrefs.SetInt("K_Balyoz", balyozSayisi);
     PlayerPrefs.Save(); 
     Debug.Log("<color=green>SİSTEM: Veriler Hafızaya Yazıldı!</color>");
     }
@@ -361,41 +402,55 @@ public class TabletManager : MonoBehaviour
     
     // Görev 3 için de aynısını yapabilirsin...
     }
-    public void OperasyonuBaslat()
+
+
+
+    public void YeniGorevBildirimi()
     {
+        if (bildirimUnlemi != null)
+        {
+            bildirimUnlemi.SetActive(true);
+        }
+    }
+
+
+
+public void OperasyonuBaslat() 
+{
     VerileriKaydet();
 
     if (secilenGorevID == -1) 
     {
-        HataMesajiniGoster("Lütfen önce bir görev seçin!"); // Görsel uyarı
+        HataMesajiniGoster("Lütfen önce bir görev seçin!");
         return;
     }
 
+    // GÖREV 1 KONTROLÜ
     if (secilenGorevID == 1) 
     {
-        SceneManager.LoadScene("Level1_Enkaz"); 
+        BaslatVeIsinla(); // Ekipman gerekmiyorsa direkt başla
     }
+    // GÖREV 2 KONTROLÜ
     else if (secilenGorevID == 2) 
     {
         if (tamirKitiSayisi >= 1) 
         {
-            SceneManager.LoadScene("Level2_Gaz");
+            BaslatVeIsinla();
         }
         else 
         {
-            // Debug.Log yerine artık ekranda bunu göreceğiz:
             HataMesajiniGoster("Tamir Kiti gerekli!"); 
         }
     }
+    // GÖREV 3 KONTROLÜ
     else if (secilenGorevID == 3) 
     {
         if (cimentoSayisi >= 1 && demirSayisi >= 1)
         {
-            SceneManager.LoadScene("Level3_Kolon");
+            BaslatVeIsinla();
         }
         else
         {
-            // Hangi malzeme eksikse onu söyleyelim:
             if (cimentoSayisi < 1 && demirSayisi < 1)
                 HataMesajiniGoster("Çimento ve Demir eksik!");
             else if (cimentoSayisi < 1)
@@ -404,5 +459,17 @@ public class TabletManager : MonoBehaviour
                 HataMesajiniGoster("Demir eksik!");
         }
     }
+}
+
+// Ortak ışınlanma ve tablet kapatma fonksiyonu
+private void BaslatVeIsinla()
+{
+    if (tabletPanel != null) tabletPanel.SetActive(false);
+    isTabletOpen = false;
+
+    if (player != null && operasyonBolgesi != null)
+    {
+        player.transform.position = operasyonBolgesi.position;
     }
+}
 }
