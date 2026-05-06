@@ -72,6 +72,8 @@ public class TabletManager : MonoBehaviour
     public GameObject[] gorevGruplari; // 3 görev grubunu buraya bağlayacağız
     public Transform operasyonBolgesi; // Binaların olduğu yerin koordinatı
     public GameObject player; // Senin karakterin
+    public Light anaIsik; // Sahnedeki Directional Light'ı buraya sürükleyeceksin
+    public AudioSource sesKaynagi;
     void Start()
     {
         // 1. Tabletin başlangıç durumu
@@ -473,6 +475,9 @@ private void BaslatVeIsinla()
 {
     // 1. Verileri kaydet ve tableti kapat
     VerileriKaydet();
+    if (sesKaynagi != null) sesKaynagi.Play();
+    if (anaIsik != null) anaIsik.color = new Color(0.7f, 0.7f, 0.8f);
+    anaIsik.intensity = 0.5f; // Normali 1'dir, 0.5 yaparak ortamı loşlaştırırız.
     if (tabletPanel != null) tabletPanel.SetActive(false);
     isTabletOpen = false;
 
@@ -497,5 +502,6 @@ private void BaslatVeIsinla()
         player.transform.rotation = operasyonBolgesi.rotation; 
         }
     }
+    
 }
 }
