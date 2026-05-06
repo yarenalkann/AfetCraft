@@ -51,6 +51,7 @@ TemporaryDependencyNodeTargetIdentifier=netstandard2.1
 
 [sourceFiles]
 Assets/scripts/
+ BinaKontrol.cs
  EnvanterSistemi.cs
  EvVerisi.cs
  GeriDonusManager.cs

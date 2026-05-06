@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class TabletManager : MonoBehaviour
 {
+    public GameObject gorevHUD; 
+    
     [Header("Ana Tablet Objesi")]
     public GameObject tabletPanel; 
 
@@ -217,6 +219,11 @@ public class TabletManager : MonoBehaviour
         if (gorevBasariliPanel != null)
         {
             gorevBasariliPanel.SetActive(true);
+        }
+
+        if (gorevHUD != null) 
+        {
+        gorevHUD.SetActive(false);
         }
 
     // 3. 3 saniye sonra her şeyi kapatmak için zamanlayıcıyı çalıştır
@@ -464,12 +471,31 @@ public void OperasyonuBaslat()
 // Ortak ışınlanma ve tablet kapatma fonksiyonu
 private void BaslatVeIsinla()
 {
+    // 1. Verileri kaydet ve tableti kapat
+    VerileriKaydet();
     if (tabletPanel != null) tabletPanel.SetActive(false);
     isTabletOpen = false;
 
+    // 2. Görev yazılarını (HUD) ekranda göster
+    if (gorevHUD != null) gorevHUD.SetActive(true);
+
+    // 3. İlgili görev grubunu aktif et, diğerlerini kapat
+    for (int i = 0; i < gorevGruplari.Length; i++)
+    {
+        // Eğer döngüdeki index, seçilen görevin bir eksiği ise onu aç
+        // (ID 1 ise index 0'ı açar)
+        gorevGruplari[i].SetActive(i == (secilenGorevID - 1));
+    }
+
+    // 4. Karakteri veya Kamerayı ışınla
     if (player != null && operasyonBolgesi != null)
     {
         player.transform.position = operasyonBolgesi.position;
+        if (player != null && operasyonBolgesi != null)
+        {
+    // Bakış açısını da başlangıç noktasına göre eşitleyelim:
+        player.transform.rotation = operasyonBolgesi.rotation; 
+        }
     }
 }
 }
