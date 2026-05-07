@@ -5303,6 +5303,7 @@ MonoBehaviour:
   player: {fileID: 330585543}
   anaIsik: {fileID: 410087040}
   sesKaynagi: {fileID: 465257054}
+  isGorevBinasi: 0
 --- !u!82 &465257054
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5978,7 +5979,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2466b0da9e8c4b46a491eea30fd1955, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a4b36a312bb1af44abbf62c8272ab132, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7116,6 +7117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2582c80b9796e4f4eae15e585f099e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BinaKontrol
+  isGorevBinasi: 1
 --- !u!1 &664592002
 GameObject:
   m_ObjectHideFlags: 0
@@ -7455,7 +7457,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2466b0da9e8c4b46a491eea30fd1955, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1645355136f7456409c73a5d9bb0fe11, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9698,8 +9700,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1488363327}
   m_HandleRect: {fileID: 1488363326}
   m_Direction: 0
-  m_Value: -0.0000110680685
-  m_Size: 0.98083776
+  m_Value: 0
+  m_Size: 0.98084164
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10785,7 +10787,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2466b0da9e8c4b46a491eea30fd1955, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 45e1f407d7c397a4eba72e87f1625df4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11479,6 +11481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2582c80b9796e4f4eae15e585f099e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BinaKontrol
+  isGorevBinasi: 1
 --- !u!1 &1227342445
 GameObject:
   m_ObjectHideFlags: 0
@@ -13415,6 +13418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2582c80b9796e4f4eae15e585f099e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BinaKontrol
+  isGorevBinasi: 1
 --- !u!1 &1387618454
 GameObject:
   m_ObjectHideFlags: 0
@@ -15686,7 +15690,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2466b0da9e8c4b46a491eea30fd1955, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 81b5e030614838841924308c0719600c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16859,7 +16863,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1129.2998, y: -0.000061035156}
+  m_AnchoredPosition: {x: -1129.3, y: -0.000061035156}
   m_SizeDelta: {x: 1151.3582, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1807525852
@@ -18429,7 +18433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1905323420
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19274,7 +19278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2466b0da9e8c4b46a491eea30fd1955, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 76307b9aa5c98c243a4e20c871e13e4d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
