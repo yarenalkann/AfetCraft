@@ -397,6 +397,7 @@ public class TabletManager : MonoBehaviour
 
     public void SeviyeKontrolEt()
     {
+        Debug.Log("Sistem: Tablet butonları şu an güncelleniyor...");
         Debug.Log("Şu anki oyuncu seviyesi: " + oyuncuSeviyesi); // Console panelinde seviyeyi görürüz
         // Görev 1 hep görünür olsun
         gorevButonlari[0].gameObject.SetActive(true);
