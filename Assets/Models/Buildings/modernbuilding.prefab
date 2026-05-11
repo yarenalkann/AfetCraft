@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5adb979e0ed6924e8d73f8187e9b198, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.7
+      value: -3.004358
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5adb979e0ed6924e8d73f8187e9b198, type: 3}
       propertyPath: m_LocalPosition.z
@@ -96,39 +96,13 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5adb979e0ed6924e8d73f8187e9b198, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2794782935019979520}
     - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: a5adb979e0ed6924e8d73f8187e9b198, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1342812777949991330}
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: a5adb979e0ed6924e8d73f8187e9b198, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4276958041482755552}
   m_SourcePrefab: {fileID: 100100000, guid: a5adb979e0ed6924e8d73f8187e9b198, type: 3}
---- !u!1 &4231197321308120826 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a5adb979e0ed6924e8d73f8187e9b198, type: 3}
-  m_PrefabInstance: {fileID: 3925259098260151211}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &2794782935019979520
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4231197321308120826}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.0142245, y: 6.0087137, z: 2.7395542}
-  m_Center: {x: 0.1124711, y: 3.5690837, z: 0.0000011920929}
 --- !u!1 &5131271696950812195 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: a5adb979e0ed6924e8d73f8187e9b198, type: 3}
@@ -56745,8 +56719,29 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7
+  m_VersionIndex: 16
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!65 &4276958041482755552
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5131271696950812195}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.000001, y: 6, z: 3.2000008}
+  m_Center: {x: -2.0000005, y: 6, z: -2.3999987}
