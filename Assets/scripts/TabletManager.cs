@@ -206,8 +206,8 @@ public class TabletManager : MonoBehaviour
 
             if (solButonYazilari[i] != null)
             {
-                solButonYazilari[i].text = secilenGununEvleri[i].evAdi;
-                Debug.Log("SİSTEM: Buton " + i + " ismi '" + secilenGununEvleri[i].evAdi + "' olarak değiştirildi."); // TEST MESAJI 2
+                solButonYazilari[i].text = secilenGununEvleri[i].houseName;
+                Debug.Log("SİSTEM: Buton " + i + " ismi '" + secilenGununEvleri[i].houseName + "' olarak değiştirildi."); // TEST MESAJI 2
             }
 
             geciciListe.RemoveAt(rastgeleIndex);
@@ -253,10 +253,10 @@ public class TabletManager : MonoBehaviour
         if (suAnkiSeciliEv != null && haritaIsaretcisi != null)
         {
             // İşaretçiyi evin Vector3 konumuna ışınla
-            haritaIsaretcisi.transform.position = suAnkiSeciliEv.evKonumu;
+            haritaIsaretcisi.transform.position = suAnkiSeciliEv.houseLocation;
             haritaIsaretcisi.SetActive(true);
 
-            Debug.Log(suAnkiSeciliEv.evAdi + " için başvuru kabul edildi, işaretçi güncellendi.");
+            Debug.Log(suAnkiSeciliEv.houseName + " için başvuru kabul edildi, işaretçi güncellendi.");
 
         }
     }
@@ -338,11 +338,11 @@ public class TabletManager : MonoBehaviour
         if (basvuruID < secilenGununEvleri.Count)
         {
             suAnkiSeciliEv = secilenGununEvleri[basvuruID]; // <--- SEÇİLENİ HAFIZAYA ALDIK
-            baslikText.text = suAnkiSeciliEv.evAdi;
-            detayText.text = "<b>Başvuru Sahibi:</b> " + suAnkiSeciliEv.basvuruSahibi +
-                             "\n<b>Adres:</b> " + suAnkiSeciliEv.adres +
-                             "\n<b>Tarih:</b> " + suAnkiSeciliEv.tarih +
-                             "\n\n<b>RAPOR:</b> " + suAnkiSeciliEv.raporDetayi;
+            baslikText.text = suAnkiSeciliEv.houseName;
+            detayText.text = "<b>Başvuru Sahibi:</b> " + suAnkiSeciliEv.applicantName +
+                             "\n<b>Adres:</b> " + suAnkiSeciliEv.address +
+                             "\n<b>Tarih:</b> " + suAnkiSeciliEv.date +
+                             "\n\n<b>RAPOR:</b> " + suAnkiSeciliEv.reportDetail;
         }
     }
 
