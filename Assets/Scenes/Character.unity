@@ -2964,6 +2964,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d20da8ffe82b7140960f3fd60abe16a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2023823672}
     - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 0d20da8ffe82b7140960f3fd60abe16a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 517020055}
@@ -2986,6 +2989,24 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 517020056}
   m_SourcePrefab: {fileID: 100100000, guid: 0d20da8ffe82b7140960f3fd60abe16a, type: 3}
+--- !u!1 &2023823671 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d20da8ffe82b7140960f3fd60abe16a, type: 3}
+  m_PrefabInstance: {fileID: 2023823670}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2023823672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023823671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76663630563654f4aaf5cd57f2eeed10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HouseInspector
+  data: {fileID: 11400000, guid: 594f6d7a98bc08240bfc38377e7d1716, type: 2}
 --- !u!1 &2044410994
 GameObject:
   m_ObjectHideFlags: 0

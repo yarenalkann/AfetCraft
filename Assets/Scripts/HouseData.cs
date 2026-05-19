@@ -3,13 +3,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "YeniEvVerisi", menuName = "Sistem/Ev Verisi")]
 public class HouseData : ScriptableObject
 {
-    public string houseID;         // Evin adı/numarası
-    [TextArea(3, 10)] 
-    public string houseDescription; // Raporda görünecek teknik açıklama
+    public string houseID;          // Evin adı/numarası
+    public string houseName;        // Ev adı
+    public string applicantName;    // Başvuru sahibi
+    public string date;             // Başvuru tarihi
+
+
+    public string address;          // Adres bilgisi
+    public Vector3 houseXYZLocation; // X, Y, Z Koordinatları artık burada kabak gibi görünecek!
+
+    [TextArea(3, 10)]
+    public string reportDetail;     // Rapor detayı
     
-    // Evin gerçek durumu (0: Güvenli, 1: Onarılmalı, 2: Yıkılmalı)
+
     public enum BuildingStatus { Safe, NeedsRepair, Demolish }
     public BuildingStatus correctStatus; 
     
-    public int rewardMoney = 500;  // Doğru bilinirse gelecek para
+    public int rewardMoney = 500;   
 }

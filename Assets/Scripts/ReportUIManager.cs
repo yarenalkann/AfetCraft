@@ -24,12 +24,17 @@ public class ReportUIManager : MonoBehaviour
     public void OpenReport(HouseInspector house)
     {
         currentHouse = house;
-        titleText.text = "BİNA ANALİZİ: " + house.data.houseID;
-        descriptionText.text = house.data.houseDescription;
+    
+        // Başlıkta sadece Ev Numarası ve Ev Adı görünecek
+        titleText.text = house.data.houseID + " - " + house.data.houseName;
+    
+        // Koordinat (xyzMetni) kısmını tamamen uçurduk, temiz bir rapor oldu
+        descriptionText.text = "<b>Başvuran:</b> " + house.data.applicantName + "\n" +
+                                "<b>Tarih:</b> " + house.data.date + "\n" +
+                                "<b>Adres:</b> " + house.data.address + "\n\n" +
+                                "<b>ÖN İNCELEME DETAYI:</b>\n" + house.data.reportDetail;
 
         reportPanel.SetActive(true);
-        
-        // Fareyi serbest bırakıyoruz
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }

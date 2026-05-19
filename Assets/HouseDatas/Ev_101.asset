@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Ev_101
   m_EditorClassIdentifier: Assembly-CSharp::HouseData
   houseID: A101
-  houseDescription: 
+  houseName: Mahmut Apartman
+  applicantName: Hayrettin Tombul
+  date: "19 May\u0131s 2026"
+  address: "Y\u0131ld\u0131r\u0131m Caddesi, Armut Sokak, No:6"
+  houseXYZLocation: {x: 0, y: 0, z: 0}
+  reportDetail: "Ev k\u0131r\u0131k"
   correctStatus: 0
   rewardMoney: 500
