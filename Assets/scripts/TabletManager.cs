@@ -155,7 +155,7 @@ public class TabletManager : MonoBehaviour
         }
     }
 
-    private void ParaYazisiniGuncelle() { if (bakiyeEkrani != null) bakiyeEkrani.text = "Bakiye: " + oyuncuParasi + " TL"; }
+    private void ParaYazisiniGuncelle() { if (bakiyeEkrani != null) bakiyeEkrani.text = oyuncuParasi + " TL"; }
     private void MiktarlariGuncelle()
     {
         if (cimentoMiktarText != null) cimentoMiktarText.text = "x" + cimentoSayisi;
