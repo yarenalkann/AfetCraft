@@ -24,9 +24,20 @@ public class InteractableObject : MonoBehaviour, IInteractable
         outline.OutlineColor = Color.white; // Parlama rengi
     }
 
-    public void Interact()
+    public void Interact() // Senin koddaki fonksiyon adı neyse artık
     {
-        Debug.Log(gameObject.name + " tıklandı!");
+        // 1. Önce bu objenin bağlı olduğu üst ana objede (Parent) HouseInspector var mı ona bakıyoruz
+        HouseInspector anaEvScripti = GetComponentInParent<HouseInspector>();
+
+        // 2. Eğer yukarıda o kodu bulduysak, onun içindeki Interact'ı tetikliyoruz!
+        if (anaEvScripti != null)
+        {
+            anaEvScripti.Interact();
+        }
+        else
+        {
+            Debug.LogError("default objesi yukarıdaki ana objede HouseInspector scriptini bulamadı yavrum!");
+        }
     }
 
     public void ToggleHighlight(bool isOn)

@@ -1,62 +1,45 @@
 using UnityEngine;
-using TMPro; 
-using UnityEngine.UI;
+using TMPro;
 
 public class ReportUIManager : MonoBehaviour
 {
-    public static ReportUIManager Instance; // Singleton: Diğer kodlar buna kolayca ulaşsın
+    public static ReportUIManager Instance;
 
-    [Header("UI Elemanları")]
-    public GameObject reportPanel;       // Ana Panel
-    public TextMeshProUGUI titleText;    // Ev ID'si yazısı
-    public TextMeshProUGUI descriptionText; // Açıklama yazısı
-    public TextMeshProUGUI moneyText;    // Mevcut parayı göstermek için (opsiyonel)
+    [Header("UI Panelleri")]
+    public GameObject reportPanel; // Rapor kağıdı paneli
 
-    private HouseInspector currentHouse; // O an hangi eve bakıyoruz?
+    [Header("Dinamik Metin Alanları")]
+    public TextMeshProUGUI txtSutunDegerler;     // Sadece değerlerin alt alta yazacağı tek büyük kutu
+    public TextMeshProUGUI txtOnIncelemeDetayi; // Raporun altındaki geniş detay açıklaması
 
-    void Awake()
+    private HouseInspector currentHouse;
+
+    private void Awake()
     {
-        Instance = this;
-        reportPanel.SetActive(false); // Başlangıçta kapalı olsun
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    // Ev tıklandığında bu fonksiyon çağrılır
     public void OpenReport(HouseInspector house)
     {
+        // EĞER BU LOG KONSOLA DÜŞERSE PANEL KESİNLİKLE TETİKLENİYORDUR!
+        Debug.Log("<color=cyan>SİSTEM: ReportUIManager -> OpenReport fonksiyonu BAŞARIYLA ÇALIŞTI!</color>");
+
         currentHouse = house;
     
-        // Başlıkta sadece Ev Numarası ve Ev Adı görünecek
-        titleText.text = house.data.houseID + " - " + house.data.houseName;
+        txtSutunDegerler.text = house.data.houseName + "\n" +
+                                house.data.applicantName + "\n" +
+                                house.data.date + "\n" +
+                                house.data.address;
     
-        // Koordinat (xyzMetni) kısmını tamamen uçurduk, temiz bir rapor oldu
-        descriptionText.text = "<b>Başvuran:</b> " + house.data.applicantName + "\n" +
-                                "<b>Tarih:</b> " + house.data.date + "\n" +
-                                "<b>Adres:</b> " + house.data.address + "\n\n" +
-                                "<b>ÖN İNCELEME DETAYI:</b>\n" + house.data.reportDetail;
+        if (txtOnIncelemeDetayi != null)
+        {
+            txtOnIncelemeDetayi.text = house.data.reportDetail;
+        }
 
         reportPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-    }
-
-    // Butonlara tıklandığında bu fonksiyon çalışacak. 
-    // Parametre: 0=Safe, 1=Repair, 2=Demolish
-    public void SubmitAssessment(int choiceIndex)
-    {
-        int correctIndex = (int)currentHouse.data.correctStatus;
-
-        if (choiceIndex == correctIndex)
-        {
-            Debug.Log("Analiz Doğru! Para kazanıldı.");
-            // Arkadaşının yaptığı Inventory/Para sistemine buradan ulaşabilirsin
-            //InventoryManager.Instance.money += currentHouse.data.rewardMoney;
-        }
-        else
-        {
-            Debug.Log("Hatalı Analiz! Mühendislik hatası.");
-        }
-
-        CloseReport();
     }
 
     public void CloseReport()
@@ -65,4 +48,50 @@ public class ReportUIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
+    public void SubmitAssessment(int statusIndex)
+        {
+            if (currentHouse == null) return;
+
+            // KONSOLDA SAYILARI GÖRMEK İÇİN BU İKİ SATIRI EKLE:
+            Debug.Log("SİSTEM -> Oyuncunun bastığı butonun sayısı: " + statusIndex);
+            Debug.Log("SİSTEM -> Evin ScriptableObject'indeki doğru sayı değeri: " + (int)currentHouse.data.correctStatus);
+
+            HouseData.BuildingStatus playerChoice = (HouseData.BuildingStatus)statusIndex;
+
+            if (playerChoice == currentHouse.data.correctStatus)
+            {
+                Debug.Log("<color=green>[AfetCraft] Rapor Doğru! Para kazanıldı: </color>" + currentHouse.data.rewardMoney);
+            }
+            else
+            {
+                Debug.Log("<color=red>[AfetCraft] Rapor Yanlış! Kasadan 200 TL düştü.</color>");
+            }
+
+            // ====================================================================
+            // %100 KESİN KİLİTLEME: KATMAN DEĞİŞTİRME MÜHENDİSLİĞİ
+            // ====================================================================
+        
+            // 1. Ana evin katmanını "Default" (0) yapıyoruz. Artık ışınlar onu algılamayacak!
+            currentHouse.gameObject.layer = 0; 
+
+            // 2. Alttaki 3D modelin (default objesinin) katmanını da "Default" yapıyoruz
+            Transform altModel = currentHouse.transform.Find("default");
+            if (altModel != null)
+            {
+            altModel.gameObject.layer = 0;
+            }
+        
+            // 3. Scriptleri ve parlamayı da her ihtimale karşı yine kapatıyoruz
+            currentHouse.enabled = false;
+            InteractableObject altEtkilesimScripti = currentHouse.GetComponentInChildren<InteractableObject>();
+            if (altEtkilesimScripti != null)
+            {
+                altEtkilesimScripti.ToggleHighlight(false);
+                altEtkilesimScripti.enabled = false;
+            }
+            // ====================================================================
+
+            CloseReport();
+        }
 }

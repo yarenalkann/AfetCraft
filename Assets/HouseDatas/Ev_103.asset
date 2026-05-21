@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d40012fdc3b4db544b06bc13a305f80a, type: 3}
-  m_Name: Ev_101
+  m_Name: Ev_103
   m_EditorClassIdentifier: Assembly-CSharp::HouseData
-  houseID: A101
-  houseName: Mahmut Apartman
-  applicantName: Hayrettin Tombul
-  date: "19 May\u0131s 2026"
-  address: "Y\u0131ld\u0131r\u0131m Caddesi, Armut Sokak, No:6"
-  houseXYZLocation: {x: 0, y: 0, z: 0}
-  reportDetail: "Ev k\u0131r\u0131k"
-  correctStatus: 0
+  houseID: A103
+  houseName: Saman Apartman
+  applicantName: "S\xFCleyman Baba"
+  date: 19.05.2026
+  address: Tuzluk Cad. Biber Mah. No:7
+  houseXYZLocation: {x: -10.794628, y: 2.121, z: -2.9636097}
+  reportDetail: "Ev san\u0131r\u0131m \xF6lm\xFC\u015F"
+  correctStatus: 1
   rewardMoney: 1000
