@@ -35,6 +35,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (ReportUIManager.Instance != null && ReportUIManager.Instance.reportPanel.activeInHierarchy)
+        {
+            // Animasyondaki yürüme hızını da hemen sıfıra çekelim ki karakter açık raporda yürürken asılı kalmasın, dursun.
+            if (anim != null) anim.SetFloat("Speed", 0f);
+            return; 
+        }
+
+        // Eğer rapor açık değilse senin mevcut sistemin aynen çalışmaya devam eder:
         HandleCameraSwitch();
         HandleRotation();
         HandleMovement();
