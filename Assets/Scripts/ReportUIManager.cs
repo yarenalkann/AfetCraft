@@ -15,16 +15,15 @@ public class ReportUIManager : MonoBehaviour
     public TextMeshProUGUI txtSutunDegerler;
     public TextMeshProUGUI txtOnIncelemeDetayi;
 
-    // ====================================================================
-    // YENİ: BUTONLARIN TİK İŞARETLERİ
-    // ====================================================================
     [Header("Buton Tik Objeleri")]
     public GameObject tikGuvenli;
     public GameObject tikOnarilmali;
     public GameObject tikYikilmali;
-    // ====================================================================
 
     private HouseInspector currentHouse;
+
+    // Hafızada oyuncunun seçimini tutmak için geçici değişkenler
+    private HouseData.BuildingStatus geciciOyuncuSecimi;
 
     private void Awake()
     {
@@ -49,20 +48,15 @@ public class ReportUIManager : MonoBehaviour
 
         reportPanel.SetActive(true);
 
-        // ====================================================================
-        // Sadece Rapor Açıldığında Fareyi Görünür Yap ve Özel İmleci Tak!
-        // ====================================================================
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         if (ozelPikselliImlec != null)
         {
-            // Vector2.zero -> Okun tam sol üst ucunun tıklamasını sağlar (Hotspot)
             Cursor.SetCursor(ozelPikselliImlec, Vector2.zero, CursorMode.Auto);
         }
     }
 
-    // Tikleri sıfırlama fonksiyonu
     private void ResetTicks()
     {
         if (tikGuvenli != null) tikGuvenli.SetActive(false);
@@ -73,48 +67,54 @@ public class ReportUIManager : MonoBehaviour
     public void CloseReport()
     {
         reportPanel.SetActive(false);
-
-        // Rapor kapanınca fareyi yine kilitliyoruz ve gizliyoruz
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        // DIKKAT: Cursor.SetCursor(null, ...); SATIRINI SİLDIK!
-        // Resmi sıfırlamadığımız için, ileride envanter kodunda sadece 
-        // "Cursor.visible = true;" yaptığın an bu pikselli imleç otomatik çıkacak!
     }
     
     public void SubmitAssessment(int statusIndex)
     {
         if (currentHouse == null) return;
 
-        // Basılan butona göre tiki gösteriyoruz (Burası aynen kalıyor)
+        // 1. ADIM: Butona basıldığı an TİK işaretini hemen gösteriyoruz!
         ResetTicks(); 
         if (statusIndex == 0 && tikGuvenli != null) tikGuvenli.SetActive(true);
         else if (statusIndex == 1 && tikOnarilmali != null) tikOnarilmali.SetActive(true);
         else if (statusIndex == 2 && tikYikilmali != null) tikYikilmali.SetActive(true);
 
-        HouseData.BuildingStatus playerChoice = (HouseData.BuildingStatus)statusIndex;
+        // Seçimi geçici olarak hafızaya alıyoruz
+        geciciOyuncuSecimi = (HouseData.BuildingStatus)statusIndex;
 
-        if (playerChoice == currentHouse.data.correctStatus)
-        {
-            Debug.Log("<color=green>[Afet Kıraat] Rapor Doğru! Para kazanıldı: </color>" + currentHouse.data.rewardMoney);
-        }
-        else
-        {
-            Debug.Log("<color=red>[Afet Kıraat] Rapor Yanlış! Kasadan 200 TL düştü.</color>");
-        }
-
-        // Evin etkileşimini kapatma mantığı (Burası da aynen kalıyor)
+        // Evin katmanını değiştirip etkileşimi hemen kapatıyoruz (Oyuncu arkada çift tıklamasın diye)
         currentHouse.gameObject.layer = 0; 
         Transform altModel = currentHouse.transform.Find("default");
         if (altModel != null) altModel.gameObject.layer = 0;
 
-        // ====================================================================
-        // ÇÖZÜM: ANINDA KAPATMAK YERİNE ZAMAN AYARLI KİLİT
-        // ====================================================================
-        // Direkt CloseReport(); yazan eski satırı SİL! yerine şu satırı yaz:
-        // Bu komut, "CloseReport" fonksiyonunu tam 0.8 saniye sonra çalıştırır.
-        Invoke("CloseReport", 0.8f); 
-        // ====================================================================
+        // 2. ADIM: Tik işaretinin ekranda 0.8 saniye kalması için bekletiyoruz.
+        // Süre bitince aşağıdaki "RaporuKapatVeSonucuAc" fonksiyonu çalışacak!
+        Invoke("RaporuKapatVeSonucuAc", 0.8f); 
+    }
+
+    // 3. ADIM: 0.8 saniye sonra çalışan gizli mühendislik fonksiyonumuz
+    private void RaporuKapatVeSonucuAc()
+    {
+        // Ana rapor parşömenini şimdi kapatıyoruz (Tik işareti görevini yaptı, göründü)
+        reportPanel.SetActive(false);
+
+        // Sonuç sayfasını Vertex Color ayarıyla tetikliyoruz
+        if (FeedbackPopupManager.Instance != null && currentHouse != null)
+        {
+            HouseData.BuildingStatus correctChoice = currentHouse.data.correctStatus;
+
+            if (geciciOyuncuSecimi == correctChoice)
+            {
+                string dogruMesaj = "Hasar tespiti başarıyla sonuçlandı.\nBölge bütçesinden " + currentHouse.data.rewardMoney + " TL aktarıldı.";
+                FeedbackPopupManager.Instance.UyariSayfasiniAc(dogruMesaj, Color.green);
+            }
+            else
+            {
+                string yanlisMesaj = "Hatalı değerlendirme yapıldı!!\nBakanlık cezası: Kasadan 2000 TL kesildi!";
+                FeedbackPopupManager.Instance.UyariSayfasiniAc(yanlisMesaj, Color.black);
+            }
+        }
     }
 }

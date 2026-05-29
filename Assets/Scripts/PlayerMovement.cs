@@ -35,14 +35,20 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (ReportUIManager.Instance != null && ReportUIManager.Instance.reportPanel.activeInHierarchy)
+        // 1. Kontrol: Rapor parşömeni açık mı?
+        bool raporAcik = ReportUIManager.Instance != null && ReportUIManager.Instance.reportPanel.activeInHierarchy;
+        
+        // 2. Kontrol: Senin yeni tasarladığın sonuç kağıdı açık mı?
+        bool sonucSayfasiAcik = FeedbackPopupManager.Instance != null && FeedbackPopupManager.Instance.yanlisSayfasiPaneli.activeInHierarchy;
+
+        // EĞER İKİSİNDEN BİRİ BİLE EKRENDAYSA KARAKTER VE KAMERA DONSUN!
+        if (raporAcik || sonucSayfasiAcik)
         {
-            // Animasyondaki yürüme hızını da hemen sıfıra çekelim ki karakter açık raporda yürürken asılı kalmasın, dursun.
             if (anim != null) anim.SetFloat("Speed", 0f);
-            return; 
+            return; // Alttaki hareket kodlarına geçmez, karakter buz tutar.
         }
 
-        // Eğer rapor açık değilse senin mevcut sistemin aynen çalışmaya devam eder:
+        // Sizin mevcut hareket fonksiyonlarınız aynen aşağıda kalsın:
         HandleCameraSwitch();
         HandleRotation();
         HandleMovement();
