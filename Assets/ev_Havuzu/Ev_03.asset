@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c4f8590d06bb458e4615d403a91a3, type: 3}
   m_Name: Ev_03
   m_EditorClassIdentifier: Assembly-CSharp::EvVerisi
-  evAdi: "K\xF6\u015Fe Konak"
-  basvuruSahibi: Hasan Tahsin
-  adres: "Tepeba\u015F\u0131 Mahallesi, Yama\xE7 Sokak No:21"
-  tarih: 01.01.2026
-  evKonumu: {x: 0, y: 0, z: 0}
-  raporDetayi: "Mutfak ve banyodaki seramiklerin deprem sars\u0131nt\u0131s\u0131yla
-    birlikte yere d\xF6k\xFCld\xFC\u011F\xFC bildirilmi\u015F."
+  houseID: '#03#'
+  houseName: "Yenice Apartman\u0131"
+  applicantName: Pelin Tek
+  date: 27.05.2026
+  address: "Bat\u0131 Tepesi Villalar\u0131, No: 3"
+  houseLocation: {x: 0, y: 0, z: 0}
+  reportDetail: "Ana ta\u015F\u0131y\u0131c\u0131 kolonlarda geni\u015Fli\u011Fi
+    3mm'yi bulan belirgin \"X\" tipi derin \xE7atlaklar g\xF6zlemlenmi\u015Ftir."
+  correctStatus: 2
+  rewardMoney: 2000

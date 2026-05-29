@@ -39,6 +39,11 @@ public class TabletManager : MonoBehaviour
     public TMP_Text tamirKitiMiktarText;
     public TMP_Text cekicMiktarText; // Çekiç sayısı yazısı
     public TMP_Text balyozMiktarText;
+    public TMP_Text egimOlcerMiktarText;
+    public TMP_Text betonSertlikMiktarText;
+    public TMP_Text yardimKitiMiktarText;
+    public TMP_Text BetonMiktarText;
+    public TMP_Text CamMiktarText;
 
     public int balyozSayisi = 0;
     public int cekicSayisi = 0; // Kaç çekiç var?
@@ -46,6 +51,11 @@ public class TabletManager : MonoBehaviour
     public int demirSayisi = 0;
     public int tuglaSayisi = 0;
     public int tamirKitiSayisi = 0;
+    public int egimOlcerSayisi = 0;
+    public int betonSertlikOlcerSayisi = 0;
+    public int yardimKitiSayisi = 0;
+    public int CamSayisi = 0;
+    public int BetonSayisi = 0;
 
     [Header("Görevler Sistemi (Operasyon Merkezi)")]
     public TMP_Text sagBaslikText;
@@ -134,12 +144,17 @@ public class TabletManager : MonoBehaviour
     {
         int fiyat = 0;
         string esyaAdi = "";
-        if (esyaID == 0) { fiyat = 150; esyaAdi = "Çimento"; }
-        else if (esyaID == 1) { fiyat = 250; esyaAdi = "Demir"; }
-        else if (esyaID == 2) { fiyat = 50; esyaAdi = "Tuğla"; }
-        else if (esyaID == 3) { fiyat = 100; esyaAdi = "Tamir Kiti"; }
-        else if (esyaID == 4) { fiyat = 300; esyaAdi = "Çekiç"; }
-        else if (esyaID == 5) { fiyat = 500; esyaAdi = "Balyoz"; }
+        if (esyaID == 0) { fiyat = 35; esyaAdi = "Çimento"; }
+        else if (esyaID == 1) { fiyat = 50; esyaAdi = "Demir"; }
+        else if (esyaID == 2) { fiyat = 25; esyaAdi = "Tuğla"; }
+        else if (esyaID == 3) { fiyat = 40; esyaAdi = "Tamir Kiti"; }
+        else if (esyaID == 4) { fiyat = 80; esyaAdi = "Çekiç"; }
+        else if (esyaID == 5) { fiyat = 120; esyaAdi = "Balyoz"; }
+        else if (esyaID == 6) { fiyat = 150; esyaAdi = "Eğim Ölçer"; }
+        else if (esyaID == 7) { fiyat = 200; esyaAdi = "Beton Sertlik Ölçer"; }
+        else if (esyaID == 8) { fiyat = 180; esyaAdi = "Yardım Kiti"; }
+        else if (esyaID == 9) { fiyat = 40; esyaAdi = "Cam"; }
+        else if (esyaID == 10) { fiyat = 40; esyaAdi = "Beton"; }
 
         if (oyuncuParasi >= fiyat)
         {
@@ -150,6 +165,12 @@ public class TabletManager : MonoBehaviour
             else if (esyaID == 3) tamirKitiSayisi++;
             else if (esyaID == 4) cekicSayisi++;
             else if (esyaID == 5) balyozSayisi++;
+            else if (esyaID == 6) egimOlcerSayisi++;
+            else if (esyaID == 7) betonSertlikOlcerSayisi++;
+            else if (esyaID == 8) yardimKitiSayisi++;
+            else if (esyaID == 9) CamSayisi++;
+            else if (esyaID == 10) BetonSayisi++;
+
             ParaYazisiniGuncelle();
             MiktarlariGuncelle();
         }
@@ -164,6 +185,11 @@ public class TabletManager : MonoBehaviour
         if (tamirKitiMiktarText != null) tamirKitiMiktarText.text = "x" + tamirKitiSayisi;
         if (cekicMiktarText != null) cekicMiktarText.text = "x" + cekicSayisi;
         if (balyozMiktarText != null) balyozMiktarText.text = "x" + balyozSayisi;
+        if (egimOlcerMiktarText != null) egimOlcerMiktarText.text = "x" + egimOlcerSayisi;
+        if (betonSertlikMiktarText != null) betonSertlikMiktarText.text = "x" + betonSertlikOlcerSayisi;
+        if (yardimKitiMiktarText != null) yardimKitiMiktarText.text = "x" + yardimKitiSayisi;
+        if (BetonMiktarText != null) BetonMiktarText.text = "x" + BetonSayisi;
+        if (CamMiktarText != null) CamMiktarText.text = "x" + CamSayisi;
     }
 
     // ---- SAYFA DEĞİŞTİRME SİSTEMİ (DOKUNULMADI) ----

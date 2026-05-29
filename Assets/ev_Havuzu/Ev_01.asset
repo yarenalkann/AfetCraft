@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c4f8590d06bb458e4615d403a91a3, type: 3}
   m_Name: Ev_01
   m_EditorClassIdentifier: Assembly-CSharp::EvVerisi
-  evAdi: "G\xFCne\u015F Apartman\u0131"
-  basvuruSahibi: "Mehmet Y\u0131lmaz"
-  adres: "\xC7\u0131nar Mah. No:4"
-  tarih: 01.11.2025
-  evKonumu: {x: 10, y: 2, z: 10}
-  raporDetayi: "Binan\u0131n giri\u015F kat\u0131ndaki d\xFCkkan i\xE7in kolon kesildi\u011Fi
-    iddia ediliyor."
+  houseID: '#01#'
+  houseName: "Hayal Apartman\u0131"
+  applicantName: Fatih Soylu
+  date: 01.01.2026
+  address: 'Kuzey Mahalle, 104. Sokak, No: 2'
+  houseLocation: {x: 0, y: 0, z: 0}
+  reportDetail: "Binan\u0131n d\u0131\u015F cephesinde y\xFCzeysel s\u0131va ve boya
+    d\xF6k\xFClmeleri mevcuttur. Pencerelerde sars\u0131nt\u0131 kaynakl\u0131 cam
+    k\u0131r\u0131lmalar\u0131 olu\u015Fmu\u015Ftur, ta\u015F\u0131y\u0131c\u0131
+    sistem hasars\u0131zd\u0131r."
+  correctStatus: 0
+  rewardMoney: 2000
