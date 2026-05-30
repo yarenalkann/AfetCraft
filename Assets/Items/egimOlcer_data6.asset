@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a5dea62ad70bb43b0cd658dd42d2f3, type: 3}
-  m_Name: betonSertlikOlcer_data
+  m_Name: egimOlcer_data6
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  esyaID: 7
-  esyaAdi: "Beton Sertlik \xD6l\xE7er"
-  esyaIkonu: {fileID: 21300000, guid: 904520e41b9200d43879c09a5de9c711, type: 3}
-  satinAlmaFiyati: 200
+  esyaID: 6
+  esyaAdi: "E\u011Fim \xD6l\xE7er"
+  esyaIkonu: {fileID: 21300000, guid: cd6867f4f2c95884fa87f149e03ec509, type: 3}
+  satinAlmaFiyati: 150
+  esyaTipi: 2
+  maksimumDayaniklilik: 100

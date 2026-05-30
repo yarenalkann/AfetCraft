@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a5dea62ad70bb43b0cd658dd42d2f3, type: 3}
-  m_Name: cimento_data
+  m_Name: cimento_data0
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 0
   esyaAdi: "\xC7imento"
-  esyaIkonu: {fileID: 21300000, guid: 9877ef7da8f484141be33bda32ee3caa, type: 3}
+  esyaIkonu: {fileID: 21300000, guid: 2cbc35e338c5ab045930da8c01398b38, type: 3}
   satinAlmaFiyati: 35
+  esyaTipi: 0
+  maksimumDayaniklilik: 100

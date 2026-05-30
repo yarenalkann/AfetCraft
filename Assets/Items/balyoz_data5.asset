@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a5dea62ad70bb43b0cd658dd42d2f3, type: 3}
-  m_Name: egimOlcer_data
+  m_Name: balyoz_data5
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  esyaID: 6
-  esyaAdi: "E\u011Fim \xD6l\xE7er"
-  esyaIkonu: {fileID: 21300000, guid: cd6867f4f2c95884fa87f149e03ec509, type: 3}
-  satinAlmaFiyati: 150
+  esyaID: 5
+  esyaAdi: Balyoz
+  esyaIkonu: {fileID: 21300000, guid: 9f1cd1a9a6ded9844855e827b9ba2de1, type: 3}
+  satinAlmaFiyati: 120
+  esyaTipi: 1
+  maksimumDayaniklilik: 100

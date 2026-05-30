@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a5dea62ad70bb43b0cd658dd42d2f3, type: 3}
-  m_Name: yardimKiti_data
+  m_Name: beton_data10
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  esyaID: 8
-  esyaAdi: "Yard\u0131m Kiti"
-  esyaIkonu: {fileID: 21300000, guid: f03f2f5cfcb18fc41ae1705ce84aa008, type: 3}
-  satinAlmaFiyati: 180
+  esyaID: 10
+  esyaAdi: Beton
+  esyaIkonu: {fileID: 21300000, guid: 7f66b74801b9ead42837c6fe892ac40a, type: 3}
+  satinAlmaFiyati: 65
+  esyaTipi: 0
+  maksimumDayaniklilik: 100

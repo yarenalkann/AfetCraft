@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a5dea62ad70bb43b0cd658dd42d2f3, type: 3}
-  m_Name: beton_data
+  m_Name: demir_data1
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  esyaID: 10
-  esyaAdi: Beton
-  esyaIkonu: {fileID: 21300000, guid: 18265e27392abc3499996d20030b2db7, type: 3}
-  satinAlmaFiyati: 65
+  esyaID: 1
+  esyaAdi: Demir
+  esyaIkonu: {fileID: 21300000, guid: faa014e5d45329a448e0b971593c60eb, type: 3}
+  satinAlmaFiyati: 50
+  esyaTipi: 0
+  maksimumDayaniklilik: 100

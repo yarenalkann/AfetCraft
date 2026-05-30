@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a5dea62ad70bb43b0cd658dd42d2f3, type: 3}
-  m_Name: demir_data
+  m_Name: cekic_data4
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  esyaID: 1
-  esyaAdi: Demir
-  esyaIkonu: {fileID: 21300000, guid: bdd436f61a23b584f9f0f92c7966d637, type: 3}
-  satinAlmaFiyati: 50
+  esyaID: 4
+  esyaAdi: "\xC7eki\xE7"
+  esyaIkonu: {fileID: 21300000, guid: e898033b650de914ca59c93f7455f9ff, type: 3}
+  satinAlmaFiyati: 80
+  esyaTipi: 1
+  maksimumDayaniklilik: 100
