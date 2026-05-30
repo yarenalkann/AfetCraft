@@ -7,19 +7,36 @@ public class SekmeRenkYoneticisi : MonoBehaviour
     public Image[] tumButonlar;
 
     [Header("Renk Ayarları")]
-    public Color aktifRenk = new Color(0.96f, 0.87f, 0.70f); // Açık Bej (Başvurular sekmesinin rengi)
-    public Color pasifRenk = new Color(0.65f, 0.35f, 0.15f); // Koyu Kahverengi
+    public Color aktifRenk = Color.black; // Basılan buton Siyah
+    public Color pasifRenk = new Color(0.12f, 0.12f, 0.12f, 1f); // Basılmayanlar #1F1F1E Grisi
+
+    private void Awake()
+    {
+        // Oyun ilk açıldığı EN İLK SANİYEDE renkleri sıfırla (Hepsini önce gri yap)
+        ResetlemeButonRenkleri();
+
+        // İlk sekmeyi varsayılan olarak AKTİF (Siyah) yap
+        if (tumButonlar != null && tumButonlar.Length > 0 && tumButonlar[0] != null)
+        {
+            tumButonlar[0].color = aktifRenk;
+        }
+    }
 
     // Butona tıklandığında çalışacak fonksiyon
     public void SekmeyiAktifYap(Image tiklananButon)
     {
-        // 1. Önce tüm butonları pasif renge (koyu) boya
+        ResetlemeButonRenkleri();
+
+        // 2. Sadece tıklanan butonun rengini aktif (siyah) yap
+        if (tiklananButon != null) tiklananButon.color = aktifRenk;
+    }
+
+    // Tüm butonları pasif gri renge boyayan yardımcı fonksiyon
+    private void ResetlemeButonRenkleri()
+    {
         foreach (Image btn in tumButonlar)
         {
-            btn.color = pasifRenk;
+            if (btn != null) btn.color = pasifRenk;
         }
-
-        // 2. Sadece tıklanan butonu aktif renge (açık bej) boya
-        tiklananButon.color = aktifRenk;
     }
 }
