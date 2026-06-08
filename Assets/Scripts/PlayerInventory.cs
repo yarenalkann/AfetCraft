@@ -30,6 +30,43 @@ public class PlayerInventory : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    // ====================================================================
+    // YENİ: KODUN ÇALIŞMASI VE TEST İÇİN START VE UPDATE FONKSİYONLARI
+    // ====================================================================
+    private void Start()
+    {
+        // Oyun açıldığında arayüzü sıfırlasın diye tetikliyoruz
+        ArayuzuTazele();
+    }
+
+[Header("Bağımsız Test Ayarları")]
+    [Tooltip("Test etmek istediğin ItemData kartlarını (Çimento, Balyoz vb.) sırayla buraya sürükle.")]
+    public List<ItemData> testEsyaKartlari = new List<ItemData>();
+
+    private void Update()
+    {
+        // KLAVYEDEN 1 TUŞUNA BASINCA: Müfettiş panelindeki 0. sıradaki eşyayı çantaya sırayla ekler
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (testEsyaKartlari != null && testEsyaKartlari.Count > 0 && testEsyaKartlari[0] != null)
+            {
+                EsyaEkle(testEsyaKartlari[0], 1);
+                Debug.Log($"<color=cyan>[Bağımsız Test] 1'e basıldı: {testEsyaKartlari[0].esyaAdi} envantere sırayla yerleşti!</color>");
+            }
+        }
+
+        // KLAVYEDEN 2 TUŞUNA BASINCA: Müfettiş panelindeki 1. sıradaki eşyayı çantaya sırayla ekler
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (testEsyaKartlari != null && testEsyaKartlari.Count > 1 && testEsyaKartlari[1] != null)
+            {
+                EsyaEkle(testEsyaKartlari[1], 1);
+                Debug.Log($"<color=cyan>[Bağımsız Test] 2'ye basıldı: {testEsyaKartlari[1].esyaAdi} envantere sırayla yerleşti!</color>");
+            }
+        }
+    }
+    // ====================================================================
+
     // EŞYA EKLEME (Dükkandan satın alınınca veya dünyadan toplanınca)
     public void EsyaEkle(ItemData yeniEsya, int miktar)
     {
@@ -54,7 +91,7 @@ public class PlayerInventory : MonoBehaviour
         ArayuzuTazele();
     }
 
-    // EŞYA KULLANMA VE HASAR VERME FONKSİYONU (İşte senin istediğin o sihirli mekanizma!)
+    // EŞYA KULLANMA VE HASAR VERME FONKSİYONU
     public bool EsyaKullan(ItemData esya, float alinacakHasar = 20f)
     {
         if (esya == null || !cantaIcerigi.ContainsKey(esya.esyaID))
@@ -68,12 +105,10 @@ public class PlayerInventory : MonoBehaviour
         switch (esya.esyaTipi)
         {
             case ItemData.EsyaTuru.KaliciCihaz:
-                // Eğim ölçer ve beton ölçer hep kalır, hasar yemez, eksilmez!
                 Debug.Log($"[Envanter] {esya.esyaAdi} pürüzsüzce kullanıldı. Kalıcı cihaz olduğu için hasar almadı.");
                 return true;
 
             case ItemData.EsyaTuru.SarfMalzemesi:
-                // Çimento, tuğla vb. direkt adet olarak 1 azalır
                 slot.adet--;
                 if (slot.adet <= 0) cantaIcerigi.Remove(esya.esyaID);
                 Debug.Log($"[Envanter] {esya.esyaAdi} tüketildi. Kalan: {(cantaIcerigi.ContainsKey(esya.esyaID) ? slot.adet : 0)}");
@@ -81,23 +116,21 @@ public class PlayerInventory : MonoBehaviour
                 return true;
 
             case ItemData.EsyaTuru.DayanikliAlet:
-                // Çekiç ve balyoz adet eksiltmez, can barından düşer!
                 slot.guncelDayaniklilik -= alinacakHasar;
                 Debug.Log($"[Envanter] {esya.esyaAdi} hasar yedi! Kalan Can: %{slot.guncelDayaniklilik}");
 
-                // Eğer aletin canı tamamen bittiyse
                 if (slot.guncelDayaniklilik <= 0)
                 {
-                    slot.adet--; // 1 adet çekiç kırıldı!
+                    slot.adet--;
                     Debug.Log($"[Envanter] 1 adet {esya.esyaAdi} tamamen kırıldı ve yok oldu!");
 
                     if (slot.adet <= 0)
                     {
-                        cantaIcerigi.Remove(esya.esyaID); // Elinde hiç çekiç kalmadıysa çantadan sil
+                        cantaIcerigi.Remove(esya.esyaID);
                     }
                     else
                     {
-                        slot.guncelDayaniklilik = esya.maksimumDayaniklilik; // Yedek çekiç varsa onun canını fulle
+                        slot.guncelDayaniklilik = esya.maksimumDayaniklilik;
                     }
                 }
                 ArayuzuTazele();
@@ -116,7 +149,7 @@ public class PlayerInventory : MonoBehaviour
         return 0;
     }
 
-    // Arayüz sorguları için can barı yüzdesini getiren yardımcı fonksiyon (UI'da göstermek için)
+    // Arayüz sorguları için can barı yüzdesini getiren yardımcı fonksiyon
     public float EsyaDayaniklilikGetir(ItemData esya)
     {
         if (esya != null && cantaIcerigi.ContainsKey(esya.esyaID))
@@ -132,5 +165,21 @@ public class PlayerInventory : MonoBehaviour
         {
             InventoryUIManager.Instance.EnvanterArayuzunuYenile();
         }
+    }
+
+    // ====================================================================
+    // YENİ: SIRALI VE BOŞLUKSUZ YERLEŞİM SAĞLAYAN YARDIMCI FONKSİYON
+    // ====================================================================
+    public List<EnvanterSlotu> GetCantaListesi()
+    {
+        List<EnvanterSlotu> liste = new List<EnvanterSlotu>();
+        foreach (var anahtarDegerCifti in cantaIcerigi)
+        {
+            if (anahtarDegerCifti.Value.adet > 0)
+            {
+                liste.Add(anahtarDegerCifti.Value);
+            }
+        }
+        return liste;
     }
 }

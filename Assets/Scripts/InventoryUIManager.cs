@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI; // Resimleri kontrol etmek için bunu ekledik
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class InventoryUIManager : MonoBehaviour
@@ -8,16 +8,15 @@ public class InventoryUIManager : MonoBehaviour
     public static InventoryUIManager Instance;
 
     [System.Serializable]
-    public struct EnvanterSlotGrafigi
+    public struct DinamikUIKutusu
     {
-        public ItemData esyaVerisi;          // Hangi eşya? (Cimento_Data vb.)
-        public GameObject slotAnaObjesi;     // Kutucuğun en dıştaki paneli/arkaplanı (Görünmez yapmak için)
-        public Image esyaIkonResmi;          // Eşyanın pikselli görseli
-        public TextMeshProUGUI adetYazisi;   // "x1" yazan yer
+        public GameObject slotAnaObjesi;     // Sahnede hep görünecek olan o mor kare kutu (Arka plan)
+        public Image esyaIkonResmi;          // İçindeki boş Image bileşeni (Pikselli ikon için)
+        public TextMeshProUGUI adetYazisi;   // İçindeki TextMeshPro bileşeni (x1, x5 yazısı için)
     }
 
-    [Header("Envanter Slot Eşleşmeleri")]
-    public List<EnvanterSlotGrafigi> envanterSlotlari = new List<EnvanterSlotGrafigi>();
+    [Header("Envanter Slotları (Sıralı Boş Kutular)")]
+    public List<DinamikUIKutusu> uiKutulari = new List<DinamikUIKutusu>();
 
     private void Awake()
     {
@@ -27,57 +26,53 @@ public class InventoryUIManager : MonoBehaviour
 
     private void Start()
     {
-        // Oyun ilk açıldığında çanta bomboş gözüksün diye arayüzü bir kere tetikliyoruz
         EnvanterArayuzunuYenile();
     }
 
+    // GÜNCELLENEN SİHİRLİ YENİLEME FONKSİYONU
     public void EnvanterArayuzunuYenile()
     {
         if (PlayerInventory.Instance == null) return;
 
-        foreach (var slot in envanterSlotlari)
+        // 1. ADIM: Tüm kutuları ekranda AÇIK bırakıyoruz ama içindeki resim ve yazıları GİZLİYORUZ
+        foreach (var kutu in uiKutulari)
         {
-            if (slot.esyaVerisi != null)
+            if (kutu.slotAnaObjesi != null) 
             {
-                // Çantada bu eşyadan kaç tane var sorgula
-                int guncelAdet = PlayerInventory.Instance.EsyaAdetiniGetir(slot.esyaVerisi);
+                kutu.slotAnaObjesi.SetActive(true); // Tasarladığın o güzel mor kareler hep görünür kalacak!
+            }
+            if (kutu.esyaIkonResmi != null) 
+            {
+                kutu.esyaIkonResmi.gameObject.SetActive(false); // Başta içindeki resim yok
+            }
+            if (kutu.adetYazisi != null) 
+            {
+                kutu.adetYazisi.gameObject.SetActive(false); // Başta miktar yazısı yok
+            }
+        }
 
-                if (guncelAdet > 0)
-                {
-                    // --------------------------------------------------------
-                    // EŞYA SATIN ALINDIYSA: SLOTU GÖRÜNÜR YAP VE DOLDUR
-                    // --------------------------------------------------------
-                    if (slot.slotAnaObjesi != null) slot.slotAnaObjesi.SetActive(true);
-                    
-                    if (slot.esyaIkonResmi != null)
-                    {
-                        slot.esyaIkonResmi.sprite = slot.esyaVerisi.esyaIkonu; // Pikselli resmi yükle
-                        slot.esyaIkonResmi.gameObject.SetActive(true);
-                    }
+        // 2. ADIM: Çantadaki dolu eşyaları sırayla çekiyoruz
+        List<PlayerInventory.EnvanterSlotu> sahipOlunanEsyalar = PlayerInventory.Instance.GetCantaListesi();
 
-                    if (slot.adetYazisi != null)
-                    {
-                        slot.adetYazisi.text = "x" + guncelAdet; // Adet bilgisini yaz
-                        slot.adetYazisi.gameObject.SetActive(true);
-                    }
-                }
-                else
-                {
-                    // --------------------------------------------------------
-                    // OYUNCUDA BU EŞYA YOKSA (BAŞLANGIÇTA): SLOTU TAMAMEN GİZLE
-                    // --------------------------------------------------------
-                    if (slot.slotAnaObjesi != null)
-                    {
-                        // Kutucuğu tamamen gizle (Böylece envanter tertemiz bomboş durur)
-                        slot.slotAnaObjesi.SetActive(false); 
-                    }
-                    else
-                    {
-                        // Eğer sadece içindekileri gizlemek istersen alternatif güvenlik:
-                        if (slot.esyaIkonResmi != null) slot.esyaIkonResmi.gameObject.SetActive(false);
-                        if (slot.adetYazisi != null) slot.adetYazisi.gameObject.SetActive(false);
-                    }
-                }
+        // 3. ADIM: Satın alınan eşyaları, sıradaki boş kutuların İÇİNE giydiriyoruz
+        for (int i = 0; i < sahipOlunanEsyalar.Count; i++)
+        {
+            if (i >= uiKutulari.Count) break;
+
+            var cantaSlotu = sahipOlunanEsyalar[i];
+            var hedefUIKutusu = uiKutulari[i]; // Sıradaki kare slot
+
+            // Kare zaten açık, şimdi sadece içindeki resmi ve yazıyı aktifleştirip dolduruyoruz
+            if (hedefUIKutusu.esyaIkonResmi != null)
+            {
+                hedefUIKutusu.esyaIkonResmi.sprite = cantaSlotu.esya.esyaIkonu;
+                hedefUIKutusu.esyaIkonResmi.gameObject.SetActive(true);
+            }
+
+            if (hedefUIKutusu.adetYazisi != null)
+            {
+                hedefUIKutusu.adetYazisi.text = "x" + cantaSlotu.adet;
+                hedefUIKutusu.adetYazisi.gameObject.SetActive(true);
             }
         }
     }
