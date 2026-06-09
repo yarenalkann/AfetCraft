@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 8
   esyaAdi: "Yard\u0131m Kiti"
+  esyaAciklamasi: 
   esyaIkonu: {fileID: 21300000, guid: a5fb26fa6fd32574dbaf985405b2b971, type: 3}
   satinAlmaFiyati: 180
   esyaTipi: 0
   maksimumDayaniklilik: 100
+  esyaKategorisi: 1

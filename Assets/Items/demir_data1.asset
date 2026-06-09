@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 1
   esyaAdi: Demir
+  esyaAciklamasi: "Yap\u0131lar\u0131n ta\u015F\u0131y\u0131c\u0131 sistemlerinde
+    kullan\u0131lan y\xFCksek mukavemetli metal malzemedir. Betonarme yap\u0131lara
+    dayan\u0131kl\u0131l\u0131k kazand\u0131r\u0131r."
   esyaIkonu: {fileID: 21300000, guid: faa014e5d45329a448e0b971593c60eb, type: 3}
   satinAlmaFiyati: 50
   esyaTipi: 0
   maksimumDayaniklilik: 100
+  esyaKategorisi: 1

@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 5
   esyaAdi: Balyoz
+  esyaAciklamasi: "A\u011F\u0131r darbeler uygulamak i\xE7in kullan\u0131lan g\xFC\xE7l\xFC
+    bir y\u0131k\u0131m arac\u0131d\u0131r. Beton, ta\u015F ve sert y\xFCzeylerin
+    k\u0131r\u0131lmas\u0131nda etkilidir."
   esyaIkonu: {fileID: 21300000, guid: 9f1cd1a9a6ded9844855e827b9ba2de1, type: 3}
   satinAlmaFiyati: 120
   esyaTipi: 1
   maksimumDayaniklilik: 100
+  esyaKategorisi: 0

@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 0
   esyaAdi: "\xC7imento"
+  esyaAciklamasi: "Beton ve har\xE7 \xFCretiminde ba\u011Flay\u0131c\u0131 g\xF6revi
+    g\xF6ren temel yap\u0131 malzemesidir. Su ile birle\u015Fti\u011Finde sertle\u015Ferek
+    y\xFCksek dayan\u0131m sa\u011Flar."
   esyaIkonu: {fileID: 21300000, guid: 2cbc35e338c5ab045930da8c01398b38, type: 3}
   satinAlmaFiyati: 35
   esyaTipi: 0
   maksimumDayaniklilik: 100
+  esyaKategorisi: 1

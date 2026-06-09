@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 3
   esyaAdi: Tamir Kiti
+  esyaAciklamasi: "K\xFC\xE7\xFCk hasarlar\u0131n giderilmesi ve ekipman bak\u0131m\u0131n\u0131n
+    yap\u0131lmas\u0131 i\xE7in gerekli temel ara\xE7 ve malzemeleri i\xE7erir."
   esyaIkonu: {fileID: 21300000, guid: 1fb235a57a9b35542af45cb978756dd6, type: 3}
   satinAlmaFiyati: 40
   esyaTipi: 0
   maksimumDayaniklilik: 100
+  esyaKategorisi: 1

@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 7
   esyaAdi: "Beton Sertlik \xD6l\xE7er"
+  esyaAciklamasi: "Beton y\xFCzeyinin sertli\u011Fini \xF6l\xE7mek i\xE7in kullan\u0131l\u0131r.
+    Yap\u0131sal de\u011Ferlendirmede \xF6nemli bir analiz arac\u0131d\u0131r."
   esyaIkonu: {fileID: 21300000, guid: 904520e41b9200d43879c09a5de9c711, type: 3}
   satinAlmaFiyati: 200
   esyaTipi: 2
   maksimumDayaniklilik: 100
+  esyaKategorisi: 0

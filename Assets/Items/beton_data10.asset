@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 10
   esyaAdi: Beton
+  esyaAciklamasi: "\xC7imento, kum ve agregan\u0131n birle\u015Fiminden olu\u015Fan
+    dayan\u0131kl\u0131 yap\u0131 malzemesidir. \u0130n\u015Faatlar\u0131n temel
+    ta\u015F\u0131 olarak kullan\u0131l\u0131r."
   esyaIkonu: {fileID: 21300000, guid: 7f66b74801b9ead42837c6fe892ac40a, type: 3}
   satinAlmaFiyati: 65
   esyaTipi: 0
   maksimumDayaniklilik: 100
+  esyaKategorisi: 0

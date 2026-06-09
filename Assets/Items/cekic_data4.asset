@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   esyaID: 4
   esyaAdi: "\xC7eki\xE7"
+  esyaAciklamasi: "Depremden zarar g\xF6ren yap\u0131lar\u0131n onar\u0131m\u0131
+    ve g\xFC\xE7lendirilmesinde kullan\u0131lan temel tamir arac\u0131d\u0131r."
   esyaIkonu: {fileID: 21300000, guid: e898033b650de914ca59c93f7455f9ff, type: 3}
   satinAlmaFiyati: 80
   esyaTipi: 1
   maksimumDayaniklilik: 100
+  esyaKategorisi: 0
