@@ -36,6 +36,8 @@ public class TabletManager : MonoBehaviour
     [Header("Başvuru Detay Sayfası")]
     public TMP_Text baslikText;
     public TMP_Text detayText;
+    [Header("Başvuru Detay Sayfası")]
+    public TMP_Text altRaporText; // YENİ: Alttaki hasar raporu metni için
 
     [Header("Ekonomi ve Envanter Sistemi")]
     public int oyuncuParasi = 1000;
@@ -52,7 +54,8 @@ public class TabletManager : MonoBehaviour
     public TMP_Text betonSertlikMiktarText;
     public TMP_Text yardimKitiMiktarText;
     public TMP_Text BetonMiktarText;
-    public TMP_Text CamMiktarText;
+    public TMP_Text CamMiktarText; 
+
 
     public int balyozSayisi = 0;
     public int cekicSayisi = 0; 
@@ -64,7 +67,7 @@ public class TabletManager : MonoBehaviour
     public int betonSertlikOlcerSayisi = 0;
     public int yardimKitiSayisi = 0;
     public int CamSayisi = 0;
-    public int BetonSayisi = 0;
+    public int BetonSayisi = 0; 
 
     [Header("Görevler Sistemi (Operasyon Merkezi)")]
     public TMP_Text sagBaslikText;
@@ -363,11 +366,18 @@ public class TabletManager : MonoBehaviour
         if (basvuruID < secilenGununEvleri.Count)
         {
             suAnkiSeciliEv = secilenGununEvleri[basvuruID]; 
+        
+        // Üst Kısım: Sahip ve Adres Bilgileri
             baslikText.text = suAnkiSeciliEv.houseName;
             detayText.text = "<b>Başvuru Sahibi:</b> " + suAnkiSeciliEv.applicantName +
                              "\n<b>Adres:</b> " + suAnkiSeciliEv.address +
-                             "\n<b>Tarih:</b> " + suAnkiSeciliEv.date +
-                             "\n\n<b>RAPOR:</b> " + suAnkiSeciliEv.reportDetail;
+                            "\n<b>Tarih:</b> " + suAnkiSeciliEv.date;
+                         
+        // Alt Kısım: Sadece Rapor Detayı (Bu kısım senin "Hasar Tespit" dediğin kutu)
+            if (altRaporText != null) 
+            {
+                altRaporText.text = "<b>RAPOR DETAYI:</b>\n" + suAnkiSeciliEv.reportDetail;
+            }
         }
     }
 
