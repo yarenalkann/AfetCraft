@@ -10,31 +10,31 @@ public class InventoryUIManager : MonoBehaviour
     [System.Serializable]
     public struct DinamikUIKutusu
     {
-        public GameObject slotAnaObjesi;     // Mor kare kutu (Arka plan)
-        public Image esyaIkonResmi;          // İçindeki pikselli ikon
-        public TextMeshProUGUI adetYazesi;   // İçindeki Text (Miktar için)
-        [HideInInspector] public ItemData icindekiEsya; // O an bu slotta hangi eşya duruyor?
+        public GameObject slotAnaObjesi;     
+        public Image esyaIkonResmi;          
+        public TextMeshProUGUI adetYazesi;   
+        [HideInInspector] public ItemData icindekiEsya; 
     }
 
     [Header("Envanter Slotları (Orta Alan)")]
     public List<DinamikUIKutusu> uiKutulari = new List<DinamikUIKutusu>();
 
-    // ====================================================================
-    // YENİ: HIZLI KULLANIM SLOTLARI (Sol Alttaki 6 Kutu)
-    // ====================================================================
     [Header("Hızlı Kullanım Slotları (Sol Alttaki 6 Kutu)")]
     public List<DinamikUIKutusu> hizliKullanımKutulari = new List<DinamikUIKutusu>();
 
-    // ====================================================================
-    // YENİ: SAĞ DETAY PANELİ OBJELERİ (Senin Tasarımdakiler)
-    // ====================================================================
     [Header("Sağ Detay Paneli Objeleri")]
-    public TextMeshProUGUI detayEsyaAdiYazisi;       // En üstteki turuncu başlık
-    public TextMeshProUGUI detayEsyaAciklamaYazisi;  // Deprem onarımı yazısı
-    public Image detayEsyaModelResmi;                // Ortadaki pikselli 3D resim
-    public GameObject detayPaneliAnaObjesi;          // Başta görünmez yapmak için
+    public TextMeshProUGUI detayEsyaAdiYazisi;       
+    public TextMeshProUGUI detayEsyaAciklamaYazisi;  
+    public Image detayEsyaModelResmi;                
+    public GameObject detayPaneliAnaObjesi;          
 
-    // Hafızada o an seçili duran eşya kartı
+    [Header("Sağ Panel İşlem Butonları")]
+    public GameObject kullanButonu;       // Mavi buton
+    public GameObject birakButonu;         // Kırmızı buton
+    public GameObject hizliKullanimButonu; // Yeşil büyük buton
+
+    // O an hangi kategorinin açık olduğunu tutar (Başta Araç Gereçler açık)
+    private ItemData.EnvanterKategorisi mevcutKategori = ItemData.EnvanterKategorisi.AracGerecler;
     private ItemData seciliEsya;
 
     private void Awake()
@@ -45,12 +45,28 @@ public class InventoryUIManager : MonoBehaviour
 
     private void Start()
     {
-        // Başta sağ tarafı ve içini resetle
+        ResetleDetayPaneli();
+        AraçGereçSekmesiniSec(); // Oyun açıldığında araç gereçler listelensin
+    }
+
+    // ====================================================================
+    // BUTONLARA ATANACAK KATEGORİ SEÇİM FONKSİYONLARI
+    // ====================================================================
+    public void AraçGereçSekmesiniSec()
+    {
+        mevcutKategori = ItemData.EnvanterKategorisi.AracGerecler;
         ResetleDetayPaneli();
         EnvanterArayuzunuYenile();
     }
 
-    private void ResetleDetayPaneli()
+    public void ÜretimMalzemesiSekmesiniSec()
+    {
+        mevcutKategori = ItemData.EnvanterKategorisi.UretimMalzemeleri;
+        ResetleDetayPaneli();
+        EnvanterArayuzunuYenile();
+    }
+
+    public void ResetleDetayPaneli()
     {
         if (detayPaneliAnaObjesi != null) detayPaneliAnaObjesi.SetActive(false);
         if (detayEsyaAdiYazisi != null) detayEsyaAdiYazisi.text = "";
@@ -59,106 +75,174 @@ public class InventoryUIManager : MonoBehaviour
         seciliEsya = null;
     }
 
+    // GÜNCELLENEN AKILLI FİLTRELEME MOTORU
     public void EnvanterArayuzunuYenile()
     {
         if (PlayerInventory.Instance == null) return;
 
-        // 1. ORTA ALANI TEMİZLE VE DOLDUR (Sırayla Dizme)
-        List<PlayerInventory.EnvanterSlotu> sahipOlunanEsyalar = PlayerInventory.Instance.GetCantaListesi();
-
+        // 1. ÖNCE TÜM ORTA ALAN SLOTLARINI SIFIRLA VE İÇİNİ GİZLE
         for (int i = 0; i < uiKutulari.Count; i++)
         {
             var kutu = uiKutulari[i];
-            kutu.icindekiEsya = null; // Resetle
-
+            kutu.icindekiEsya = null;
             if (kutu.esyaIkonResmi != null) kutu.esyaIkonResmi.gameObject.SetActive(false);
             if (kutu.adetYazesi != null) kutu.adetYazesi.gameObject.SetActive(false);
+            uiKutulari[i] = kutu;
+        }
 
-            if (i < sahipOlunanEsyalar.Count)
+        // Çantadaki ham listeyi çekiyoruz
+        List<PlayerInventory.EnvanterSlotu> cantaListesi = PlayerInventory.Instance.GetCantaListesi();
+        
+        // 2. SADECE O AN SEÇİLİ KATEGORİYE UYALANLARI FİLTRELEYİP YENİ BİR LİSTEYE ATIYORUZ
+        List<PlayerInventory.EnvanterSlotu> filtrelenmisListe = new List<PlayerInventory.EnvanterSlotu>();
+        foreach (var slot in cantaListesi)
+        {
+            if (slot.esya.esyaKategorisi == mevcutKategori)
             {
-                var cantaSlotu = sahipOlunanEsyalar[i];
-                kutu.icindekiEsya = cantaSlotu.esya; // Kimlik atadık!
+                filtrelenmisListe.Add(slot);
+            }
+        }
 
-                if (kutu.esyaIkonResmi != null)
+        // 3. FİLTRELENMİŞ EŞYALARI SIRAYLA MOR KUTULARA YERLEŞTİR
+        for (int i = 0; i < filtrelenmisListe.Count; i++)
+        {
+            if (i >= uiKutulari.Count) break;
+
+            var cantaSlotu = filtrelenmisListe[i];
+            var hedefUIKutusu = uiKutulari[i];
+
+            hedefUIKutusu.icindekiEsya = cantaSlotu.esya;
+
+            if (hedefUIKutusu.esyaIkonResmi != null)
+            {
+                hedefUIKutusu.esyaIkonResmi.sprite = cantaSlotu.esya.esyaIkonu;
+                hedefUIKutusu.esyaIkonResmi.gameObject.SetActive(true);
+            }
+
+            if (hedefUIKutusu.adetYazesi != null)
+            {
+                hedefUIKutusu.adetYazesi.text = "x" + cantaSlotu.adet;
+                hedefUIKutusu.adetYazesi.gameObject.SetActive(true);
+            }
+            uiKutulari[i] = hedefUIKutusu;
+        }
+
+        HizliKullanımAdetleriniGuncelle();
+    }
+
+    private void HizliKullanımAdetleriniGuncelle()
+    {
+        if (PlayerInventory.Instance == null) return;
+
+        for (int i = 0; i < hizliKullanımKutulari.Count; i++)
+        {
+            var kutu = hizliKullanımKutulari[i];
+            if (kutu.icindekiEsya != null)
+            {
+                int guncelAdet = PlayerInventory.Instance.EsyaAdetiniGetir(kutu.icindekiEsya);
+                if (guncelAdet <= 0)
                 {
-                    kutu.esyaIkonResmi.sprite = cantaSlotu.esya.esyaIkonu;
-                    kutu.esyaIkonResmi.gameObject.SetActive(true);
+                    kutu.icindekiEsya = null;
+                    if (kutu.esyaIkonResmi != null) kutu.esyaIkonResmi.gameObject.SetActive(false);
+                    if (kutu.adetYazesi != null) kutu.adetYazesi.gameObject.SetActive(false);
                 }
-
-                if (kutu.adetYazesi != null)
+                else
                 {
-                    kutu.adetYazesi.text = "x" + cantaSlotu.adet;
-                    kutu.adetYazesi.gameObject.SetActive(true);
+                    if (kutu.adetYazesi != null) kutu.adetYazesi.text = "x" + guncelAdet;
                 }
             }
-            uiKutulari[i] = kutu; // Geri atıyoruz
+            hizliKullanımKutulari[i] = kutu;
         }
     }
 
-    // ====================================================================
-    // YENİ: SLOTA TIKLANDIĞINDA SAĞ PANELİ DOLDURMA (SİHİRLİ FONKSİYON)
-    // ====================================================================
+    // SAĞ DETAY PANELİNİ DOLDURURKEN BUTONLARI AÇIP KAPATAN KRİTİK YER
     public void SlotSecildi(int slotIndex)
     {
+        Debug.Log($"<color=yellow>[Tıklama Testi] {slotIndex}. slot tıklandı!</color>");
+        
         if (slotIndex >= uiKutulari.Count || uiKutulari[slotIndex].icindekiEsya == null) return;
 
         seciliEsya = uiKutulari[slotIndex].icindekiEsya;
 
-        // Sağ paneldeki senin o harika yazılarını ve resimlerini güncelle
         if (detayPaneliAnaObjesi != null) detayPaneliAnaObjesi.SetActive(true);
         if (detayEsyaAdiYazisi != null) detayEsyaAdiYazisi.text = seciliEsya.esyaAdi.ToUpper();
         if (detayEsyaAciklamaYazisi != null) detayEsyaAciklamaYazisi.text = seciliEsya.esyaAciklamasi; 
         if (detayEsyaModelResmi != null)
         {
-            // İstersen 3D model, istersen 2D pikselli resmi yansıtabiliriz
-            // Biz şimdilik ItemData'daki ikonu basıyoruz
             detayEsyaModelResmi.sprite = seciliEsya.esyaIkonu;
             detayEsyaModelResmi.gameObject.SetActive(true);
         }
-        Debug.Log($"[Sağ Panel] {seciliEsya.esyaAdi} detayları canlandı!");
+
+        // ====================================================================
+        // TAM İSTEDİĞİN BUTON GİZLEME SİHRE BURASI:
+        // ====================================================================
+        if (seciliEsya.esyaKategorisi == ItemData.EnvanterKategorisi.UretimMalzemeleri)
+        {
+            // Eğer çimento, demir vb. ise butonları kapat, sadece açıklama ve resim kalsın!
+            if (kullanButonu != null) kullanButonu.SetActive(false);
+            if (birakButonu != null) birakButonu.SetActive(false);
+            if (hizliKullanimButonu != null) hizliKullanimButonu.SetActive(false);
+        }
+        else
+        {
+            // Eğer alet edevatsa tüm butonları geri aç!
+            if (kullanButonu != null) kullanButonu.SetActive(true);
+            if (birakButonu != null) birakButonu.SetActive(true);
+            if (hizliKullanimButonu != null) hizliKullanimButonu.SetActive(true);
+        }
     }
 
-    // ====================================================================
-    // YENİ: YEŞIL BUTONA BASILDIĞINDA MANUEL YERLEŞTİRME FONKSİYONU
-    // ====================================================================
+    public void SeciliEsyayiKullan()
+    {
+        if (seciliEsya == null || PlayerInventory.Instance == null) return;
+        bool basariliMi = PlayerInventory.Instance.EsyaKullan(seciliEsya, 20f);
+        if (basariliMi)
+        {
+            if (PlayerInventory.Instance.EsyaAdetiniGetir(seciliEsya) <= 0) ResetleDetayPaneli();
+            EnvanterArayuzunuYenile();
+        }
+    }
+
+    public void SeciliEsyayiBirak()
+    {
+        if (seciliEsya == null || PlayerInventory.Instance == null) return;
+        bool basariliMi = PlayerInventory.Instance.EsyaKullan(seciliEsya, 100f);
+        if (basariliMi)
+        {
+            if (PlayerInventory.Instance.EsyaAdetiniGetir(seciliEsya) <= 0) ResetleDetayPaneli();
+            EnvanterArayuzunuYenile();
+        }
+    }
+
     public void SeciliEsyayıHizliKullanimaGonder()
     {
         if (seciliEsya == null) return;
 
-        // Sol altta bu eşya zaten var mı kontrol et (aynı aletten iki tane koymasın)
         foreach (var kutu in hizliKullanımKutulari)
         {
-            if (kutu.icindekiEsya == seciliEsya)
-            {
-                Debug.Log($"[Hızlı Kullanım] {seciliEsya.esyaAdi} zaten hotbar'da var!");
-                return;
-            }
+            if (kutu.icindekiEsya == seciliEsya) return;
         }
 
-        // Sol alttaki boş olan İLK kutuyu bul ve yerleştir
         for (int i = 0; i < hizliKullanımKutulari.Count; i++)
         {
             var kutu = hizliKullanımKutulari[i];
-            if (kutu.icindekiEsya == null) // Boş kutu bulduk!
+            if (kutu.icindekiEsya == null) 
             {
-                kutu.icindekiEsya = seciliEsya; // Kimlik verdik!
+                kutu.icindekiEsya = seciliEsya; 
                 if (kutu.esyaIkonResmi != null)
                 {
                     kutu.esyaIkonResmi.sprite = seciliEsya.esyaIkonu;
                     kutu.esyaIkonResmi.gameObject.SetActive(true);
                 }
-                // Adet takibini PlayerInventory'den çekiyoruz dinamik olarak
                 int adet = PlayerInventory.Instance.EsyaAdetiniGetir(seciliEsya);
                 if (kutu.adetYazesi != null)
                 {
                     kutu.adetYazesi.text = "x" + adet;
                     kutu.adetYazesi.gameObject.SetActive(true);
                 }
-                hizliKullanımKutulari[i] = kutu; // Struct olduğu için geri atıyoruz
-                Debug.Log($"[Hızlı Kullanım] {seciliEsya.esyaAdi} başarıyla Slot {i+1}'e yerleşti!");
+                hizliKullanımKutulari[i] = kutu; 
                 return;
             }
         }
-        Debug.LogWarning("[Hızlı Kullanım] Hızlı kullanım slotları tamamen dolu!");
     }
 }

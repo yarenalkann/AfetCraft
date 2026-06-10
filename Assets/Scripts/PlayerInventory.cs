@@ -39,29 +39,108 @@ public class PlayerInventory : MonoBehaviour
         ArayuzuTazele();
     }
 
-[Header("Bağımsız Test Ayarları")]
+
+    [Header("Bağımsız Test Ayarları")]
     [Tooltip("Test etmek istediğin ItemData kartlarını (Çimento, Balyoz vb.) sırayla buraya sürükle.")]
     public List<ItemData> testEsyaKartlari = new List<ItemData>();
 
+    [Header("Arayüz Açma/Kapatma Ayarları")]
+    [Tooltip("Sahnede tasarladığın o en dıştaki siyah çerçeveli ana Tablet UI objesini buraya sürükle.")]
+    public GameObject anaTabletUIObjesi; 
+
+
+    [Header("Özel İmleç (Cursor) Ayarları")]
+    [Tooltip("Envanter açıldığında görünecek olan kendi tasarladığın pikselli imleç resmini (Sprite/Texture2D) buraya sürükle.")]
+    public Texture2D seninOzelImlecin;
+    public Vector2 imlecTiklamaNoktasi = Vector2.zero; // İmlecin tam ucuyla tıklaması için (Genelde 0,0)
+
     private void Update()
     {
-        // KLAVYEDEN 1 TUŞUNA BASINCA: Müfettiş panelindeki 0. sıradaki eşyayı çantaya sırayla ekler
+        // ====================================================================
+        // I TUŞUNA BASINCA TABLETİ AÇMA / KAPATMA, OYUNU DURDURMA VE ÖZEL FARE
+        // ====================================================================
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (anaTabletUIObjesi != null)
+            {
+                bool suAnkiDurum = anaTabletUIObjesi.activeSelf;
+                bool yeniDurum = !suAnkiDurum;
+                
+                anaTabletUIObjesi.SetActive(yeniDurum);
+
+                if (yeniDurum == true) // Envanter açıldıysa
+                {
+                    Time.timeScale = 0f; // SİHİRLİ DOKUNUŞ: Oyunu ve dünyayı arkada tamamen dondur!
+                    
+                    Cursor.lockState = CursorLockMode.None; // Fareyi kilitten kurtar
+                    Cursor.visible = true;                  // İmleci görünür yap
+                    
+                    // Kendi tasarladığın imleci ekrana basıyoruz!
+                    if (seninOzelImlecin != null)
+                    {
+                        Cursor.SetCursor(seninOzelImlecin, imlecTiklamaNoktasi, CursorMode.Auto);
+                    }
+                }
+                else // Envanter kapatıldıysa
+                {
+                    Time.timeScale = 1f; // Oyunu normal hızına geri döndür, dünya aksın!
+                    
+                    Cursor.lockState = CursorLockMode.Locked; // Fareyi merkeze kilitle
+                    Cursor.visible = false;                   // İmleci gizle
+                    
+                    // İmleci tekrar varsayılana çekiyoruz ki oyun içinde ekranda kalmasın
+                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                }
+
+                if (yeniDurum && InventoryUIManager.Instance != null)
+                {
+                    InventoryUIManager.Instance.EnvanterArayuzunuYenile();
+                }
+                
+                Debug.Log($"[Tablet] Dünya Durdu mu: {yeniDurum} | Özel İmleç Aktif mi: {yeniDurum}");
+            }
+            else
+            {
+                Debug.LogWarning("[Tablet] Ana Tablet UI Objesi PlayerInventory scriptine atanmamış!");
+            }
+        }
+
+        // ====================================================================
+        // [BAĞIMSIZ TEST MODU] (Klavyeden 1 ve 2 tuşları aynen kalıyor)
+        // ====================================================================
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             if (testEsyaKartlari != null && testEsyaKartlari.Count > 0 && testEsyaKartlari[0] != null)
             {
                 EsyaEkle(testEsyaKartlari[0], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 1'e basıldı: {testEsyaKartlari[0].esyaAdi} envantere sırayla yerleşti!</color>");
+                Debug.Log($"<color=cyan>[Bağımsız Test] 1'e basıldı: {testEsyaKartlari[0].esyaAdi} eklendi!</color>");
             }
         }
 
-        // KLAVYEDEN 2 TUŞUNA BASINCA: Müfettiş panelindeki 1. sıradaki eşyayı çantaya sırayla ekler
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (testEsyaKartlari != null && testEsyaKartlari.Count > 1 && testEsyaKartlari[1] != null)
             {
                 EsyaEkle(testEsyaKartlari[1], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 2'ye basıldı: {testEsyaKartlari[1].esyaAdi} envantere sırayla yerleşti!</color>");
+                Debug.Log($"<color=cyan>[Bağımsız Test] 2'ye basıldı: {testEsyaKartlari[1].esyaAdi} eklendi!</color>");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (testEsyaKartlari != null && testEsyaKartlari.Count > 2 && testEsyaKartlari[2] != null)
+            {
+                EsyaEkle(testEsyaKartlari[2], 1);
+                Debug.Log($"<color=cyan>[Bağımsız Test] 3'ye basıldı: {testEsyaKartlari[2].esyaAdi} eklendi!</color>");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            if (testEsyaKartlari != null && testEsyaKartlari.Count > 3 && testEsyaKartlari[3] != null)
+            {
+                EsyaEkle(testEsyaKartlari[3], 1);
+                Debug.Log($"<color=cyan>[Bağımsız Test] 4'ye basıldı: {testEsyaKartlari[3].esyaAdi} eklendi!</color>");
             }
         }
     }

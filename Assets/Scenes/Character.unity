@@ -917,7 +917,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1464,7 +1464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2322,7 +2322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2715,7 +2715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2970,7 +2970,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 386418036}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1600202799}
+        m_TargetAssemblyTypeName: InventoryUIManager, Assembly-CSharp
+        m_MethodName: "\xDCretimMalzemesiSekmesiniSec"
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &386418036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3379,7 +3391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3677,6 +3689,7 @@ GameObject:
   - component: {fileID: 488102160}
   - component: {fileID: 488102159}
   - component: {fileID: 488102161}
+  - component: {fileID: 488102163}
   m_Layer: 5
   m_Name: InventoryPanel
   m_TagString: Untagged
@@ -3764,6 +3777,30 @@ MonoBehaviour:
   craftButonYazisi: {fileID: 2073887966}
   aktifYaziRengi: {r: 0.8705882, g: 0.5411765, b: 0.09803922, a: 1}
   pasifYaziRengi: {r: 0.8274511, g: 0.8274511, b: 0.8274511, a: 1}
+--- !u!223 &488102163
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488102157}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &507295505
 GameObject:
   m_ObjectHideFlags: 0
@@ -3823,7 +3860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4180,7 +4217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4550,7 +4587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5327,7 +5364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5593,7 +5630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6572,7 +6609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6947,7 +6984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7045,7 +7082,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1060325050}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1600202799}
+        m_TargetAssemblyTypeName: InventoryUIManager, Assembly-CSharp
+        m_MethodName: "Ara\xE7Gere\xE7SekmesiniSec"
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1060325050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8278,7 +8327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -9520,7 +9569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -9603,7 +9652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10954,73 +11003,76 @@ MonoBehaviour:
   uiKutulari:
   - slotAnaObjesi: {fileID: 1994325796}
     esyaIkonResmi: {fileID: 1797703331}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 773176427}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 343250749}
     esyaIkonResmi: {fileID: 1727770805}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 156130225}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 1847276734}
     esyaIkonResmi: {fileID: 755630340}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 232543783}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 1429596640}
     esyaIkonResmi: {fileID: 522061976}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 1834559268}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 1553849759}
     esyaIkonResmi: {fileID: 1056166081}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 1635677666}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 1170729594}
     esyaIkonResmi: {fileID: 948520859}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 1832372683}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 461640250}
     esyaIkonResmi: {fileID: 558875560}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 1521509344}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 433196658}
     esyaIkonResmi: {fileID: 229316641}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 1382275825}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 719742129}
     esyaIkonResmi: {fileID: 507295508}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 578725459}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 540005974}
     esyaIkonResmi: {fileID: 422107126}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 37340504}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 1313444777}
     esyaIkonResmi: {fileID: 317051768}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 290805532}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 822100199}
     esyaIkonResmi: {fileID: 1435091052}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 2072868903}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 1882152327}
     esyaIkonResmi: {fileID: 1188605302}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 1437742423}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 875250786}
     esyaIkonResmi: {fileID: 369558964}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 838987052}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 267258637}
     esyaIkonResmi: {fileID: 640072701}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 1301400804}
     icindekiEsya: {fileID: 0}
   - slotAnaObjesi: {fileID: 1954987288}
     esyaIkonResmi: {fileID: 158967618}
-    adetYazesi: {fileID: 0}
+    adetYazesi: {fileID: 143419932}
     icindekiEsya: {fileID: 0}
   "hizliKullan\u0131mKutulari": []
   detayEsyaAdiYazisi: {fileID: 1906311184}
   detayEsyaAciklamaYazisi: {fileID: 398439485}
   detayEsyaModelResmi: {fileID: 165053018}
-  detayPaneliAnaObjesi: {fileID: 488102157}
+  detayPaneliAnaObjesi: {fileID: 141495943}
+  kullanButonu: {fileID: 1106962107}
+  birakButonu: {fileID: 632738216}
+  hizliKullanimButonu: {fileID: 1105153464}
 --- !u!1 &1614521136
 GameObject:
   m_ObjectHideFlags: 0
@@ -11696,7 +11748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -11773,7 +11825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -14647,8 +14699,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   testEsyaKartlari:
-  - {fileID: 11400000, guid: 3c5c468cb5050ce498c184799cbf0885, type: 2}
+  - {fileID: 11400000, guid: b30c2142482aab44fb88ee4c1596e572, type: 2}
   - {fileID: 11400000, guid: 9b6d54be1a3fd6c47951b23e518c16aa, type: 2}
+  - {fileID: 11400000, guid: 9e27fcbdbab8d7647bcaeb778436fa06, type: 2}
+  - {fileID: 11400000, guid: f266de14d57a8eb4fa43327d2403d4dc, type: 2}
+  anaTabletUIObjesi: {fileID: 488102157}
+  seninOzelImlecin: {fileID: 2800000, guid: 238fe9245ac567544976f3cc62347758, type: 3}
+  imlecTiklamaNoktasi: {x: 0, y: 0}
 --- !u!4 &2424121736553671134
 Transform:
   m_ObjectHideFlags: 0
