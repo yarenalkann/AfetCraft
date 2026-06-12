@@ -21,3 +21,5 @@ MonoBehaviour:
   esyaTipi: 1
   maksimumDayaniklilik: 100
   esyaKategorisi: 0
+  ustUsteBiniyorMu: 0
+  adetYazisiGosterilsinMi: 0

@@ -131,7 +131,7 @@ public class PlayerInventory : MonoBehaviour
             if (testEsyaKartlari != null && testEsyaKartlari.Count > 2 && testEsyaKartlari[2] != null)
             {
                 EsyaEkle(testEsyaKartlari[2], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 3'ye basıldı: {testEsyaKartlari[2].esyaAdi} eklendi!</color>");
+                Debug.Log($"<color=cyan>[Bağımsız Test] 3'e basıldı: {testEsyaKartlari[2].esyaAdi} eklendi!</color>");
             }
         }
 
@@ -140,31 +140,70 @@ public class PlayerInventory : MonoBehaviour
             if (testEsyaKartlari != null && testEsyaKartlari.Count > 3 && testEsyaKartlari[3] != null)
             {
                 EsyaEkle(testEsyaKartlari[3], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 4'ye basıldı: {testEsyaKartlari[3].esyaAdi} eklendi!</color>");
+                Debug.Log($"<color=cyan>[Bağımsız Test] 4'e basıldı: {testEsyaKartlari[3].esyaAdi} eklendi!</color>");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            if (testEsyaKartlari != null && testEsyaKartlari.Count > 4 && testEsyaKartlari[4] != null)
+            {
+                EsyaEkle(testEsyaKartlari[4], 1);
+                Debug.Log($"<color=cyan>[Bağımsız Test] 5'e basıldı: {testEsyaKartlari[4].esyaAdi} eklendi!</color>");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            if (testEsyaKartlari != null && testEsyaKartlari.Count > 5 && testEsyaKartlari[5] != null)
+            {
+                EsyaEkle(testEsyaKartlari[5], 1);
+                Debug.Log($"<color=cyan>[Bağımsız Test] 5'e basıldı: {testEsyaKartlari[5].esyaAdi} eklendi!</color>");
             }
         }
     }
     // ====================================================================
 
     // EŞYA EKLEME (Dükkandan satın alınınca veya dünyadan toplanınca)
+    // ====================================================================
+    // GÜNCELLENEN AKILLI EŞYA EKLEME FONKSİYONU (DICTIONARY UYUMLU)
+    // ====================================================================
     public void EsyaEkle(ItemData yeniEsya, int miktar)
     {
         if (yeniEsya == null) return;
 
-        // Eğer kalıcı cihazsa (Eğim ölçer vb.) ve çantada zaten 1 tane varsa, tekrar ekleme!
-        if (yeniEsya.esyaTipi == ItemData.EsyaTuru.KaliciCihaz && cantaIcerigi.ContainsKey(yeniEsya.esyaID))
+        // 1. DURUM: Eğer üst üste binebilen bir sarf malzemesiyse (Çimento, tuğla vb.)
+        if (yeniEsya.ustUsteBiniyorMu)
         {
-            Debug.Log($"[Envanter] {yeniEsya.esyaAdi} kalıcı bir cihazdır, 1 taneden fazlasına gerek yok.");
-            return;
+            // Sözlükte bu orijinal ID zaten varsa adedini artır
+            if (cantaIcerigi.ContainsKey(yeniEsya.esyaID))
+            {
+                cantaIcerigi[yeniEsya.esyaID].adet += miktar;
+            }
+            else // İlk defa ekleniyorsa orijinal ID'si ile sözlüğe kaydet
+            {
+                cantaIcerigi.Add(yeniEsya.esyaID, new EnvanterSlotu(yeniEsya, miktar));
+            }
         }
-
-        if (cantaIcerigi.ContainsKey(yeniEsya.esyaID))
-        {
-            cantaIcerigi[yeniEsya.esyaID].adet += miktar;
-        }
+        // 2. DURUM: Eğer üst üste BİNMEYEN bir aletse (Balyoz, Eğim ölçer vb.)
         else
         {
-            cantaIcerigi.Add(yeniEsya.esyaID, new EnvanterSlotu(yeniEsya, miktar));
+            // Kaç adet eklendiyse her biri için sözlüğe tamamen benzersiz uydurma bir ID ile ekliyoruz!
+            for (int i = 0; i < miktar; i++)
+            {
+                // Rastgele ve benzersiz bir eksi sayı üretiyoruz (Örn: -4729384) 
+                // Böylece orijinal pozitif ID'lerle (1, 2, 3) asla çakışmaz ve Dictionary hata vermez!
+                int benzersizUydurmaID = Random.Range(-9999999, -1000);
+                
+                // Eğer şans eseri o sayı sözlükte varsa, benzersiz olana kadar yeni sayı seç
+                while (cantaIcerigi.ContainsKey(benzersizUydurmaID))
+                {
+                    benzersizUydurmaID = Random.Range(-9999999, -1000);
+                }
+
+                // Her bir aleti tek tek (adet = 1) olacak şekilde sözlüğe ekle
+                cantaIcerigi.Add(benzersizUydurmaID, new EnvanterSlotu(yeniEsya, 1));
+            }
         }
 
         ArayuzuTazele();
@@ -260,5 +299,26 @@ public class PlayerInventory : MonoBehaviour
             }
         }
         return liste;
+    }
+
+    // ====================================================================
+    // YENİ: X BUTONUNA BASILDIĞINDA TABLETİ KAPATAN SİHİRLİ FONKSİYON
+    // ====================================================================
+    public void TabletiKapat()
+    {
+        if (anaTabletUIObjesi != null)
+        {
+            anaTabletUIObjesi.SetActive(false); // Tableti komple gizle
+
+            Time.timeScale = 1f; // Dünyayı geri akıt, zaman normal aksın!
+            
+            Cursor.lockState = CursorLockMode.Locked; // Fareyi tekrar oyuna kilitle
+            Cursor.visible = false;                   // İmleci gizle ki FPS moduna dönsün
+
+            // İmleci tekrar varsayılana çekiyoruz
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            
+            Debug.Log("[Tablet] X butonuna basıldı, tablet kapatıldı ve dünya geri aktı.");
+        }
     }
 }

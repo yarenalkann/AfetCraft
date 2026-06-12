@@ -20,4 +20,6 @@ MonoBehaviour:
   satinAlmaFiyati: 40
   esyaTipi: 0
   maksimumDayaniklilik: 100
-  esyaKategorisi: 1
+  esyaKategorisi: 0
+  ustUsteBiniyorMu: 1
+  adetYazisiGosterilsinMi: 1

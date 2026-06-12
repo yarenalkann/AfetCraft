@@ -26,4 +26,11 @@ public class ItemData : ScriptableObject
 
     [Header("Kategori Ayarı")]
     public EnvanterKategorisi esyaKategorisi;
+
+    [Header("Gelişmiş Envanter Ayarları")]
+    [Tooltip("Eğer işaretliyse bu eşya slotta üst üste birikir (Çimento gibi). İşaretli değilse tek tek slot kaplar (Balyoz gibi).")]
+    public bool ustUsteBiniyorMu = true; 
+
+    [Tooltip("Eğer işaretliyse slotun altında adet yazısı (x5 vb.) görünür. Kalıcı cihazlar için bunu kapatabilirsin.")]
+    public bool adetYazisiGosterilsinMi = true;
 }
