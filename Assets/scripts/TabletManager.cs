@@ -36,8 +36,9 @@ public class TabletManager : MonoBehaviour
     [Header("Başvuru Detay Sayfası")]
     public TMP_Text baslikText;
     public TMP_Text detayText;
-    [Header("Başvuru Detay Sayfası")]
+    [Header("Başvuru Rapor Sayfası")]
     public TMP_Text altRaporText; // YENİ: Alttaki hasar raporu metni için
+    public GameObject sagDetayPanelObjesi;
 
     [Header("Ekonomi ve Envanter Sistemi")]
     public int oyuncuParasi = 1000;
@@ -98,6 +99,17 @@ public class TabletManager : MonoBehaviour
     public AudioSource sesKaynagi;
     bool gorev2Bitti = false; 
     public bool isGorevBinasi = false; 
+    [Header("Sayfa GameObject Referansları")]
+    public GameObject ayarlarPage; // Hiyerarşideki ayarlarPage nesnesini buraya sürükleyeceğiz
+
+    public void OpenAyarlar()
+    {
+        KapatTumSayfalar(); // Başvuruları ve Görevleri kapatır
+        if (ayarlarPage != null)
+        {
+            ayarlarPage.SetActive(true); // Ayarlar sayfasını (ve üzerindeki SettingsPanel'i) açar
+        }
+    }
 
     private void Awake()
     {
@@ -215,7 +227,23 @@ public class TabletManager : MonoBehaviour
         if (CamMiktarText != null) CamMiktarText.text = "x" + CamSayisi;
     }
 
-    public void OpenBasvurular() { KapatTumSayfalar(); basvurularPage.SetActive(true); }
+    public void OpenBasvurular() 
+    { 
+        KapatTumSayfalar(); 
+        basvurularPage.SetActive(true); 
+
+    // Tablet ilk açıldığında sağ taraftaki metin kutularını sıfırlar
+        if (baslikText != null) baslikText.text = "";
+        if (sagDetayPanelObjesi != null) 
+            sagDetayPanelObjesi.SetActive(false); // İlk açılışta sağ panel komple gizlensin!
+         
+        if (altRaporText != null) altRaporText.text = "";
+        if (detayText != null) 
+        {
+            detayText.text = "<color=#FFB03A><b>[ SİSTEM ]</b></color>\n" +
+                             "<color=#E0E0E0>İncelemek istediğiniz binanın detayları için\nlütfen sol listeden bir başvuru seçiniz.</color>";
+        }
+    }
     public void OpenGorevler()
     { 
         KapatTumSayfalar();
@@ -363,20 +391,25 @@ public class TabletManager : MonoBehaviour
     }
     public void BasvuruGoster(int basvuruID)
     {
+    // Butona basıldığı an sağ paneli görünür yap
+        if (sagDetayPanelObjesi != null)
+        {
+            sagDetayPanelObjesi.SetActive(true);
+        }
+
         if (basvuruID < secilenGununEvleri.Count)
         {
-            suAnkiSeciliEv = secilenGununEvleri[basvuruID]; 
-        
-        // Üst Kısım: Sahip ve Adres Bilgileri
+            suAnkiSeciliEv = secilenGununEvleri[basvuruID];
             baslikText.text = suAnkiSeciliEv.houseName;
-            detayText.text = "<b>Başvuru Sahibi:</b> " + suAnkiSeciliEv.applicantName +
-                             "\n<b>Adres:</b> " + suAnkiSeciliEv.address +
-                            "\n<b>Tarih:</b> " + suAnkiSeciliEv.date;
-                         
-        // Alt Kısım: Sadece Rapor Detayı (Bu kısım senin "Hasar Tespit" dediğin kutu)
-            if (altRaporText != null) 
+
+        // Yazıları kalın ve turuncu yapan zengin metin düzenimiz:
+            detayText.text = "<color=#E59824><b>BAŞVURU SAHİBİ:</b></color> " + suAnkiSeciliEv.applicantName +
+                             "\n<color=#E59824><b>ADRES:</b></color> " + suAnkiSeciliEv.address +
+                             "\n<color=#E59824><b>TARİH:</b></color> " + suAnkiSeciliEv.date;
+
+            if (altRaporText != null)
             {
-                altRaporText.text = "<b>RAPOR DETAYI:</b>\n" + suAnkiSeciliEv.reportDetail;
+                altRaporText.text = "<color=#E59824><b>RAPOR DETAYI:</b></color>\n" + suAnkiSeciliEv.reportDetail;
             }
         }
     }

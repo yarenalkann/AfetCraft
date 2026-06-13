@@ -357,7 +357,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 30, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6305,6 +6305,7 @@ MonoBehaviour:
   baslikText: {fileID: 990507553}
   detayText: {fileID: 28120168}
   altRaporText: {fileID: 1783789206}
+  sagDetayPanelObjesi: {fileID: 836689903}
   oyuncuParasi: 1000
   bakiyeEkrani: {fileID: 719088489}
   cimentoMiktarText: {fileID: 0}
@@ -9518,6 +9519,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 765686967}
+  - component: {fileID: 765686969}
+  - component: {fileID: 765686968}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -9542,9 +9545,49 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 300}
+  m_AnchoredPosition: {x: 56, y: -0.0009120711}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &765686968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765686966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+--- !u!114 &765686969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765686966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 160
+    m_Right: 50
+    m_Top: 20
+    m_Bottom: 10
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &769337234
 GameObject:
   m_ObjectHideFlags: 0
@@ -20567,7 +20610,6 @@ GameObject:
   - component: {fileID: 1783789205}
   - component: {fileID: 1783789207}
   - component: {fileID: 1783789206}
-  - component: {fileID: 1783789209}
   - component: {fileID: 1783789208}
   m_Layer: 5
   m_Name: DetayText
@@ -20590,8 +20632,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 765686967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -20723,20 +20765,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1783789209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1783789204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
 --- !u!1 &1807525850
 GameObject:
   m_ObjectHideFlags: 0
@@ -23729,8 +23757,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 802054403}
   m_HandleRect: {fileID: 802054402}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -24690,8 +24718,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2029973100}
   m_HandleRect: {fileID: 2029973099}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.435519
+  m_Value: 1.0006535
+  m_Size: 0.9892164
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
