@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a5dea62ad70bb43b0cd658dd42d2f3, type: 3}
-  m_Name: demirliKolon_data11
+  m_Name: demirsizKolon_data12
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  esyaID: 11
-  esyaAdi: Demirli Kolon
-  esyaAciklamasi: "\u0130\xE7indeki \xE7elik donat\u0131lar sayesinde y\xFCksek dayan\u0131kl\u0131l\u0131k
-    ve ta\u015F\u0131ma g\xFCc\xFC sa\u011Flar."
-  esyaIkonu: {fileID: 21300000, guid: 94650027f98673e4b8a217e911086cb7, type: 3}
+  esyaID: 12
+  esyaAdi: Demirsiz Kolon
+  esyaAciklamasi: "Donat\u0131 i\xE7ermeyen, daha d\xFC\u015F\xFCk dayan\u0131ml\u0131
+    beton kolon t\xFCr\xFCd\xFCr."
+  esyaIkonu: {fileID: 21300000, guid: 12b7114a02629a74498e31bbb0ee0384, type: 3}
   satinAlmaFiyati: 0
   esyaTipi: 0
   maksimumDayaniklilik: 100

@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6283b6eae345c468b6708c0e1d9613, type: 3}
   m_Name: tuglaBlok
   m_EditorClassIdentifier: Assembly-CSharp::CraftRecipe
-  tarifAdi: 
-  gerekliMalzemeler: []
-  uretilecekEsya: {fileID: 0}
+  tarifAdi: "Tu\u011Fla Blok"
+  gerekliMalzemeler:
+  - malzemeData: {fileID: 11400000, guid: 43fa8526c6b68844b9042ba5fefdddef, type: 2}
+    adet: 4
+  - malzemeData: {fileID: 11400000, guid: 3c5c468cb5050ce498c184799cbf0885, type: 2}
+    adet: 2
+  uretilecekEsya: {fileID: 11400000, guid: f6460fe856972e64d94f84801ba20fd5, type: 2}
   uretilecekAdet: 1

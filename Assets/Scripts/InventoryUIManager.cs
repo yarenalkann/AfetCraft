@@ -12,10 +12,27 @@ public class InventoryUIManager : MonoBehaviour
     {
         public GameObject slotAnaObjesi;     
         public Image esyaIkonResmi;          
-        public TextMeshProUGUI adetYazesi; // Kod içindeki değişken adın adetYazesi olduğu için senkronize tutuldu
+        public TextMeshProUGUI adetYazesi; 
         public UnityEngine.UI.Image dayaniklilikBarDolgusu;  
         [HideInInspector] public ItemData icindekiEsya; 
     }
+
+    // ====================================================================
+    // 🛠️ SENİN YENİ HİYERARŞİNE ÖZEL MALZEME YAPISI (GÜNCELLENDİ)
+    // ====================================================================
+    [System.Serializable]
+    public struct CraftGereksinimUI
+    {
+        public GameObject objeGrup;           // Sahnendeki "slot0" veya "slot1" objesi
+        public Image malzemeIkonu;            // slot0/esyalkonu
+        public TextMeshProUGUI miktarYazisi;   // slot0/esyaAdeti (Gereken miktar, örn: x2)
+        public TextMeshProUGUI sahipOlunanYazisi; // slot0/sahipOlunanSayi (Oyuncudaki miktar, örn: x4)
+    }
+
+    [Header("Sayfa Referansları")]
+    public GameObject inventoryPage; 
+    public GameObject craftPage;     
+    public GameObject sagDetayPaneli2; // Sahnendeki sağ craft detay paneli
 
     [Header("Envanter Slotları (Orta Alan)")]
     public List<DinamikUIKutusu> uiKutulari = new List<DinamikUIKutusu>();
@@ -23,17 +40,17 @@ public class InventoryUIManager : MonoBehaviour
     [Header("Hızlı Kullanım Slotları")]
     public List<DinamikUIKutusu> hizliKullanımKutulari = new List<DinamikUIKutusu>();
 
-    [Header("Sağ Detay Paneli Objeleri")]
+    [Header("Sağ Detay Paneli Objeleri (Normal Envanter)")]
     public TextMeshProUGUI detayEsyaAdiYazisi;       
     public TextMeshProUGUI detayEsyaAciklamaYazisi;  
     public Image detayEsyaModelResmi;                
     public GameObject detayPaneliAnaObjesi;          
 
-    [Header("Sağ Panel İşlem Butonları")]
+    [Header("Sağ Panel İşlem Butonları (Normal Envanter)")]
     public GameObject kullanButonu;       
     public GameObject birakButonu;         
     public GameObject hizliKullanimButonu; 
-    public GameObject tamirEtButonu; // Sahnede tasarladığın o yeni butonu buraya sürükleyeceksin!
+    public GameObject tamirEtButonu; 
 
     [Header("Kategori Buton Yazıları (TMP)")]
     public TextMeshProUGUI aracGereclerButonYazisi;
@@ -43,9 +60,29 @@ public class InventoryUIManager : MonoBehaviour
     public Color aktifYaziRengi = new Color(1f, 0.6f, 0f);     
     public Color pasifYaziRengi = new Color(0.5f, 0.5f, 0.5f); 
 
+    // ====================================================================
+    // 🛠️ SENİN YENİ HİYERARŞİNE ÖZEL ELEMENTLER
+    // ====================================================================
+    [Header("Craft UI (uretimAlani / slot3)")]
+    public Image uretimAlanSonucIkonu;          // uretimAlani/slot3/esyalkonu
+    public TextMeshProUGUI uretimAlanSonucAdet;  // uretimAlani/slot3/esyaAdeti
+
+    [Header("Craft UI (GerekliMalzemeler -> slot0 ve slot1)")]
+    public List<CraftGereksinimUI> craftGereksinimSlotlari = new List<CraftGereksinimUI>(); 
+
+    [Header("Craft UI (Butonlar ve Counter)")]
+    public Button uretBüyükButonu;             // uretButonu objesindeki Button bileşeni
+    public TextMeshProUGUI uretimAdetText;     // counterPanel/countText
+    public Button adetArttirButonu;           // counterPanel/plusButton
+    public Button adetAzaltButonu;            // counterPanel/minusButton
+
     private ItemData.EnvanterKategorisi mevcutKategori = ItemData.EnvanterKategorisi.AracGerecler;
     private ItemData seciliEsya;
-    private int seciliSlotIndex; // YENİ: Tamir motorunun hangi aleti tamir edeceğini bilmesi için gizli hafıza
+    private int seciliSlotIndex; 
+    
+    // Craft takibi için değişkenler
+    private CraftRecipe seciliTarif;
+    private int uretilecekMiktar = 1;
 
     private void Awake()
     {
@@ -57,7 +94,7 @@ public class InventoryUIManager : MonoBehaviour
     {
         ResetleDetayPaneli();
         HizliKullanimSlotlariniIlkKezTemizle();
-        AraçGereçSekmesiniSec(); 
+        EnvanterSekmesiniAc(); 
     }
 
     private void HizliKullanimSlotlariniIlkKezTemizle()
@@ -76,6 +113,44 @@ public class InventoryUIManager : MonoBehaviour
             }
             
             hizliKullanımKutulari[i] = kutu; 
+        }
+    }
+
+    // ====================================================================
+    // 📑 SAYFA GEÇİŞLERİ
+    // ====================================================================
+    public void EnvanterSekmesiniAc()
+    {
+        if (inventoryPage != null) inventoryPage.SetActive(true);
+        if (craftPage != null) craftPage.SetActive(false);
+        if (sagDetayPaneli2 != null) sagDetayPaneli2.SetActive(false); 
+        if (detayPaneliAnaObjesi != null) detayPaneliAnaObjesi.SetActive(false);
+        
+        // Sayfa değiştirirken gizlenen eski envanter butonlarını burada geri açıyoruz
+        if (kullanButonu != null) kullanButonu.SetActive(true);
+        if (birakButonu != null) birakButonu.SetActive(true);
+        if (hizliKullanimButonu != null) hizliKullanimButonu.SetActive(true);
+
+        AraçGereçSekmesiniSec();
+    }
+
+    public void UretimSekmesiniAc()
+    {
+        if (inventoryPage != null) inventoryPage.SetActive(false);
+        if (craftPage != null) craftPage.SetActive(true);
+        
+        if (detayPaneliAnaObjesi != null) detayPaneliAnaObjesi.SetActive(false); 
+        if (sagDetayPaneli2 != null) sagDetayPaneli2.SetActive(true); 
+
+        // Eski envanter butonlarını craft panelinde kapatıyoruz ki üst üste binmesinler
+        if (kullanButonu != null) kullanButonu.SetActive(false);
+        if (birakButonu != null) birakButonu.SetActive(false);
+        if (hizliKullanimButonu != null) hizliKullanimButonu.SetActive(false);
+        if (tamirEtButonu != null) tamirEtButonu.SetActive(false);
+
+        if (CraftManager.Instance != null && CraftManager.Instance.tumTarifler.Count > 0)
+        {
+            TarifSecildi(CraftManager.Instance.tumTarifler[0]);
         }
     }
 
@@ -105,8 +180,107 @@ public class InventoryUIManager : MonoBehaviour
         if (detayEsyaAdiYazisi != null) detayEsyaAdiYazisi.text = "";
         if (detayEsyaAciklamaYazisi != null) detayEsyaAciklamaYazisi.text = "";
         if (detayEsyaModelResmi != null) detayEsyaModelResmi.gameObject.SetActive(false);
-        if (tamirEtButonu != null) tamirEtButonu.SetActive(false); // Panel sıfırlanınca buton da gizlensin
+        if (tamirEtButonu != null) tamirEtButonu.SetActive(false); 
         seciliEsya = null;
+    }
+
+    // ====================================================================
+    // ⚙️ SENİN YENİ BÖLÜNMÜŞ YAPINA ÖZEL CRAFT MOTORU
+    // ====================================================================
+    public void SolListedenTarifSecildi(int tarifIndex)
+    {
+        if (CraftManager.Instance == null || tarifIndex >= CraftManager.Instance.tumTarifler.Count) return;
+        TarifSecildi(CraftManager.Instance.tumTarifler[tarifIndex]);
+    }
+
+    private void TarifSecildi(CraftRecipe secilenTarif)
+    {
+        if (secilenTarif == null) return;
+
+        seciliTarif = secilenTarif;
+        uretilecekMiktar = 1; 
+        if (uretimAdetText != null) uretimAdetText.text = uretilecekMiktar.ToString();
+
+        CraftArayuzunuMiktaraGoreGuncelle();
+    }
+
+    private void CraftArayuzunuMiktaraGoreGuncelle()
+    {
+        if (seciliTarif == null || PlayerInventory.Instance == null) return;
+
+        // 1. Üretim Alanını Güncelle
+        if (uretimAlanSonucIkonu != null) uretimAlanSonucIkonu.sprite = seciliTarif.uretilecekEsya.esyaIkonu;
+        if (uretimAlanSonucAdet != null) uretimAlanSonucAdet.text = "x" + (seciliTarif.uretilecekAdet * uretilecekMiktar);
+
+        // 2. Gerekli Malzemeler Alanını Güncelle
+        foreach (var slot in craftGereksinimSlotlari)
+        {
+            if (slot.objeGrup != null) slot.objeGrup.SetActive(false);
+        }
+
+        bool uretimIcinHerSeyYeterliMi = true;
+
+        for (int i = 0; i < seciliTarif.gerekliMalzemeler.Count; i++)
+        {
+            if (i >= craftGereksinimSlotlari.Count) break;
+
+            var ihtiyac = seciliTarif.gerekliMalzemeler[i];
+            var uiSlot = craftGereksinimSlotlari[i];
+
+            if (uiSlot.objeGrup != null) uiSlot.objeGrup.SetActive(true);
+            if (uiSlot.malzemeIkonu != null) uiSlot.malzemeIkonu.sprite = ihtiyac.malzemeData.esyaIkonu;
+
+            int elindekiAdet = PlayerInventory.Instance.EsyaAdetiniGetir(ihtiyac.malzemeData);
+            int toplamIstenenAdet = ihtiyac.adet * uretilecekMiktar;
+
+            // Yazım hatası olan miktarYazesi kısımları düzeltildi
+            if (uiSlot.miktarYazisi != null) uiSlot.miktarYazisi.text = "x" + toplamIstenenAdet;
+            if (uiSlot.sahipOlunanYazisi != null) uiSlot.sahipOlunanYazisi.text = "x" + elindekiAdet;
+
+            if (elindekiAdet < toplamIstenenAdet)
+            {
+                if (uiSlot.miktarYazisi != null) uiSlot.miktarYazisi.color = Color.red;
+                uretimIcinHerSeyYeterliMi = false;
+            }
+            else
+            {
+                if (uiSlot.miktarYazisi != null) uiSlot.miktarYazisi.color = Color.white; 
+            }
+        }
+
+        // 3. ÜRET Butonunun kilitlenme durumu
+        if (uretBüyükButonu != null)
+        {
+            uretBüyükButonu.interactable = uretimIcinHerSeyYeterliMi;
+        }
+    }
+
+    public void AdetArttirButonFonksiyonu()
+    {
+        if (seciliTarif == null) return;
+        uretilecekMiktar++;
+        if (uretimAdetText != null) uretimAdetText.text = uretilecekMiktar.ToString();
+        CraftArayuzunuMiktaraGoreGuncelle();
+    }
+
+    public void AdetAzaltButonFonksiyonu()
+    {
+        if (seciliTarif == null || uretilecekMiktar <= 1) return;
+        uretilecekMiktar--;
+        if (uretimAdetText != null) uretimAdetText.text = uretilecekMiktar.ToString();
+        CraftArayuzunuMiktaraGoreGuncelle();
+    }
+
+    public void EsyaUretBüyükButonFonksiyonu()
+    {
+        if (seciliTarif == null || CraftManager.Instance == null) return;
+
+        for (int i = 0; i < uretilecekMiktar; i++)
+        {
+            CraftManager.Instance.EsyaUret(seciliTarif);
+        }
+
+        CraftArayuzunuMiktaraGoreGuncelle();
     }
 
     public void EnvanterArayuzunuYenile()
@@ -141,7 +315,7 @@ public class InventoryUIManager : MonoBehaviour
 
                 if (hedefUIKutusu.adetYazesi != null)
                 {
-                    if (cantaSlotu.esya.adetYazisiGosterilsinMi)
+                    if (cantaSlotu.esya.adetYazesiGosterilsinMi)
                     {
                         hedefUIKutusu.adetYazesi.text = "x" + cantaSlotu.adet;
                         hedefUIKutusu.adetYazesi.gameObject.SetActive(true);
@@ -315,9 +489,6 @@ public class InventoryUIManager : MonoBehaviour
     // ====================================================================
     public void SeciliAletiTamirEtButonFonksiyonu()
     {
-        // SİHİRLİ SATIR: "Tıklama olayını burada tüket, arkadaki objelere geçirme!"
-        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-
         if (seciliEsya == null || PlayerInventory.Instance == null) return;
 
         ItemData kitData = PlayerInventory.Instance.EsyaDataGetirAdla("Tamir Kiti");
@@ -387,7 +558,7 @@ public class InventoryUIManager : MonoBehaviour
 
                 if (kutu.adetYazesi != null)
                 {
-                    if (seciliEsya.adetYazisiGosterilsinMi)
+                    if (seciliEsya.adetYazesiGosterilsinMi)
                     {
                         int guncelAdet = PlayerInventory.Instance.EsyaAdetiniGetir(seciliEsya);
                         kutu.adetYazesi.text = "x" + guncelAdet;

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6283b6eae345c468b6708c0e1d9613, type: 3}
   m_Name: demirsizKolon
   m_EditorClassIdentifier: Assembly-CSharp::CraftRecipe
-  tarifAdi: 
-  gerekliMalzemeler: []
-  uretilecekEsya: {fileID: 0}
+  tarifAdi: Demirsiz Kolon
+  gerekliMalzemeler:
+  - malzemeData: {fileID: 11400000, guid: 3c5c468cb5050ce498c184799cbf0885, type: 2}
+    adet: 4
+  uretilecekEsya: {fileID: 11400000, guid: af3d6453543d5514f8fff741bf7d0b4e, type: 2}
   uretilecekAdet: 1

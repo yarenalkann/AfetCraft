@@ -15,8 +15,8 @@ MonoBehaviour:
   tarifAdi: Demirli Kolon
   gerekliMalzemeler:
   - malzemeData: {fileID: 11400000, guid: 9e27fcbdbab8d7647bcaeb778436fa06, type: 2}
-    adet: 0
+    adet: 2
   - malzemeData: {fileID: 11400000, guid: 3c5c468cb5050ce498c184799cbf0885, type: 2}
-    adet: 0
-  uretilecekEsya: {fileID: 0}
+    adet: 3
+  uretilecekEsya: {fileID: 11400000, guid: e5b83bf407cdb4d4580df8d7c0116c9b, type: 2}
   uretilecekAdet: 1

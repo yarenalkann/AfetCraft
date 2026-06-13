@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "YeniEsyaVerisi", menuName = "Afet Kiraat/Esya Verisi")]
+[CreateAssetMenu(fileName = "YeniEsyaVerisi", menuName = "AfetCraft/Esya Verisi")]
 public class ItemData : ScriptableObject
 {
     public enum EsyaTuru { SarfMalzemesi, DayanikliAlet, KaliciCihaz }
@@ -9,6 +9,7 @@ public class ItemData : ScriptableObject
     public int esyaID;               
     public string esyaAdi;
 
+    [TextArea(2, 5)] // Müfettişte açıklamalar daha rahat yazılsın diye tatlı bir dokunuş
     public string esyaAciklamasi;           
     
     public Sprite esyaIkonu;         
@@ -32,5 +33,15 @@ public class ItemData : ScriptableObject
     public bool ustUsteBiniyorMu = true; 
 
     [Tooltip("Eğer işaretliyse slotun altında adet yazısı (x5 vb.) görünür. Kalıcı cihazlar için bunu kapatabilirsin.")]
-    public bool adetYazisiGosterilsinMi = true;
+    public bool adetYazesiGosterilsinMi = true; // InventoryUIManager ile senkron kalması için senin orijinal ismin korundu
+
+    // ====================================================================
+    // 🛒 AFETCRAFT MAĞAZA VE CRAFT KORUMA AYARLARI (YENİ EKLEDİĞİMİZ ALAN)
+    // ====================================================================
+    [Header("Mağaza & Üretim Filtreleri")]
+    [Tooltip("Eğer işaretliyse bu eşya dükkanda listelenip satın alınabilir. Kolonlar için bunu kapatacaksın!")]
+    public bool magazadaSatilabilir = true; 
+
+    [Tooltip("Eğer işaretliyse bu eşya sadece craft tezgahında üretilerek elde edilir.")]
+    public bool sadeceCraftIleEldeEdilir = false; 
 }
