@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6283b6eae345c468b6708c0e1d9613, type: 3}
+  m_Name: demirsizKolon
+  m_EditorClassIdentifier: Assembly-CSharp::CraftRecipe
+  tarifAdi: 
+  gerekliMalzemeler: []
+  uretilecekEsya: {fileID: 0}
+  uretilecekAdet: 1

@@ -11,17 +11,24 @@ public class PlayerInventory : MonoBehaviour
     {
         public ItemData esya;
         public int adet;
-        public float guncelDayaniklilik; // Aletlerin anlık canı (Örn: %80)
+        public float guncelDayaniklilik; 
+        
+        // ====================================================================
+        // YENİ: BU SPESİFİK ALETİN KAÇ KEZ TAMIR EDİLDİĞİNİ TUTAN SAYAÇ
+        // ====================================================================
+        public int tamirEdilmeSayisi = 0; 
 
         public EnvanterSlotu(ItemData esya, int adet)
         {
             this.esya = esya;
             this.adet = adet;
             this.guncelDayaniklilik = esya.maksimumDayaniklilik;
+            this.tamirEdilmeSayisi = 0; // İlk alındığında sıfır
         }
     }
-
+    
     // Eşya ID'sine göre envanterdeki slotları tutan listemiz
+    // (Aletler için benzersiz negatif ID'ler, sarf malzemeleri için orijinal ID'ler tutulur)
     private Dictionary<int, EnvanterSlotu> cantaIcerigi = new Dictionary<int, EnvanterSlotu>();
 
     private void Awake()
@@ -30,15 +37,11 @@ public class PlayerInventory : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    // ====================================================================
-    // YENİ: KODUN ÇALIŞMASI VE TEST İÇİN START VE UPDATE FONKSİYONLARI
-    // ====================================================================
     private void Start()
     {
         // Oyun açıldığında arayüzü sıfırlasın diye tetikliyoruz
         ArayuzuTazele();
     }
-
 
     [Header("Bağımsız Test Ayarları")]
     [Tooltip("Test etmek istediğin ItemData kartlarını (Çimento, Balyoz vb.) sırayla buraya sürükle.")]
@@ -47,7 +50,6 @@ public class PlayerInventory : MonoBehaviour
     [Header("Arayüz Açma/Kapatma Ayarları")]
     [Tooltip("Sahnede tasarladığın o en dıştaki siyah çerçeveli ana Tablet UI objesini buraya sürükle.")]
     public GameObject anaTabletUIObjesi; 
-
 
     [Header("Özel İmleç (Cursor) Ayarları")]
     [Tooltip("Envanter açıldığında görünecek olan kendi tasarladığın pikselli imleç resmini (Sprite/Texture2D) buraya sürükle.")]
@@ -106,67 +108,27 @@ public class PlayerInventory : MonoBehaviour
         }
 
         // ====================================================================
-        // [BAĞIMSIZ TEST MODU] (Klavyeden 1 ve 2 tuşları aynen kalıyor)
+        // [BAĞIMSIZ TEST MODU]
         // ====================================================================
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (testEsyaKartlari != null && testEsyaKartlari.Count > 0 && testEsyaKartlari[0] != null)
-            {
-                EsyaEkle(testEsyaKartlari[0], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 1'e basıldı: {testEsyaKartlari[0].esyaAdi} eklendi!</color>");
-            }
-        }
+        if (Input.GetKeyDown(KeyCode.Alpha1)) { TestEsyaEkleByIndex(0); }
+        if (Input.GetKeyDown(KeyCode.Alpha2)) { TestEsyaEkleByIndex(1); }
+        if (Input.GetKeyDown(KeyCode.Alpha3)) { TestEsyaEkleByIndex(2); }
+        if (Input.GetKeyDown(KeyCode.Alpha4)) { TestEsyaEkleByIndex(3); }
+        if (Input.GetKeyDown(KeyCode.Alpha5)) { TestEsyaEkleByIndex(4); }
+        if (Input.GetKeyDown(KeyCode.Alpha6)) { TestEsyaEkleByIndex(5); }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+    private void TestEsyaEkleByIndex(int index)
+    {
+        if (testEsyaKartlari != null && testEsyaKartlari.Count > index && testEsyaKartlari[index] != null)
         {
-            if (testEsyaKartlari != null && testEsyaKartlari.Count > 1 && testEsyaKartlari[1] != null)
-            {
-                EsyaEkle(testEsyaKartlari[1], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 2'ye basıldı: {testEsyaKartlari[1].esyaAdi} eklendi!</color>");
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            if (testEsyaKartlari != null && testEsyaKartlari.Count > 2 && testEsyaKartlari[2] != null)
-            {
-                EsyaEkle(testEsyaKartlari[2], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 3'e basıldı: {testEsyaKartlari[2].esyaAdi} eklendi!</color>");
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            if (testEsyaKartlari != null && testEsyaKartlari.Count > 3 && testEsyaKartlari[3] != null)
-            {
-                EsyaEkle(testEsyaKartlari[3], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 4'e basıldı: {testEsyaKartlari[3].esyaAdi} eklendi!</color>");
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            if (testEsyaKartlari != null && testEsyaKartlari.Count > 4 && testEsyaKartlari[4] != null)
-            {
-                EsyaEkle(testEsyaKartlari[4], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 5'e basıldı: {testEsyaKartlari[4].esyaAdi} eklendi!</color>");
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            if (testEsyaKartlari != null && testEsyaKartlari.Count > 5 && testEsyaKartlari[5] != null)
-            {
-                EsyaEkle(testEsyaKartlari[5], 1);
-                Debug.Log($"<color=cyan>[Bağımsız Test] 5'e basıldı: {testEsyaKartlari[5].esyaAdi} eklendi!</color>");
-            }
+            EsyaEkle(testEsyaKartlari[index], 1);
+            Debug.Log($"<color=cyan>[Bağımsız Test] {index + 1}'e basıldı: {testEsyaKartlari[index].esyaAdi} eklendi!</color>");
         }
     }
-    // ====================================================================
 
-    // EŞYA EKLEME (Dükkandan satın alınınca veya dünyadan toplanınca)
     // ====================================================================
-    // GÜNCELLENEN AKILLI EŞYA EKLEME FONKSİYONU (DICTIONARY UYUMLU)
+    // EŞYA EKLEME (Dükkandan satın alınınca veya dünyadan toplanınca)
     // ====================================================================
     public void EsyaEkle(ItemData yeniEsya, int miktar)
     {
@@ -175,12 +137,11 @@ public class PlayerInventory : MonoBehaviour
         // 1. DURUM: Eğer üst üste binebilen bir sarf malzemesiyse (Çimento, tuğla vb.)
         if (yeniEsya.ustUsteBiniyorMu)
         {
-            // Sözlükte bu orijinal ID zaten varsa adedini artır
             if (cantaIcerigi.ContainsKey(yeniEsya.esyaID))
             {
                 cantaIcerigi[yeniEsya.esyaID].adet += miktar;
             }
-            else // İlk defa ekleniyorsa orijinal ID'si ile sözlüğe kaydet
+            else
             {
                 cantaIcerigi.Add(yeniEsya.esyaID, new EnvanterSlotu(yeniEsya, miktar));
             }
@@ -188,20 +149,15 @@ public class PlayerInventory : MonoBehaviour
         // 2. DURUM: Eğer üst üste BİNMEYEN bir aletse (Balyoz, Eğim ölçer vb.)
         else
         {
-            // Kaç adet eklendiyse her biri için sözlüğe tamamen benzersiz uydurma bir ID ile ekliyoruz!
             for (int i = 0; i < miktar; i++)
             {
-                // Rastgele ve benzersiz bir eksi sayı üretiyoruz (Örn: -4729384) 
-                // Böylece orijinal pozitif ID'lerle (1, 2, 3) asla çakışmaz ve Dictionary hata vermez!
                 int benzersizUydurmaID = Random.Range(-9999999, -1000);
                 
-                // Eğer şans eseri o sayı sözlükte varsa, benzersiz olana kadar yeni sayı seç
                 while (cantaIcerigi.ContainsKey(benzersizUydurmaID))
                 {
                     benzersizUydurmaID = Random.Range(-9999999, -1000);
                 }
 
-                // Her bir aleti tek tek (adet = 1) olacak şekilde sözlüğe ekle
                 cantaIcerigi.Add(benzersizUydurmaID, new EnvanterSlotu(yeniEsya, 1));
             }
         }
@@ -209,16 +165,32 @@ public class PlayerInventory : MonoBehaviour
         ArayuzuTazele();
     }
 
-    // EŞYA KULLANMA VE HASAR VERME FONKSİYONU
+    // ====================================================================
+    // EŞYA KULLANMA VE HASAR VERME FONKSİYONU (Sözlük taraması güncellendi)
+    // ====================================================================
     public bool EsyaKullan(ItemData esya, float alinacakHasar = 20f)
     {
-        if (esya == null || !cantaIcerigi.ContainsKey(esya.esyaID))
+        if (esya == null) return false;
+
+        // Aletler benzersiz ID ile tutulduğu için sözlükte esyaID yerine eşleşen ilk slotu bulmalıyız
+        int bulunanAnahtar = -1;
+        EnvanterSlotu slot = null;
+
+        foreach (var kp in cantaIcerigi)
+        {
+            if (kp.Value.esya != null && kp.Value.esya.esyaID == esya.esyaID && kp.Value.adet > 0)
+            {
+                bulunanAnahtar = kp.Key;
+                slot = kp.Value;
+                break; // İlk bulduğumuzu kullanalım
+            }
+        }
+
+        if (slot == null)
         {
             Debug.LogWarning($"[Envanter] {esya.esyaAdi} elinizde hiç yok!");
             return false;
         }
-
-        EnvanterSlotu slot = cantaIcerigi[esya.esyaID];
 
         switch (esya.esyaTipi)
         {
@@ -228,8 +200,8 @@ public class PlayerInventory : MonoBehaviour
 
             case ItemData.EsyaTuru.SarfMalzemesi:
                 slot.adet--;
-                if (slot.adet <= 0) cantaIcerigi.Remove(esya.esyaID);
-                Debug.Log($"[Envanter] {esya.esyaAdi} tüketildi. Kalan: {(cantaIcerigi.ContainsKey(esya.esyaID) ? slot.adet : 0)}");
+                if (slot.adet <= 0) cantaIcerigi.Remove(bulunanAnahtar);
+                Debug.Log($"[Envanter] {esya.esyaAdi} tüketildi. Kalan: {(cantaIcerigi.ContainsKey(bulunanAnahtar) ? slot.adet : 0)}");
                 ArayuzuTazele();
                 return true;
 
@@ -244,7 +216,7 @@ public class PlayerInventory : MonoBehaviour
 
                     if (slot.adet <= 0)
                     {
-                        cantaIcerigi.Remove(esya.esyaID);
+                        cantaIcerigi.Remove(bulunanAnahtar);
                     }
                     else
                     {
@@ -257,22 +229,33 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
-    // Arayüz sorguları için adet getiren yardımcı fonksiyon
+    // Arayüz sorguları için toplam adet getiren yardımcı fonksiyon
     public int EsyaAdetiniGetir(ItemData esya)
     {
-        if (esya != null && cantaIcerigi.ContainsKey(esya.esyaID))
+        if (esya == null) return 0;
+        
+        int toplam = 0;
+        foreach (var slot in cantaIcerigi.Values)
         {
-            return cantaIcerigi[esya.esyaID].adet;
+            if (slot.esya != null && slot.esya.esyaID == esya.esyaID)
+            {
+                toplam += slot.adet;
+            }
         }
-        return 0;
+        return toplam;
     }
 
-    // Arayüz sorguları için can barı yüzdesini getiren yardımcı fonksiyon
+    // Arayüz sorguları için can barı yüzdesini getiren yardımcı fonksiyon (İlk bulduğunu döner)
     public float EsyaDayaniklilikGetir(ItemData esya)
     {
-        if (esya != null && cantaIcerigi.ContainsKey(esya.esyaID))
+        if (esya == null) return 0;
+
+        foreach (var slot in cantaIcerigi.Values)
         {
-            return cantaIcerigi[esya.esyaID].guncelDayaniklilik;
+            if (slot.esya != null && slot.esya.esyaID == esya.esyaID)
+            {
+                return slot.guncelDayaniklilik;
+            }
         }
         return 0;
     }
@@ -285,9 +268,6 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    // ====================================================================
-    // YENİ: SIRALI VE BOŞLUKSUZ YERLEŞİM SAĞLAYAN YARDIMCI FONKSİYON
-    // ====================================================================
     public List<EnvanterSlotu> GetCantaListesi()
     {
         List<EnvanterSlotu> liste = new List<EnvanterSlotu>();
@@ -301,24 +281,120 @@ public class PlayerInventory : MonoBehaviour
         return liste;
     }
 
-    // ====================================================================
-    // YENİ: X BUTONUNA BASILDIĞINDA TABLETİ KAPATAN SİHİRLİ FONKSİYON
-    // ====================================================================
     public void TabletiKapat()
     {
         if (anaTabletUIObjesi != null)
         {
-            anaTabletUIObjesi.SetActive(false); // Tableti komple gizle
+            anaTabletUIObjesi.SetActive(false);
 
-            Time.timeScale = 1f; // Dünyayı geri akıt, zaman normal aksın!
+            Time.timeScale = 1f;
             
-            Cursor.lockState = CursorLockMode.Locked; // Fareyi tekrar oyuna kilitle
-            Cursor.visible = false;                   // İmleci gizle ki FPS moduna dönsün
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
-            // İmleci tekrar varsayılana çekiyoruz
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
             
             Debug.Log("[Tablet] X butonuna basıldı, tablet kapatıldı ve dünya geri aktı.");
         }
+    }
+
+    // ====================================================================
+    // YENİ SİHİRLİ FONKSİYONLAR (NEREDEN ÇIKTI DENİLEN EKSİKLER BURADA)
+    // ====================================================================
+
+    // 1. Çantada isme göre eşya var mı kontrolü
+    public bool CantamdaBuEsyadanVarMi(string esyaAdi)
+    {
+        foreach (var slot in cantaIcerigi.Values)
+        {
+            if (slot.esya != null && slot.esya.esyaAdi == esyaAdi && slot.adet > 0)
+            {
+                return true; 
+            }
+        }
+        return false; 
+    }
+
+    // 2. Adı verilen eşyanın Scriptable Object verisini (Data) getirmek
+    public ItemData EsyaDataGetirAdla(string esyaAdi)
+    {
+        foreach (var slot in cantaIcerigi.Values)
+        {
+            if (slot.esya != null && slot.esya.esyaAdi == esyaAdi)
+            {
+                return slot.esya; 
+            }
+        }
+        Debug.LogWarning($"[Envanter] {esyaAdi} isimli eşyanın datasını çantada bulamadım!");
+        return null;
+    }
+
+    // 3. Tamir kiti veya malzeme harcandığında adedini azaltan motor
+    public void EsyaAzaltYadaSil(ItemData esya, int miktar)
+    {
+        if (esya == null) return;
+
+        int silinecekAnahtar = -1;
+        EnvanterSlotu slot = null;
+
+        // Sözlükte bu ItemData'ya ait olan slotu arıyoruz
+        foreach (var kp in cantaIcerigi)
+        {
+            if (kp.Value.esya != null && kp.Value.esya.esyaID == esya.esyaID)
+            {
+                silinecekAnahtar = kp.Key;
+                slot = kp.Value;
+                break;
+            }
+        }
+
+        if (slot != null)
+        {
+            slot.adet -= miktar;
+            if (slot.adet <= 0)
+            {
+                cantaIcerigi.Remove(silinecekAnahtar);
+            }
+            ArayuzuTazele();
+        }
+    }
+
+    // ====================================================================
+    // ALETI TAMIR EDEN MÜHENDİSLİK FONKSİYONU
+    // ====================================================================
+    public bool AletiTamirEt(int slotIndex, ItemData tamirKitiEsyasi)
+    {
+        List<EnvanterSlotu> guncelListe = GetCantaListesi();
+        
+        if (slotIndex >= guncelListe.Count) return false;
+        
+        EnvanterSlotu tamirEdilecekSlot = guncelListe[slotIndex];
+
+        if (tamirEdilecekSlot.esya.esyaTipi != ItemData.EsyaTuru.DayanikliAlet)
+        {
+            Debug.LogWarning("[Tamir] Sadece dayanıklı aletler tamir edilebilir!");
+            return false;
+        }
+
+        if (tamirEdilecekSlot.tamirEdilmeSayisi >= 3)
+        {
+            Debug.LogWarning($"[Tamir] {tamirEdilecekSlot.esya.esyaAdi} artık hurdaya çıkmış! 3 kez tamir edildiği için daha fazla tamir edilemez.");
+            return false;
+        }
+
+        if (tamirEdilecekSlot.guncelDayaniklilik >= tamirEdilecekSlot.esya.maksimumDayaniklilik)
+        {
+            Debug.Log("[Tamir] Aletin canı zaten tamamen dolu!");
+            return false;
+        }
+
+        // --- OPERASYON ---
+        tamirEdilecekSlot.guncelDayaniklilik = tamirEdilecekSlot.esya.maksimumDayaniklilik; // Canı fulle!
+        tamirEdilecekSlot.tamirEdilmeSayisi++; // Sayaç tık attı
+
+        Debug.Log($"[Tamir] {tamirEdilecekSlot.esya.esyaAdi} başarıyla tamir edildi! Güncel Tamir Durumu: {tamirEdilecekSlot.tamirEdilmeSayisi}/3");
+
+        ArayuzuTazele();
+        return true;
     }
 }

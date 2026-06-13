@@ -12,7 +12,7 @@ public class InventoryUIManager : MonoBehaviour
     {
         public GameObject slotAnaObjesi;     
         public Image esyaIkonResmi;          
-        public TextMeshProUGUI adetYazesi; 
+        public TextMeshProUGUI adetYazesi; // Kod içindeki değişken adın adetYazesi olduğu için senkronize tutuldu
         public UnityEngine.UI.Image dayaniklilikBarDolgusu;  
         [HideInInspector] public ItemData icindekiEsya; 
     }
@@ -30,20 +30,22 @@ public class InventoryUIManager : MonoBehaviour
     public GameObject detayPaneliAnaObjesi;          
 
     [Header("Sağ Panel İşlem Butonları")]
-    public GameObject kullanButonu;       // Mavi buton
-    public GameObject birakButonu;         // Kırmızı buton
-    public GameObject hizliKullanimButonu; // Yeşil büyük buton
+    public GameObject kullanButonu;       
+    public GameObject birakButonu;         
+    public GameObject hizliKullanimButonu; 
+    public GameObject tamirEtButonu; // Sahnede tasarladığın o yeni butonu buraya sürükleyeceksin!
 
     [Header("Kategori Buton Yazıları (TMP)")]
     public TextMeshProUGUI aracGereclerButonYazisi;
     public TextMeshProUGUI uretimMalzemeleriButonYazisi;
 
     [Header("Renk Paleti")]
-    public Color aktifYaziRengi = new Color(1f, 0.6f, 0f);     // Turuncu/Sarı başlık rengin
-    public Color pasifYaziRengi = new Color(0.5f, 0.5f, 0.5f); // Sönük gri rengin
+    public Color aktifYaziRengi = new Color(1f, 0.6f, 0f);     
+    public Color pasifYaziRengi = new Color(0.5f, 0.5f, 0.5f); 
 
     private ItemData.EnvanterKategorisi mevcutKategori = ItemData.EnvanterKategorisi.AracGerecler;
     private ItemData seciliEsya;
+    private int seciliSlotIndex; // YENİ: Tamir motorunun hangi aleti tamir edeceğini bilmesi için gizli hafıza
 
     private void Awake()
     {
@@ -68,7 +70,6 @@ public class InventoryUIManager : MonoBehaviour
             if (kutu.esyaIkonResmi != null) kutu.esyaIkonResmi.gameObject.SetActive(false);
             if (kutu.adetYazesi != null) kutu.adetYazesi.gameObject.SetActive(false);
             
-            // Hızlı kullanımda bar istemediğimiz için ilk açılışta da mutlaka kapatıyoruz
             if (kutu.dayaniklilikBarDolgusu != null)
             {
                 kutu.dayaniklilikBarDolgusu.transform.parent.gameObject.SetActive(false);
@@ -104,18 +105,14 @@ public class InventoryUIManager : MonoBehaviour
         if (detayEsyaAdiYazisi != null) detayEsyaAdiYazisi.text = "";
         if (detayEsyaAciklamaYazisi != null) detayEsyaAciklamaYazisi.text = "";
         if (detayEsyaModelResmi != null) detayEsyaModelResmi.gameObject.SetActive(false);
+        if (tamirEtButonu != null) tamirEtButonu.SetActive(false); // Panel sıfırlanınca buton da gizlensin
         seciliEsya = null;
     }
 
-    // GÜNCELLENEN TAM KORUMALI YENİLEME MOTORU
-// ====================================================================
-    // TAM KORUMALI VE KESİN ÇÖZÜMLÜ YENİLEME MOTORU
-    // ====================================================================
     public void EnvanterArayuzunuYenile()
     {
         if (PlayerInventory.Instance == null) return;
 
-        // 1. ADIM: Çantadaki güncel filtrelenmiş listeyi hazırla
         List<PlayerInventory.EnvanterSlotu> cantaListesi = PlayerInventory.Instance.GetCantaListesi();
         List<PlayerInventory.EnvanterSlotu> filtrelenmisListe = new List<PlayerInventory.EnvanterSlotu>();
         
@@ -127,25 +124,21 @@ public class InventoryUIManager : MonoBehaviour
             }
         }
 
-        // 2. ADIM: Tek bir döngüde tüm slotları ya doldur ya da KESİN OLARAK KARTLARINI SÖNDÜR!
         for (int i = 0; i < uiKutulari.Count; i++)
         {
             var hedefUIKutusu = uiKutulari[i];
 
-            // Eğer o indekste bir eşya VARSA (Slot DOLUYSA)
             if (i < filtrelenmisListe.Count)
             {
                 var cantaSlotu = filtrelenmisListe[i];
                 hedefUIKutusu.icindekiEsya = cantaSlotu.esya;
 
-                // İkonu aç ve yerleştir
                 if (hedefUIKutusu.esyaIkonResmi != null)
                 {
                     hedefUIKutusu.esyaIkonResmi.sprite = cantaSlotu.esya.esyaIkonu;
                     hedefUIKutusu.esyaIkonResmi.gameObject.SetActive(true);
                 }
 
-                // Adet Yazısı Kontrolü
                 if (hedefUIKutusu.adetYazesi != null)
                 {
                     if (cantaSlotu.esya.adetYazisiGosterilsinMi)
@@ -159,7 +152,6 @@ public class InventoryUIManager : MonoBehaviour
                     }
                 }
 
-                // Dayanıklılık Barı Kontrolü
                 if (hedefUIKutusu.dayaniklilikBarDolgusu != null)
                 {
                     if (cantaSlotu.esya.esyaTipi == ItemData.EsyaTuru.DayanikliAlet)
@@ -169,17 +161,15 @@ public class InventoryUIManager : MonoBehaviour
                         hedefUIKutusu.dayaniklilikBarDolgusu.rectTransform.localScale = new Vector3(canYuzdesi, 1f, 1f);
                         hedefUIKutusu.dayaniklilikBarDolgusu.color = Color.Lerp(Color.red, Color.green, canYuzdesi);
                         
-                        // Siyah çerçeveyi (parent) görünür yap
                         hedefUIKutusu.dayaniklilikBarDolgusu.transform.parent.gameObject.SetActive(true);
                     }
                     else
                     {
-                        // Dayanıklı alet değilse (Çimento veya Kalıcı cihazsa) barı gizle
                         hedefUIKutusu.dayaniklilikBarDolgusu.transform.parent.gameObject.SetActive(false);
                     }
                 }
             }
-            else // SİHİRLİ DOKUNUŞ: Eğer o indekste hiçbir eşya yoksa (Slot BOŞSA) her şeyi KESİN OLARAK SÖNDÜR!
+            else 
             {
                 hedefUIKutusu.icindekiEsya = null;
 
@@ -189,14 +179,12 @@ public class InventoryUIManager : MonoBehaviour
                 if (hedefUIKutusu.adetYazesi != null) 
                     hedefUIKutusu.adetYazesi.gameObject.SetActive(false);
 
-                // Boş slotta hayalet bar kalmasını engelleyen nokta atışı darbe:
                 if (hedefUIKutusu.dayaniklilikBarDolgusu != null)
                 {
                     hedefUIKutusu.dayaniklilikBarDolgusu.transform.parent.gameObject.SetActive(false);
                 }
             }
 
-            // Struct yapısını güncelleyip listeye geri yazıyoruz
             uiKutulari[i] = hedefUIKutusu;
         }
 
@@ -251,7 +239,6 @@ public class InventoryUIManager : MonoBehaviour
                 }
             }
             
-            // Hızlı kullanımda bar istemediğimiz için ne olursa olsun gizliyoruz
             if (kutu.dayaniklilikBarDolgusu != null)
             {
                 kutu.dayaniklilikBarDolgusu.transform.parent.gameObject.SetActive(false);
@@ -267,6 +254,7 @@ public class InventoryUIManager : MonoBehaviour
         
         if (slotIndex >= uiKutulari.Count || uiKutulari[slotIndex].icindekiEsya == null) return;
 
+        seciliSlotIndex = slotIndex; // Hangi slotun seçildiğini hafızaya aldık
         seciliEsya = uiKutulari[slotIndex].icindekiEsya;
 
         if (detayPaneliAnaObjesi != null) detayPaneliAnaObjesi.SetActive(true);
@@ -289,6 +277,62 @@ public class InventoryUIManager : MonoBehaviour
             if (kullanButonu != null) kullanButonu.SetActive(true);
             if (birakButonu != null) birakButonu.SetActive(true);
             if (hizliKullanimButonu != null) hizliKullanimButonu.SetActive(true);
+        }
+
+        // ====================================================================
+        // GÜNCELLENDİ: SADECE SADE BUTON KONTROLÜ (SAYAÇ YAZISI KALDIRILDI)
+        // ====================================================================
+        if (tamirEtButonu != null)
+        {
+            if (seciliEsya.esyaTipi == ItemData.EsyaTuru.DayanikliAlet)
+            {
+                // 1. Çantada "Tamir Kiti" var mı kontrol et
+                bool tamirKitiVarMi = PlayerInventory.Instance.CantamdaBuEsyadanVarMi("Tamir Kiti");
+                
+                // 2. Bu aletin gizli tamir sayacını kontrol et
+                List<PlayerInventory.EnvanterSlotu> guncelCanta = PlayerInventory.Instance.GetCantaListesi();
+                int guncelTamirSayisi = guncelCanta[slotIndex].tamirEdilmeSayisi;
+
+                // Kit varsa VE 3 hakkı dolmadıysa butonu göster, yoksa gizle!
+                if (tamirKitiVarMi && guncelTamirSayisi < 3)
+                {
+                    tamirEtButonu.SetActive(true);
+                }
+                else
+                {
+                    tamirEtButonu.SetActive(false);
+                }
+            }
+            else
+            {
+                tamirEtButonu.SetActive(false);
+            }
+        }
+    }
+
+    // ====================================================================
+    // YENİ: KÜÇÜK TAMİR BUTONUNA BASILDIĞINDA ÇALIŞACAK MİSTİK TETİKLEYİCİ
+    // ====================================================================
+    public void SeciliAletiTamirEtButonFonksiyonu()
+    {
+        // SİHİRLİ SATIR: "Tıklama olayını burada tüket, arkadaki objelere geçirme!"
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+
+        if (seciliEsya == null || PlayerInventory.Instance == null) return;
+
+        ItemData kitData = PlayerInventory.Instance.EsyaDataGetirAdla("Tamir Kiti");
+        
+        // PlayerInventory içindeki o yazdığımız tamir motorunu çalıştırıyoruz
+        bool tamirBasarili = PlayerInventory.Instance.AletiTamirEt(seciliSlotIndex, kitData);
+        
+        if (tamirBasarili)
+        {
+            // Başarılıysa çantadan 1 adet tamir kitini düşüyoruz
+            PlayerInventory.Instance.EsyaAzaltYadaSil(kitData, 1);
+            
+            // Butonun durumunu (hakkı bitti mi diye) ve arayüzü anlık tazelemek için:
+            SlotSecildi(seciliSlotIndex);
+            EnvanterArayuzunuYenile();
         }
     }
 
@@ -355,7 +399,6 @@ public class InventoryUIManager : MonoBehaviour
                     }
                 }
 
-                // Hızlı kullanımda barı burada da kapatıyoruz
                 if (kutu.dayaniklilikBarDolgusu != null)
                 {
                     kutu.dayaniklilikBarDolgusu.transform.parent.gameObject.SetActive(false);
