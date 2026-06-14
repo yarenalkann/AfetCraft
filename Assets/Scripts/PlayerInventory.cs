@@ -168,7 +168,7 @@ public class PlayerInventory : MonoBehaviour
     // ====================================================================
     // EŞYA KULLANMA VE HASAR VERME FONKSİYONU (Sözlük taraması güncellendi)
     // ====================================================================
-    public bool EsyaKullan(ItemData esya, float alinacakHasar = 20f)
+    public bool EsyaKullan(ItemData esya, float alinacakHasar = 10f)
     {
         if (esya == null) return false;
 
@@ -396,5 +396,49 @@ public class PlayerInventory : MonoBehaviour
 
         ArayuzuTazele();
         return true;
+    }
+
+    // ====================================================================
+    // 🗑️ DÜZELTİLDİ: SEKME/KATEGORİ UYUMLU ESYA DÜŞÜRME MOTORU
+    // ====================================================================
+    public void UIKategoriIndeksineGoreEsyaSilYadaAzalt(int uiSlotIndex, int miktar, ItemData.EnvanterKategorisi aktifSekme)
+    {
+        // Sadece o an ekranda açık olan kategoriye ait sözlük anahtarlarını topluyoruz!
+        List<int> filtrelenmisSozlukAnahtarlari = new List<int>();
+        
+        foreach (var anahtar in cantaIcerigi.Keys)
+        {
+            // Eşya boş değilse, adedi varsa VE o an açık olan sekmeyle kategorisi eşleşiyorsa listeye al!
+            if (cantaIcerigi[anahtar].esya != null && 
+                cantaIcerigi[anahtar].esya.esyaKategorisi == aktifSekme && 
+                cantaIcerigi[anahtar].adet > 0)
+            {
+                filtrelenmisSozlukAnahtarlari.Add(anahtar);
+            }
+        }
+
+        // Güvenlik Kontrolü: Seçilen filtrelenmiş sıra mevcut sınırları aşıyor mu?
+        if (uiSlotIndex < 0 || uiSlotIndex >= filtrelenmisSozlukAnahtarlari.Count) return;
+
+        int hedefSozlukAnahtari = filtrelenmisSozlukAnahtarlari[uiSlotIndex];
+        EnvanterSlotu slot = cantaIcerigi[hedefSozlukAnahtari];
+
+        if (slot != null && slot.esya != null)
+        {
+            slot.adet -= miktar;
+
+            if (slot.adet <= 0)
+            {
+                cantaIcerigi.Remove(hedefSozlukAnahtari);
+                Debug.Log($"[Envanter] {slot.esya.esyaAdi} kategorisinden tamamen silindi.");
+            }
+            else
+            {
+                cantaIcerigi[hedefSozlukAnahtari] = slot;
+                Debug.Log($"[Envanter] {slot.esya.esyaAdi} adedi azaltıldı. Kalan: {slot.adet}");
+            }
+
+            ArayuzuTazele(); 
+        }
     }
 }

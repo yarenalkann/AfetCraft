@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.Mathematics;
 
 public class InventoryUIManager : MonoBehaviour
 {
@@ -64,8 +65,15 @@ public class InventoryUIManager : MonoBehaviour
     // 🛠️ SENİN YENİ HİYERARŞİNE ÖZEL ELEMENTLER
     // ====================================================================
     [Header("Craft UI (uretimAlani / slot3)")]
-    public Image uretimAlanSonucIkonu;          // uretimAlani/slot3/esyalkonu
-    public TextMeshProUGUI uretimAlanSonucAdet;  // uretimAlani/slot3/esyaAdeti
+    public Image uretimAlanSonucIkonu;          // uretimAlani/slot3/esyalkonu (Üretilecek ürün)
+    public TextMeshProUGUI uretimAlanSonucAdet;  // uretimAlani/slot3/esyaAdeti (Üretilmek istenen adet)
+
+    // === YENİ EKLEYECEĞİN REFERANSLAR (Okun solundaki iki küçük kutu) ===
+    public Image uretimAlanGirdi1Ikon;          // Okun solundaki 1. küçük kutunun esyalkonu
+    public TextMeshProUGUI uretimAlanGirdi1Adet; // Okun solundaki 1. küçük kutunun esyaAdeti (Oyuncudaki toplam stok)
+    
+    public Image uretimAlanGirdi2Ikon;          // Okun solundaki 2. küçük kutunun esyalkonu
+    public TextMeshProUGUI uretimAlanGirdi2Adet; // Okun solundaki 2. küçük kutunun esyaAdeti (Oyuncudaki toplam stok)
 
     [Header("Craft UI (GerekliMalzemeler -> slot0 ve slot1)")]
     public List<CraftGereksinimUI> craftGereksinimSlotlari = new List<CraftGereksinimUI>(); 
@@ -187,9 +195,18 @@ public class InventoryUIManager : MonoBehaviour
     // ====================================================================
     // ⚙️ SENİN YENİ BÖLÜNMÜŞ YAPINA ÖZEL CRAFT MOTORU
     // ====================================================================
+    // Sahnede elinle koyduğun o 3 butona tıklandığında çalışan fonksiyon
     public void SolListedenTarifSecildi(int tarifIndex)
     {
         if (CraftManager.Instance == null || tarifIndex >= CraftManager.Instance.tumTarifler.Count) return;
+        
+        // SİHİRLİ DOKUNUŞ: Butona tıklandığı an sağ panel kapalıysa zorla AÇ!
+        if (sagDetayPaneli2 != null) 
+        {
+            sagDetayPaneli2.SetActive(true);
+        }
+
+        // Şimdi verileri güvenle içine basabiliriz
         TarifSecildi(CraftManager.Instance.tumTarifler[tarifIndex]);
     }
 
@@ -208,11 +225,74 @@ public class InventoryUIManager : MonoBehaviour
     {
         if (seciliTarif == null || PlayerInventory.Instance == null) return;
 
-        // 1. Üretim Alanını Güncelle
-        if (uretimAlanSonucIkonu != null) uretimAlanSonucIkonu.sprite = seciliTarif.uretilecekEsya.esyaIkonu;
-        if (uretimAlanSonucAdet != null) uretimAlanSonucAdet.text = "x" + (seciliTarif.uretilecekAdet * uretilecekMiktar);
+        // Okun solundaki pikselli girdi kutularını temizle
+        if (uretimAlanGirdi1Ikon != null) uretimAlanGirdi1Ikon.transform.parent.gameObject.SetActive(false);
+        if (uretimAlanGirdi2Ikon != null) uretimAlanGirdi2Ikon.transform.parent.gameObject.SetActive(false);
 
-        // 2. Gerekli Malzemeler Alanını Güncelle
+        // ====================================================================
+        // 🧮 1. ELDEKİ STOĞA GÖRE MAKSİMUM ÜRETİLEBİLİR KAPASİTEYİ HESAPLA
+        // ====================================================================
+        int maksimumUretilebilirKapasite = int.MaxValue; 
+        for (int i = 0; i < seciliTarif.gerekliMalzemeler.Count; i++)
+        {
+            var malzemeIhtiyac = seciliTarif.gerekliMalzemeler[i];
+            int oyuncununStoğu = PlayerInventory.Instance.EsyaAdetiniGetir(malzemeIhtiyac.malzemeData);
+            int tekSeferlikIhtiyac = malzemeIhtiyac.adet;
+
+            if (tekSeferlikIhtiyac > 0)
+            {
+                int buMalzemeyeGoreKapasite = oyuncununStoğu / tekSeferlikIhtiyac;
+                if (buMalzemeyeGoreKapasite < maksimumUretilebilirKapasite)
+                    maksimumUretilebilirKapasite = buMalzemeyeGoreKapasite;
+            }
+        }
+        if (maksimumUretilebilirKapasite == int.MaxValue || maksimumUretilebilirKapasite < 0) 
+            maksimumUretilebilirKapasite = 0;
+
+        // ====================================================================
+        // 🎯 SAYAÇ SINIRLAMALARI (Senin istediğin esnek yapı)
+        // ====================================================================
+        // Oyuncu eksilete eksilete 1'in altına düşemesin
+        if (uretilecekMiktar < 1) uretilecekMiktar = 1;
+        
+        // Eğer elinde hiç malzeme yoksa sayaç mecburen 0 dursun
+        if (maksimumUretilebilirKapasite == 0) uretilecekMiktar = 0;
+
+        // Alttaki küçük (+ 1 -) sayacının metnine oyuncunun kendi seçtiği sayıyı yazıyoruz
+        if (uretimAdetText != null) uretimAdetText.text = uretilecekMiktar.ToString();
+
+        // 📦 2. GİRDİ ALANLARINI DOLDURMA (Okun solundaki kutular)
+        for (int i = 0; i < seciliTarif.gerekliMalzemeler.Count; i++)
+        {
+            var malzemeIhtiyac = seciliTarif.gerekliMalzemeler[i];
+            int elindekiStok = PlayerInventory.Instance.EsyaAdetiniGetir(malzemeIhtiyac.malzemeData);
+
+            if (i == 0 && uretimAlanGirdi1Ikon != null && uretimAlanGirdi1Adet != null)
+            {
+                uretimAlanGirdi1Ikon.transform.parent.gameObject.SetActive(true);
+                uretimAlanGirdi1Ikon.sprite = malzemeIhtiyac.malzemeData.esyaIkonu;
+                uretimAlanGirdi1Adet.text = "x" + elindekiStok;
+            }
+            else if (i == 1 && uretimAlanGirdi2Ikon != null && uretimAlanGirdi2Adet != null)
+            {
+                uretimAlanGirdi2Ikon.transform.parent.gameObject.SetActive(true);
+                uretimAlanGirdi2Ikon.sprite = malzemeIhtiyac.malzemeData.esyaIkonu;
+                uretimAlanGirdi2Adet.text = "x" + elindekiStok;
+            }
+        }
+
+        // ====================================================================
+        // 🧱 TAM İSTEDİĞİN YER: SLOT3 SABİT MAKSİMUM VİTRİNİ OLUYOR
+        // ====================================================================
+        if (uretimAlanSonucIkonu != null) uretimAlanSonucIkonu.sprite = seciliTarif.uretilecekEsya.esyaIkonu;
+        
+        if (uretimAlanSonucAdet != null) 
+        {
+            // Sayaçta ne yazdığı önemli değil, slot3 ELDEKİ malzemeyle üretilebilecek MAKSİMUM sayıyı gösterecek!
+            uretimAlanSonucAdet.text = "x" + (seciliTarif.uretilecekAdet * maksimumUretilebilirKapasite);
+        }
+
+        // 🧱 3. GEREKSİNİM SLOTLARI (Seçilen sayaç miktarına göre maliyet çarpanı)
         foreach (var slot in craftGereksinimSlotlari)
         {
             if (slot.objeGrup != null) slot.objeGrup.SetActive(false);
@@ -231,9 +311,10 @@ public class InventoryUIManager : MonoBehaviour
             if (uiSlot.malzemeIkonu != null) uiSlot.malzemeIkonu.sprite = ihtiyac.malzemeData.esyaIkonu;
 
             int elindekiAdet = PlayerInventory.Instance.EsyaAdetiniGetir(ihtiyac.malzemeData);
-            int toplamIstenenAdet = ihtiyac.adet * uretilecekMiktar;
+            
+            // Maliyet penceresi oyuncunun sayaçta seçtiği miktara göre katlanacak
+            int toplamIstenenAdet = ihtiyac.adet * uretilecekMiktar; 
 
-            // Yazım hatası olan miktarYazesi kısımları düzeltildi
             if (uiSlot.miktarYazisi != null) uiSlot.miktarYazisi.text = "x" + toplamIstenenAdet;
             if (uiSlot.sahipOlunanYazisi != null) uiSlot.sahipOlunanYazisi.text = "x" + elindekiAdet;
 
@@ -248,42 +329,62 @@ public class InventoryUIManager : MonoBehaviour
             }
         }
 
-        // 3. ÜRET Butonunun kilitlenme durumu
+        // ====================================================================
+        // 🔒 ÜRET BUTONU KİLİT MEKANİZMASI (Sayaç > Kapasite ise buton söner!)
+        // ====================================================================
         if (uretBüyükButonu != null)
         {
-            uretBüyükButonu.interactable = uretimIcinHerSeyYeterliMi;
+            // Oyuncunun seçtiği adet elindeki maksimum kapasiteden küçük veya eşitse VE ham maddesi yetiyorsa aktif et!
+            uretBüyükButonu.interactable = uretimIcinHerSeyYeterliMi && (uretilecekMiktar <= maksimumUretilebilirKapasite) && (uretilecekMiktar > 0);
         }
     }
-
     public void AdetArttirButonFonksiyonu()
     {
         if (seciliTarif == null) return;
-        uretilecekMiktar++;
-        if (uretimAdetText != null) uretimAdetText.text = uretilecekMiktar.ToString();
+        
+        uretilecekMiktar++; // Sayacı özgürce arttır!
         CraftArayuzunuMiktaraGoreGuncelle();
     }
 
     public void AdetAzaltButonFonksiyonu()
     {
         if (seciliTarif == null || uretilecekMiktar <= 1) return;
-        uretilecekMiktar--;
-        if (uretimAdetText != null) uretimAdetText.text = uretilecekMiktar.ToString();
+        
+        uretilecekMiktar--; // Sayacı özgürce azalt!
         CraftArayuzunuMiktaraGoreGuncelle();
     }
-
     public void EsyaUretBüyükButonFonksiyonu()
     {
-        if (seciliTarif == null || CraftManager.Instance == null) return;
+        if (seciliTarif == null || CraftManager.Instance == null || PlayerInventory.Instance == null) return;
 
-        for (int i = 0; i < uretilecekMiktar; i++)
+        // Üretilecek eşyanın kategorisini kesin olarak "Araç-Gereçler" sekmesine yönlendiriyoruz
+        if (seciliTarif.uretilecekEsya != null)
+        {
+            seciliTarif.uretilecekEsya.esyaKategorisi = ItemData.EnvanterKategorisi.AracGerecler;
+        }
+
+        // Sayaçta kaç yazıyorsa tam o kadar kez döngüyü çalıştır
+        int uretimDonguSayisi = uretilecekMiktar;
+
+        if (uretimDonguSayisi <= 0) return;
+
+        for (int i = 0; i < uretimDonguSayisi; i++)
         {
             CraftManager.Instance.EsyaUret(seciliTarif);
         }
 
+        // 🔄 KRİTİK DOKUNUŞ: Üretim bitti, eşyalar arka planda listeye eklendi.
+        // Şimdi oyuncunun normal envanter çantasını da anında kodla yeniliyoruz ki eşyalar ekranda gözüksün!
+        EnvanterArayuzunuYenile();
+
+        // Üretim bittiği için sayacı bir sonraki işlem için varsayılan 1'e çekiyoruz
+        uretilecekMiktar = 1; 
+
+        // Craft ekranındaki yazıları ve yeni malzeme stok durumlarını ekranda tazeleyelim
         CraftArayuzunuMiktaraGoreGuncelle();
     }
 
-    public void EnvanterArayuzunuYenile()
+public void EnvanterArayuzunuYenile()
     {
         if (PlayerInventory.Instance == null) return;
 
@@ -313,14 +414,18 @@ public class InventoryUIManager : MonoBehaviour
                     hedefUIKutusu.esyaIkonResmi.gameObject.SetActive(true);
                 }
 
+                // ====================================================================
+                // 🎯 DÜZELTİLDİ: ESKİ DEĞİŞKEN YERİNE "ustUsteBiniyorMu" KONTROLÜ
+                // ====================================================================
                 if (hedefUIKutusu.adetYazesi != null)
                 {
-                    if (cantaSlotu.esya.adetYazesiGosterilsinMi)
+                    // KURAL: Eğer eşya çimento/tuğla gibi üst üste biniyorsa VE adedi 1'den çoksa göster!
+                    if (cantaSlotu.esya.ustUsteBiniyorMu && cantaSlotu.adet > 1)
                     {
                         hedefUIKutusu.adetYazesi.text = "x" + cantaSlotu.adet;
                         hedefUIKutusu.adetYazesi.gameObject.SetActive(true);
                     }
-                    else
+                    else // Üst üste binmeyen aletlerde (Balyoz, Çekiç vb.) adet yazısını KESİN OLARAK SÖNDÜR!
                     {
                         hedefUIKutusu.adetYazesi.gameObject.SetActive(false);
                     }
@@ -509,24 +614,62 @@ public class InventoryUIManager : MonoBehaviour
 
     public void SeciliEsyayiKullan()
     {
-        if (seciliEsya == null || PlayerInventory.Instance == null) return;
-        bool basariliMi = PlayerInventory.Instance.EsyaKullan(seciliEsya, 20f);
-        if (basariliMi)
+        // Güvenlik Kontrolü: Seçili bir eşya var mı?
+        if (seciliEsya == null || CharacterHandManager.Instance == null) return;
+
+        // Sadece Araç-Gereçler kategorisindeyse ele almayı tetikle!
+        if (seciliEsya.esyaKategorisi == ItemData.EnvanterKategorisi.AracGerecler)
         {
-            if (PlayerInventory.Instance.EsyaAdetiniGetir(seciliEsya) <= 0) ResetleDetayPaneli();
-            EnvanterArayuzunuYenile();
+            // Karakterin eline bu eşyayı veriyoruz!
+            CharacterHandManager.Instance.EsyaEleAl(seciliEsya);
+
+            // Eşyayı eline aldığı için envanter tableti otomatik kapansın (Dünyaya dönsün)
+            if (PlayerInventory.Instance != null)
+            {
+                PlayerInventory.Instance.TabletiKapat();
+            }
         }
     }
 
     public void SeciliEsyayiBirak()
     {
         if (seciliEsya == null || PlayerInventory.Instance == null) return;
-        bool basariliMi = PlayerInventory.Instance.EsyaKullan(seciliEsya, 100f);
-        if (basariliMi)
+
+        // Üst üste binen malzemeyse counter'da yazan adet kadar, aletse direkt 1 tane atar
+        int atilacakMiktar = seciliEsya.ustUsteBiniyorMu ? uretilecekMiktar : 1;
+
+        // ====================================================================
+        // 🚨 YENİ: ELDEKİ EŞYA KONTROLÜ VE ANLIK YOK ETME MOTORU
+        // ====================================================================
+        // Eğer oyuncunun şu an elinde tuttuğu bir eşya varsa VE bu bıraktığımız eşya ile aynıysa...
+        if (CharacterHandManager.Instance != null && CharacterHandManager.Instance.suAnElindekiEsyaData != null)
         {
-            if (PlayerInventory.Instance.EsyaAdetiniGetir(seciliEsya) <= 0) ResetleDetayPaneli();
-            EnvanterArayuzunuYenile();
+            if (CharacterHandManager.Instance.suAnElindekiEsyaData.esyaID == seciliEsya.esyaID)
+            {
+                // Çantadaki toplam adedine bakıyoruz. Eğer oyuncu elindeki tüm adedi (veya tekli aletini) bırakıyorsa...
+                int eldekiToplamAdet = PlayerInventory.Instance.EsyaAdetiniGetir(seciliEsya);
+                
+                if (atilacakMiktar >= eldekiToplamAdet)
+                {
+                    // ...elindeki o 3D mesh modelini sahnede şak diye yok et ve eli boşalt!
+                    CharacterHandManager.Instance.EldekiEsyayiTemizle();
+                    Debug.Log($"<color=orange>[El]</color> {seciliEsya.esyaAdi} envanterden atıldığı için elden de temizlendi.");
+                }
+            }
         }
+
+        // 1. AŞAMA: Sözlük uyumlu fonksiyonumuzla çantadan düşüyoruz
+        PlayerInventory.Instance.UIKategoriIndeksineGoreEsyaSilYadaAzalt(seciliSlotIndex, atilacakMiktar, mevcutKategori);
+
+        // 2. AŞAMA: Sağ paneldeki detayları ve yazıları temizle
+        ResetleDetayPaneli();
+
+        // 3. AŞAMA: Sayacı bir sonraki işlem için tekrar 1'e çek
+        uretilecekMiktar = 1;
+        if (uretimAdetText != null) uretimAdetText.text = uretilecekMiktar.ToString();
+
+        // 4. AŞAMA: Sol taraftaki mor slotları ve adetleri canlı canlı tazeleyelim
+        EnvanterArayuzunuYenile();
     }
 
     public void SeciliEsyayıHizliKullanimaGonder()

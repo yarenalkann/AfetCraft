@@ -23,4 +23,7 @@ MonoBehaviour:
   maksimumDayaniklilik: 100
   esyaKategorisi: 0
   ustUsteBiniyorMu: 0
-  adetYazisiGosterilsinMi: 0
+  adetYazesiGosterilsinMi: 1
+  magazadaSatilabilir: 1
+  sadeceCraftIleEldeEdilir: 0
+  elModelPrefab: {fileID: 6517468751843961061, guid: bec83dffada03d54e8839ffd75414c40, type: 3}

@@ -44,4 +44,8 @@ public class ItemData : ScriptableObject
 
     [Tooltip("Eğer işaretliyse bu eşya sadece craft tezgahında üretilerek elde edilir.")]
     public bool sadeceCraftIleEldeEdilir = false; 
+
+    [Header("Eldeki Görünüm Settings")]
+    [Tooltip("Bu eşya ele alındığında karakterin elinde görünecek olan 3D Model Prefabı (Örn: El Çekici, El Cam Küpü).")]
+    public GameObject elModelPrefab;
 }
