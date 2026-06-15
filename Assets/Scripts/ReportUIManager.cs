@@ -69,28 +69,25 @@ public class ReportUIManager : MonoBehaviour
         reportPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
     
     public void SubmitAssessment(int statusIndex)
     {
         if (currentHouse == null) return;
 
-        // 1. ADIM: Butona basıldığı an TİK işaretini hemen gösteriyoruz!
         ResetTicks(); 
         if (statusIndex == 0 && tikGuvenli != null) tikGuvenli.SetActive(true);
         else if (statusIndex == 1 && tikOnarilmali != null) tikOnarilmali.SetActive(true);
         else if (statusIndex == 2 && tikYikilmali != null) tikYikilmali.SetActive(true);
 
-        // Seçimi geçici olarak hafızaya alıyoruz
         geciciOyuncuSecimi = (HouseData.BuildingStatus)statusIndex;
 
-        // Evin katmanını değiştirip etkileşimi hemen kapatıyoruz (Oyuncu arkada çift tıklamasın diye)
-        currentHouse.gameObject.layer = 0; 
-        Transform altModel = currentHouse.transform.Find("default");
-        if (altModel != null) altModel.gameObject.layer = 0;
+        // ====================================================================
+        // 🎯 GÜVENLİK KİLİDİ: Oyuncu butona bastığı an bu evin E tuşu hakkı kapanır!
+        // ====================================================================
+        currentHouse.raporGonderildiMi = true; 
 
-        // 2. ADIM: Tik işaretinin ekranda 0.8 saniye kalması için bekletiyoruz.
-        // Süre bitince aşağıdaki "RaporuKapatVeSonucuAc" fonksiyonu çalışacak!
         Invoke("RaporuKapatVeSonucuAc", 0.8f); 
     }
 
@@ -100,16 +97,34 @@ public class ReportUIManager : MonoBehaviour
         // Ana rapor parşömenini şimdi kapatıyoruz (Tik işareti görevini yaptı, göründü)
         reportPanel.SetActive(false);
 
+        // Dünyaya dönerken imleci kilitliyoruz ki kamera rahat dönsün
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+
         // Sonuç sayfasını Vertex Color ayarıyla tetikliyoruz
         if (FeedbackPopupManager.Instance != null && currentHouse != null)
         {
             HouseData.BuildingStatus correctChoice = currentHouse.data.correctStatus;
 
+            // ====================================================================
+            // 🎯 DOĞRU SEÇİM YAPILDIĞINDA ÇALIŞAN ALAN
+            // ====================================================================
             if (geciciOyuncuSecimi == correctChoice)
             {
                 string dogruMesaj = "Hasar tespiti başarıyla sonuçlandı.\nBölge bütçesinden " + currentHouse.data.rewardMoney + " TL aktarıldı.";
                 FeedbackPopupManager.Instance.UyariSayfasiniAc(dogruMesaj, Color.green);
+
+                // 🔨 SİHİRLİ DOKUNUŞ: Eğer doğru şık "Onarılmalı" ise...
+                if (correctChoice == (HouseData.BuildingStatus)1)
+                {
+                    // Tam senin HouseInspector içindeki fonksiyon isminle tetikliyoruz!
+                    currentHouse.OnarimIzniniAktifEt();
+                }
             }
+            // ====================================================================
+            // ❌ YANLIŞ SEÇİM YAPILDIĞINDA ÇALIŞAN ALAN
+            // ====================================================================
             else
             {
                 string yanlisMesaj = "Hatalı değerlendirme yapıldı!!\nBakanlık cezası: Kasadan 2000 TL kesildi!";

@@ -12,10 +12,10 @@ public class PlayerInteraction : MonoBehaviour
     public bool showLaser = true;   
     public float interactionDistance = 3f; 
     public Color laserColor = Color.green; 
-    public LayerMask interactableLayer; // Sadece etkileşimli objeleri taramak için
+    public LayerMask interactableLayer; 
 
     private LineRenderer lineRenderer;
-    private IInteractable lastHighlighted; // Hafızadaki son parlatılan obje
+    private IInteractable lastHighlighted; 
 
     void Start()
     {
@@ -36,7 +36,18 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (laserOrigin == null || neckPivot == null || interactionUI == null) return;
 
-        // Senin karakter yönüne göre lazer: -neckPivot.right
+        // ====================================================================
+        // 🎯 KRİTİK GÜVENLİK KORUMASI:
+        // Eğer envanter tableti VEYA Rapor ekranı açıksa dünyadaki her şeyi kilitle!
+        // Oyuncu rapordaki butonlara basarken arkada kazara çekiç vurmasın.
+        // ====================================================================
+        if ((PlayerInventory.Instance != null && PlayerInventory.Instance.anaTabletUIObjesi != null && PlayerInventory.Instance.anaTabletUIObjesi.activeSelf) ||
+            (ReportUIManager.Instance != null && ReportUIManager.Instance.reportPanel != null && ReportUIManager.Instance.reportPanel.activeSelf))
+        {
+            ClearHighlight();
+            return;
+        }
+
         Ray ray = new Ray(laserOrigin.position, -neckPivot.right);
         RaycastHit hit;
         Vector3 endPoint = laserOrigin.position + (-neckPivot.right * interactionDistance);
@@ -46,10 +57,19 @@ public class PlayerInteraction : MonoBehaviour
         {
             endPoint = hit.point;
 
-            // Çarptığımız şey IInteractable arayüzüne sahip mi?
+            // 🔀 1. ETKİLEŞİM KATMANI: IInteractable Arayüzü (E Tuşu & Raporlar için)
             if (hit.collider.TryGetComponent(out IInteractable currentInteractable))
             {
-                interactionUI.SetActive(true);
+                // 🎯 SİHİRLİ DOKUNUŞ: Eğer bu ev için rapor zaten teslim edildiyse ekrana asla "E tuşu" yazısını BASMA!
+                HouseInspector hedefEv = hit.collider.GetComponentInParent<HouseInspector>();
+                if (hedefEv != null && hedefEv.raporGonderildiMi)
+                {
+                    interactionUI.SetActive(false); // Yazıyı gizle
+                }
+                else
+                {
+                    interactionUI.SetActive(true); // Rapor verilmediyse yazıyı göster
+                }
 
                 // Eğer yeni bir objeye bakıyorsak parlatalım
                 if (currentInteractable != lastHighlighted)
@@ -59,7 +79,7 @@ public class PlayerInteraction : MonoBehaviour
                     lastHighlighted = currentInteractable;
                 }
 
-                // ETKİLEŞİM (E Tuşu)
+                // ETKİLEŞİM (E Tuşu - Sadece rapor gönderilmediyse tetiklenebilir)
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     currentInteractable.Interact();
@@ -68,6 +88,20 @@ public class PlayerInteraction : MonoBehaviour
             else
             {
                 ClearHighlight();
+            }
+
+            // ====================================================================
+            // 🔨 2. YENİ ETKİLEŞİM KATMANI: ÇEKİÇLEME MOTORU (Sol Tık)
+            // ====================================================================
+            if (Input.GetMouseButtonDown(0))
+            {
+                HouseInspector hedefEv = hit.collider.GetComponentInParent<HouseInspector>();
+
+                // 🎯 EKSTRA GÜVENLİK: Sadece raporu DOĞRU bilinen evler sol tık darbesi yiyebilir!
+                if (hedefEv != null && hedefEv.raporOnaylandiMi)
+                {
+                    hedefEv.CekicVuruldu(); // HouseInspector'daki çekiç vuruş motorunu tetikle!
+                }
             }
         }
         else
@@ -88,7 +122,6 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    // Parlamayı söndüren ve UI'ı kapatan yardımcı fonksiyon
     void ClearHighlight()
     {
         interactionUI.SetActive(false);

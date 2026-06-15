@@ -103,6 +103,12 @@ public class InventoryUIManager : MonoBehaviour
         ResetleDetayPaneli();
         HizliKullanimSlotlariniIlkKezTemizle();
         EnvanterSekmesiniAc(); 
+
+        // 🎯 YENİ: İlk açılışta oyun ekranındaki hotbar boş çerçevelerini eşitle
+        if (HotbarManager.Instance != null)
+        {
+            HotbarManager.Instance.HotbarArayuzunuGuncelle();
+        }
     }
 
     private void HizliKullanimSlotlariniIlkKezTemizle()
@@ -525,6 +531,11 @@ public void EnvanterArayuzunuYenile()
 
             hizliKullanımKutulari[i] = kutu; 
         }
+
+        if (HotbarManager.Instance != null)
+        {
+            HotbarManager.Instance.HotbarArayuzunuGuncelle();
+        }
     }
 
     public void SlotSecildi(int slotIndex)
@@ -720,6 +731,14 @@ public void EnvanterArayuzunuYenile()
 
                 hizliKullanımKutulari[i] = kutu; 
                 Debug.Log($"[Hızlı Kullanım] {seciliEsya.esyaAdi} başarıyla Hızlı Kullanım Slot {i} alanına atandı!");
+
+                // ====================================================================
+                // ⚡ ANLIK SENKRONİZASYON SİHİRİ BURADA:
+                // Eşya slota yerleştiği an hem mor tableti hem de oyun ekranındaki Hotbar'ı
+                // envanteri kapatmayı beklemeden ZORLA GÜNCELLİYORUZ!
+                // ====================================================================
+                EnvanterArayuzunuYenile(); 
+                
                 return;
             }
         }
