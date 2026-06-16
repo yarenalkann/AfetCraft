@@ -124,7 +124,7 @@ public class TabletManager : MonoBehaviour
             isTabletOpen = false;
         }
 
-        oyuncuParasi = PlayerPrefs.GetInt("K_Para", 500);
+        oyuncuParasi = PlayerPrefs.GetInt("K_Para", 2500);
         cimentoSayisi = PlayerPrefs.GetInt("K_Cimento", 0);
         demirSayisi = PlayerPrefs.GetInt("K_Demir", 0);
         tamirKitiSayisi = PlayerPrefs.GetInt("K_TamirKiti", 0);

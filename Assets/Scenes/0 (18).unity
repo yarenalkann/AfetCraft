@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.1882353, g: 0.19215687, b: 0.18039216, a: 0.5}
+  m_EffectColor: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 1}
   m_EffectDistance: {x: 2, y: -8}
   m_UseGraphicAlpha: 1
 --- !u!114 &16259267
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
-  m_EffectColor: {r: 0.1882353, g: 0.19215687, b: 0.18039216, a: 0.5}
+  m_EffectColor: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 1}
   m_EffectDistance: {x: 8, y: -8}
   m_UseGraphicAlpha: 1
 --- !u!114 &16259268
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34117648, g: 0.29803923, b: 0.20784314, a: 1}
+  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1125,7 +1125,7 @@ MonoBehaviour:
   m_text: "G\xF6rev:3 Binay\u0131 Kontrol ET"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 12f62981dfb213842850b07660d05acb, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 1309802570192972294, guid: 12f62981dfb213842850b07660d05acb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1149,7 +1149,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 22.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1191,7 +1191,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &93700955
@@ -5221,6 +5221,7 @@ GameObject:
   - component: {fileID: 398673083}
   - component: {fileID: 398673085}
   - component: {fileID: 398673084}
+  - component: {fileID: 398673086}
   m_Layer: 0
   m_Name: TabletPanel
   m_TagString: Untagged
@@ -5293,6 +5294,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398673082}
   m_CullTransparentMesh: 1
+--- !u!114 &398673086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398673082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360aeef5059f24447bae00a9e1ec8642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TabletButtonColorizer
+  tabs:
+  - button: {fileID: 716029438}
+    buttonText: {fileID: 857122335}
+  - button: {fileID: 1166956439}
+    buttonText: {fileID: 150699344}
+  - button: {fileID: 1130061630}
+    buttonText: {fileID: 1842575296}
+  - button: {fileID: 2003132054}
+    buttonText: {fileID: 244376827}
+  - button: {fileID: 911494461}
+    buttonText: {fileID: 402668089}
+  normalColor: {r: 0.88, g: 0.85, b: 0.79, a: 1}
+  activeColor: {r: 1, g: 0.53, b: 0, a: 1}
 --- !u!1 &402668087
 GameObject:
   m_ObjectHideFlags: 0
@@ -6306,7 +6332,7 @@ MonoBehaviour:
   detayText: {fileID: 28120168}
   altRaporText: {fileID: 1783789206}
   sagDetayPanelObjesi: {fileID: 836689903}
-  oyuncuParasi: 1000
+  oyuncuParasi: 2500
   bakiyeEkrani: {fileID: 719088489}
   cimentoMiktarText: {fileID: 0}
   demirMiktarText: {fileID: 0}
@@ -8503,10 +8529,10 @@ RectTransform:
   - {fileID: 1897149953}
   m_Father: {fileID: 1517112772}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 290, y: 290}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &664592004
 MonoBehaviour:
@@ -9202,7 +9228,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.12156863, g: 0.12156863, b: 0.11764706, a: 1}
     m_HighlightedColor: {r: 0.1764706, g: 0.1764706, b: 0.17254902, a: 1}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
-    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_SelectedColor: {r: 0.7058824, g: 0.43921572, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -9241,6 +9267,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 716029439}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 398673086}
+        m_TargetAssemblyTypeName: TabletButtonColorizer, Assembly-CSharp
+        m_MethodName: ColorizeTab
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 716029438}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9333,7 +9371,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: -10}
+  m_AnchoredPosition: {x: 49, y: -10}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &719088489
@@ -9356,7 +9394,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 500 TL
+  m_text: 2500 TL
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 12f62981dfb213842850b07660d05acb, type: 2}
   m_sharedMaterial: {fileID: 1309802570192972294, guid: 12f62981dfb213842850b07660d05acb, type: 2}
@@ -11509,7 +11547,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.12156863, g: 0.12156863, b: 0.11764706, a: 1}
     m_HighlightedColor: {r: 0.1764706, g: 0.1764706, b: 0.17254902, a: 1}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
-    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_SelectedColor: {r: 0.7058824, g: 0.4392157, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -11548,6 +11586,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 911494462}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 398673086}
+        m_TargetAssemblyTypeName: TabletButtonColorizer, Assembly-CSharp
+        m_MethodName: ColorizeTab
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 911494461}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13437,6 +13487,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112036706}
   m_CullTransparentMesh: 1
+--- !u!1 &1123382298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1123382300}
+  - component: {fileID: 1123382299}
+  m_Layer: 0
+  m_Name: Minimap_Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!20 &1123382299
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123382298}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 20
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 7
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: 658658593ec5e104f8eecadbbcd52332, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &1123382300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123382298}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 995, y: 50, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1130061628
 GameObject:
   m_ObjectHideFlags: 0
@@ -13501,7 +13634,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.12156863, g: 0.12156863, b: 0.11764706, a: 1}
     m_HighlightedColor: {r: 0.1764706, g: 0.1764706, b: 0.17254902, a: 1}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
-    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_SelectedColor: {r: 0.7058824, g: 0.4392157, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -13540,6 +13673,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1130061631}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 398673086}
+        m_TargetAssemblyTypeName: TabletButtonColorizer, Assembly-CSharp
+        m_MethodName: ColorizeTab
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1130061630}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13951,7 +14096,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.12156863, g: 0.12156863, b: 0.11764706, a: 1}
     m_HighlightedColor: {r: 0.1764706, g: 0.1764706, b: 0.17254902, a: 1}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
-    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_SelectedColor: {r: 0.7058824, g: 0.4392157, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -14002,6 +14147,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 398673086}
+        m_TargetAssemblyTypeName: TabletButtonColorizer, Assembly-CSharp
+        m_MethodName: ColorizeTab
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1166956439}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -14193,7 +14350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.1882353, g: 0.19215687, b: 0.18039216, a: 0.5}
+  m_EffectColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_EffectDistance: {x: 2, y: -8}
   m_UseGraphicAlpha: 1
 --- !u!114 &1190213612
@@ -14208,7 +14365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
-  m_EffectColor: {r: 0.1882353, g: 0.19215687, b: 0.18039216, a: 0.5}
+  m_EffectColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_EffectDistance: {x: 8, y: -8}
   m_UseGraphicAlpha: 1
 --- !u!114 &1190213613
@@ -14224,7 +14381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34117648, g: 0.29803923, b: 0.20784314, a: 1}
+  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -18045,7 +18202,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1517112772
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18063,8 +18220,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -60, y: -60}
-  m_SizeDelta: {x: 400, y: 400}
+  m_AnchoredPosition: {x: -34, y: 200}
+  m_SizeDelta: {x: 330, y: 330}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1517112773
 MonoBehaviour:
@@ -18079,7 +18236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5450981, g: 0.2705882, b: 0.07450981, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -22639,17 +22796,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897149952}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 664592003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 270, y: 270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1897149954
 MonoBehaviour:
@@ -22671,7 +22828,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: de532426925ed8046ba924e188c95203, type: 2}
+  m_Texture: {fileID: 8400000, guid: 658658593ec5e104f8eecadbbcd52332, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -24079,7 +24236,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.1764706, g: 0.1764706, b: 0.17254902, a: 1}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
     m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.7058824, g: 0.4392157, b: 0, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -24117,6 +24274,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 2003132055}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 398673086}
+        m_TargetAssemblyTypeName: TabletButtonColorizer, Assembly-CSharp
+        m_MethodName: ColorizeTab
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2003132054}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -26129,7 +26298,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2122618326}
   m_LocalRotation: {x: -0.016012035, y: -0, z: -0, w: 0.99987185}
-  m_LocalPosition: {x: 0, y: 0, z: 487}
+  m_LocalPosition: {x: 0, y: 0, z: 486.2202}
   m_LocalScale: {x: 1.0933988, y: 1.0933989, z: 1.0933988}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26138,8 +26307,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -1.835, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 328.80353, y: -203.26932}
-  m_SizeDelta: {x: 1062.394, y: 520}
+  m_AnchoredPosition: {x: 328.80353, y: -221.13315}
+  m_SizeDelta: {x: 1062.394, y: 565.699}
   m_Pivot: {x: 0.309493, y: 0.6090975}
 --- !u!114 &2122618330
 MonoBehaviour:
@@ -26174,7 +26343,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 15
+  m_ScrollSensitivity: 2
   m_Viewport: {fileID: 2122618327}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -26335,3 +26504,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 223721968}
+  - {fileID: 1123382300}
