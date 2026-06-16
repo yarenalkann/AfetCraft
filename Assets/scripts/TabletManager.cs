@@ -161,6 +161,9 @@ public class TabletManager : MonoBehaviour
     // ====================================================================
     // MAĞAZA FONKSİYONU: SCRIPTABLEOBJECT KARTLARINA VE GÜVENLİ KÖPRÜYE BAĞLANDI
     // ====================================================================
+// ====================================================================
+    // MAĞAZA FONKSİYONU: SCRIPTABLEOBJECT KARTLARINA VE GÜVENLİ KÖPRÜYE BAĞLANDI
+    // ====================================================================
     public void EsyaSatinAl(int esyaID)
     {
         ItemData alinacakEsya = tumEsyalar.Find(x => x.esyaID == esyaID);
@@ -191,8 +194,7 @@ public class TabletManager : MonoBehaviour
             Debug.Log("<color=yellow>[Mağaza] Başarıyla satın alındı: </color>" + esyaAdi);
 
             // ====================================================================
-            // GÜVENLİ ENVANTER BAĞLANTI SİHİRBAZI (Hata Almayı Önler)
-            // Arkadaşının bilgisayarında PlayerInventory olmasa bile hata VERMEZ!
+            // GÜVENLİ ENVANTER BAĞLANTI SİHİRBAZI (Güncellenmiş Sürüm)
             // ====================================================================
             System.Type envanterTipi = System.Type.GetType("PlayerInventory");
             if (envanterTipi != null)
@@ -200,7 +202,12 @@ public class TabletManager : MonoBehaviour
                 Component envanter = FindObjectOfType(envanterTipi) as Component;
                 if (envanter != null)
                 {
+                    // 1. Eşyayı arkadaşının sözlük (Dictionary) yapısına ekle
                     envanter.GetType().GetMethod("EsyaEkle")?.Invoke(envanter, new object[] { alinacakEsya, 1 });
+                    
+                    // 2. Arkadaşının hotbar ve arayüz senkronizasyon motorunu zorla tetikle!
+                    envanter.GetType().GetMethod("TümArayüzleriVeHotbariSenkronizeEt", 
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.Invoke(envanter, null);
                 }
             }
             // ====================================================================
