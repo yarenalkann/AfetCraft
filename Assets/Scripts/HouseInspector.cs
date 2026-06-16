@@ -93,28 +93,32 @@ public class HouseInspector : MonoBehaviour, IInteractable
     {
         onarimBittiMi = true;
 
-        // 🎯 GARANTİCİ DEĞİŞİM: Objelerin null olup olmadığını kontrol ederek zorla tetikliyoruz
-        if (hasarliModel != null) 
-        {
-            hasarliModel.SetActive(false);
-            Debug.Log($"[İnşaat] {hasarliModel.name} başarıyla GİZLENDİ.");
-        }
-        else
-        {
-            Debug.LogError("[Hata] Inspector'da Hasarlı Model kutusu BOŞ!");
-        }
-
         if (onarilmisModel != null) 
         {
-            onarilmisModel.SetActive(true);
-            Debug.Log($"[İnşaat] {onarilmisModel.name} başarıyla GÖSTERİLDİ.");
+            // 🎯 ADIM 1: Yeni evi tam olarak hasarlı evin olduğu konuma ve açıya klonla
+            GameObject yeniEv = Instantiate(onarilmisModel, transform.position, transform.rotation);
+            
+            // 🎯 ADIM 2: Eğer prefab'ın kendisi kapalıysa zorla AÇ (Gözükmeme sorununu çözer!)
+            yeniEv.SetActive(true);
+
+            // 🎯 ADIM 3: Boyutunu (Scale) hasarlı evle (2.43) milimetrik olarak eşitle
+            yeniEv.transform.localScale = transform.localScale;
+
+            // 🎯 ADIM 4: Katmanını ayarla ki bir daha çekiç vurulmasın
+            yeniEv.layer = LayerMask.NameToLayer("Default");
+
+            Debug.Log($"[İnşaat] {onarilmisModel.name} başarıyla dünyaya klonlandı ve aktif edildi.");
         }
         else
         {
-            Debug.LogError("[Hata] Inspector'da Onarılmış Model kutusu BOŞ!");
+            Debug.LogError("[Hata] Inspector'da Onarılmış Model (orijinalEv Prefabı) ATANMAMIŞ!");
+            return; // Eğer model yoksa aşağıya geçip eski evi silme ki oyun patlamasın!
         }
 
-        Debug.Log($"<color=green>[BAŞARI]</color> {gameObject.name} dönüşümü tamamlandı!");
+        Debug.Log($"<color=green>[BAŞARI]</color> {gameObject.name} dönüşümü tamamlandı! Eski ev kaldırılıyor.");
+
+        // 🎯 ADIM 5: Yeni ev saniyeler içinde doğduğuna göre artık eski hasarlı objeyi silebiliriz
+        Destroy(gameObject); 
     }
 
     public void ToggleHighlight(bool isOn)

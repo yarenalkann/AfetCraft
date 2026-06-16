@@ -172,17 +172,17 @@ public class PlayerInventory : MonoBehaviour
     {
         if (esya == null) return false;
 
-        // Aletler benzersiz ID ile tutulduğu için sözlükte esyaID yerine eşleşen ilk slotu bulmalıyız
         int bulunanAnahtar = -1;
         EnvanterSlotu slot = null;
 
+        // Çantadaki eşyayı ara
         foreach (var kp in cantaIcerigi)
         {
             if (kp.Value.esya != null && kp.Value.esya.esyaID == esya.esyaID && kp.Value.adet > 0)
             {
                 bulunanAnahtar = kp.Key;
                 slot = kp.Value;
-                break; // İlk bulduğumuzu kullanalım
+                break; 
             }
         }
 
@@ -195,40 +195,68 @@ public class PlayerInventory : MonoBehaviour
         switch (esya.esyaTipi)
         {
             case ItemData.EsyaTuru.KaliciCihaz:
-                Debug.Log($"[Envanter] {esya.esyaAdi} pürüzsüzce kullanıldı. Kalıcı cihaz olduğu için hasar almadı.");
+                Debug.Log($"[Envanter] {esya.esyaAdi} kullanıldı.");
+                TümArayüzleriVeHotbariSenkronizeEt();
                 return true;
 
-            case ItemData.EsyaTuru.SarfMalzemesi:
+            case ItemData.EsyaTuru.SarfMalzemesi: // 🧱 Beton Blok yerleştirildiğinde burası çalışır
                 slot.adet--;
                 if (slot.adet <= 0) cantaIcerigi.Remove(bulunanAnahtar);
                 Debug.Log($"[Envanter] {esya.esyaAdi} tüketildi. Kalan: {(cantaIcerigi.ContainsKey(bulunanAnahtar) ? slot.adet : 0)}");
-                ArayuzuTazele();
+                
+                TümArayüzleriVeHotbariSenkronizeEt();
                 return true;
 
-            case ItemData.EsyaTuru.DayanikliAlet:
+            case ItemData.EsyaTuru.DayanikliAlet: // 🔨 Balyoz ve Çekiç buraya düşer
                 slot.guncelDayaniklilik -= alinacakHasar;
                 Debug.Log($"[Envanter] {esya.esyaAdi} hasar yedi! Kalan Can: %{slot.guncelDayaniklilik}");
 
                 if (slot.guncelDayaniklilik <= 0)
                 {
                     slot.adet--;
-                    Debug.Log($"[Envanter] 1 adet {esya.esyaAdi} tamamen kırıldı ve yok oldu!");
+                    Debug.Log($"[Envanter] 1 adet {esya.esyaAdi} tamamen kırıldı!");
 
                     if (slot.adet <= 0)
                     {
                         cantaIcerigi.Remove(bulunanAnahtar);
+                        
+                        // Eğer elindeki balyoz tamamen kırıldıysa el modelini yok et
+                        if (CharacterHandManager.Instance != null && CharacterHandManager.Instance.suAnElindekiEsyaData == esya)
+                        {
+                            CharacterHandManager.Instance.EldekiEsyayiTemizle();
+                        }
                     }
                     else
                     {
                         slot.guncelDayaniklilik = esya.maksimumDayaniklilik;
                     }
                 }
-                ArayuzuTazele();
+                
+                // 🎯 VERİ DEĞİŞTİĞİ AN HEMEN ARAYÜZLERİ TETİKLE!
+                TümArayüzleriVeHotbariSenkronizeEt();
                 return true;
         }
         return false;
     }
 
+    // ====================================================================
+    // ⚡ İKİZ ARAYÜZ SENKRONİZASYON MOTORU
+    // Hem mor tableti hem de alt taraftaki hotbarı aynı salisede günceller!
+    // ====================================================================
+    private void TümArayüzleriVeHotbariSenkronizeEt()
+    {
+        // 1. Mor Tablet Ekranını Güncelle
+        if (InventoryUIManager.Instance != null)
+        {
+            InventoryUIManager.Instance.EnvanterArayuzunuYenile();
+        }
+
+        // 2. 🎯 SİHİRLİ SATIR: Ekranın altındaki can barlarını ve adetleri anlık eşitle!
+        if (HotbarManager.Instance != null)
+        {
+            HotbarManager.Instance.HotbarArayuzunuGuncelle();
+        }
+    }
     // Arayüz sorguları için toplam adet getiren yardımcı fonksiyon
     public int EsyaAdetiniGetir(ItemData esya)
     {

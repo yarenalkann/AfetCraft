@@ -3,7 +3,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Hareket Ayarları")]
-    public float moveSpeed = 5.0f;
+    public float walkSpeed = 5.0f;       // 🎯 İsim netliği için moveSpeed'i walkSpeed yaptık
+    public float runSpeed = 9.0f;        // 🏃‍♂️ YENİ: Shift'e basınca çıkılacak koşu hızı
     public float jumpHeight = 1.5f;
     public float gravity = -9.81f;
     public float turnSpeed = 100.0f;
@@ -14,8 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundMask; 
 
     [Header("Referanslar")]
-    public Transform cameraPivot; // YENİ: Kamerayı taşıyan boş obje
-    public Transform headPivot;   // Mevcut kafa pivotun
+    public Transform cameraPivot; 
+    public Transform headPivot;   
     public GameObject backCamera;
     public GameObject frontCamera;
     public Animator anim;
@@ -26,29 +27,26 @@ public class PlayerMovement : MonoBehaviour
 
     private float verticalRotation = 0f;
     private float horizontalHeadRotation = 0f;
+    private float currentSpeed;          // 🎯 Anlık hızı hafızada tutacak gizli değişken
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+        currentSpeed = walkSpeed;        // Oyun başında yürüme hızıyla başlıyoruz
     }
 
     void Update()
     {
-        // 1. Kontrol: Rapor parşömeni açık mı?
         bool raporAcik = ReportUIManager.Instance != null && ReportUIManager.Instance.reportPanel.activeInHierarchy;
-        
-        // 2. Kontrol: Senin yeni tasarladığın sonuç kağıdı açık mı?
         bool sonucSayfasiAcik = FeedbackPopupManager.Instance != null && FeedbackPopupManager.Instance.yanlisSayfasiPaneli.activeInHierarchy;
 
-        // EĞER İKİSİNDEN BİRİ BİLE EKRENDAYSA KARAKTER VE KAMERA DONSUN!
         if (raporAcik || sonucSayfasiAcik)
         {
             if (anim != null) anim.SetFloat("Speed", 0f);
-            return; // Alttaki hareket kodlarına geçmez, karakter buz tutar.
+            return; 
         }
 
-        // Sizin mevcut hareket fonksiyonlarınız aynen aşağıda kalsın:
         HandleCameraSwitch();
         HandleRotation();
         HandleMovement();
@@ -70,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * turnSpeed * Time.deltaTime;
 
-        transform.Rotate(0, mouseX, 0); // Vücut döner
+        transform.Rotate(0, mouseX, 0); 
 
         if (cameraPivot != null || headPivot != null)
         {
@@ -80,29 +78,51 @@ public class PlayerMovement : MonoBehaviour
             horizontalHeadRotation = Mathf.Lerp(horizontalHeadRotation, Input.GetAxis("Mouse X") * 20f, Time.deltaTime * 5f);
             horizontalHeadRotation = Mathf.Clamp(horizontalHeadRotation, -40f, 40f);
 
-            // KAMERA: Sadece yukarı-aşağı baksın (X ekseninde)
             if (cameraPivot != null) {
                 cameraPivot.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
             }
 
-            // KAFA: Senin karakter sağa baktığı için dikey hareket (verticalRotation) 
-            // muhtemelen Z ekseninde olmalı. Deneyerek bulalım:
             if (headPivot != null) {
                 headPivot.localRotation = Quaternion.Euler(0f, horizontalHeadRotation, verticalRotation);
             }
         }
     }
+
     void HandleMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        // Mevcut çalışan yön mantığın (Dokunulmadı)
-        Vector3 move = (transform.forward * vertical) + (transform.right * horizontal);
-        controller.Move(move * moveSpeed * Time.deltaTime);
+        // 🏃‍♂️ SHIFT KONTROLÜ: Oyuncu sol shift'e basıyor mu ve ileri/geri/sağa/sola hareket ediyor mu?
+        if (Input.GetKey(KeyCode.LeftShift) && (horizontal != 0 || vertical != 0))
+        {
+            currentSpeed = runSpeed; // Koşma hızına geç
+        }
+        else
+        {
+            currentSpeed = walkSpeed; // Normal yürüme hızına dön
+        }
 
+        Vector3 move = (transform.forward * vertical) + (transform.right * horizontal);
+        
+        // 🎯 Burayı currentSpeed yaptık ki shift durumuna göre dinamik değişsin
+        controller.Move(move * currentSpeed * Time.deltaTime);
+
+        // --- ANIMATÖR PARAMETRE AYARI ---
         float moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
-        if (anim != null) anim.SetFloat("Speed", moveAmount);
+        
+        if (anim != null) 
+        {
+            // Eğer koşuyorsak Animatördeki Speed değerini 2 ile çarpıp üst limite çekiyoruz (Koşma animasyonunu tetikler)
+            if (currentSpeed == runSpeed)
+            {
+                anim.SetFloat("Speed", moveAmount * 2f); 
+            }
+            else
+            {
+                anim.SetFloat("Speed", moveAmount); 
+            }
+        }
     }
 
     void HandleGravityAndJump()

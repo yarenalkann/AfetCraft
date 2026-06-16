@@ -186,34 +186,30 @@ public class HotbarManager : MonoBehaviour
     // ====================================================================
     // 🎨 EKRANDAKİ İKON VE ADETLERİ CANLI TAZELEME
     // ====================================================================
+// ====================================================================
+    // 🎨 EKRANDAKİ İKON VE ADETLERİ CANLI TAZELEME (KESİN ÇÖZÜM)
+    // ====================================================================
     public void HotbarArayuzunuGuncelle()
     {
-        // Güvenlik Kontrolü: Envanter arayüz yöneticisi sahnede var mı?
-        if (InventoryUIManager.Instance == null) return;
+        // Güvenlik Kontrolü: Envanter sistemi sahnede var mı?
+        if (PlayerInventory.Instance == null || InventoryUIManager.Instance == null) return;
+
+        var envanterdekiHizliListeler = InventoryUIManager.Instance.hizliKullanımKutulari;
 
         for (int i = 0; i < hotbarSlotlari.Count; i++)
         {
-            // GÜVENLİK KORUMASI: Eğer editörde hotbar slotunun ikonu bağlanmadıysa hata vermesin
             if (hotbarSlotlari[i].esyaIkonu == null) continue;
-
-            // ====================================================================
-            // 🎯 TAM SENİN KODUNA UYARLANDI: 
-            // Mor tabletteki "hizliKullanımKutulari" listesini doğrudan süzüyoruz.
-            // ====================================================================
-            var envanterdekiHizliListeler = InventoryUIManager.Instance.hizliKullanımKutulari;
 
             // Eğer o slot indeksi envanterdeki listede varsa ve içi boş değilse
             if (envanterdekiHizliListeler != null && i < envanterdekiHizliListeler.Count && envanterdekiHizliListeler[i].icindekiEsya != null)
             {
-                // Envanterin o hızlı slotundaki veriyi (DinamikUIKutusu) referans alıyoruz
-                var envanterKutusu = envanterdekiHizliListeler[i];
-                ItemData esya = envanterKutusu.icindekiEsya;
+                ItemData esya = envanterdekiHizliListeler[i].icindekiEsya;
                 
                 // 1. İkon Resmini Aç ve Görseli Bas
                 hotbarSlotlari[i].esyaIkonu.gameObject.SetActive(true);
                 hotbarSlotlari[i].esyaIkonu.sprite = esya.esyaIkonu;
 
-                // 2. Adet Kontrolü (Senin PlayerInventory sisteminden güncel adet durumunu çeker)
+                // 2. Adet Kontrolü
                 int adet = PlayerInventory.Instance.EsyaAdetiniGetir(esya);
                 if (hotbarSlotlari[i].adetYazisi != null)
                 {
@@ -228,18 +224,21 @@ public class HotbarManager : MonoBehaviour
                     }
                 }
 
-                // 3. Can Barı Kontrolü (Senin PlayerInventory sisteminden dayanıklılığı anlık eşitler)
+                // 3. 🎯 EN KRİTİK DÜZELTME: 
+                // Tablet slotunda can barı olmasa bile, oyun ekranındaki hotbar slotunun 
+                // kendi can barına doğrudan PlayerInventory sözlüğünden canı basıyoruz!
                 if (hotbarSlotlari[i].canBariDolulukGörseli != null)
                 {
                     if (esya.esyaTipi == ItemData.EsyaTuru.DayanikliAlet)
                     {
+                        // Tablete hiç sormuyoruz! Doğrudan hafızadaki ana envanter sözlüğünden canı çek!
                         float guncelCan = PlayerInventory.Instance.EsyaDayaniklilikGetir(esya);
                         float dolulukOrani = guncelCan / esya.maksimumDayaniklilik;
 
                         hotbarSlotlari[i].canBariDolulukGörseli.gameObject.SetActive(true);
                         hotbarSlotlari[i].canBariDolulukGörseli.fillAmount = dolulukOrani;
 
-                        // Can %30'un altına düşerse bar kırmızıya dönsün, yoksa yeşil kalsın
+                        // Can durumuna göre renk ayarı
                         if (dolulukOrani <= 0.3f)
                             hotbarSlotlari[i].canBariDolulukGörseli.color = Color.red;
                         else
@@ -247,22 +246,17 @@ public class HotbarManager : MonoBehaviour
                     }
                     else
                     {
-                        // Sarf malzemesiyse can barını gizle
+                        // Alet değilse (Beton Blok gibi sarf malzemesiyse) can barını gizle
                         hotbarSlotlari[i].canBariDolulukGörseli.gameObject.SetActive(false);
                     }
                 }
             }
-            // 2. DURUM: EĞER MOR TABLETTEKİ O HIZLI KULLANIM SLOTU BOŞSA
             else
             {
-                // Oyun ekranındaki slotun içini de anında temizle (Tam Senkronizasyon!)
+                // Eğer slot boşsa her şeyi gizle
                 hotbarSlotlari[i].esyaIkonu.gameObject.SetActive(false);
-                
-                if (hotbarSlotlari[i].adetYazisi != null) 
-                    hotbarSlotlari[i].adetYazisi.gameObject.SetActive(false);
-                    
-                if (hotbarSlotlari[i].canBariDolulukGörseli != null)
-                    hotbarSlotlari[i].canBariDolulukGörseli.gameObject.SetActive(false);
+                if (hotbarSlotlari[i].adetYazisi != null) hotbarSlotlari[i].adetYazisi.gameObject.SetActive(false);
+                if (hotbarSlotlari[i].canBariDolulukGörseli != null) hotbarSlotlari[i].canBariDolulukGörseli.gameObject.SetActive(false);
             }
         }
     }
