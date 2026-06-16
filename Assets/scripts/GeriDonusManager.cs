@@ -12,7 +12,7 @@ public class GeriDonusManager : MonoBehaviour
             Cursor.visible = true;
 
             // Buraya ana sahnenin Unity'deki tam adını yaz (Örn: "MainScene")
-            SceneManager.LoadScene("_Recovery/0"); 
+            SceneManager.LoadScene("0 (18)"); 
         }
     }
 }

@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Recovery/0.unity
     guid: 24bdfb5139fce554992192dd5aefd93b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level1_Enkaz.unity
     guid: c69c467e5096fd54099a2362ebc88a27
   m_configObjects:
