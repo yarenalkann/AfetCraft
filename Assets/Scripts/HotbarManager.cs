@@ -49,15 +49,15 @@ public class HotbarManager : MonoBehaviour
         }
 
         // ⌨️ Klavye Tuş Kontrolleri (Tablet kapalıysa canavar gibi çalışırlar)
-        if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad7))
         {
             HotbarEsyasiniEleAl(0); // 1. Hızlı Kullanım Slotu (İndex 0)
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
+        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad8))
         {
             HotbarEsyasiniEleAl(1); // 2. Hızlı Kullanım Slotu (İndex 1)
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
+        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad9))
         {
             HotbarEsyasiniEleAl(2); // 3. Hızlı Kullanım Slotu (İndex 2)
         }
@@ -184,9 +184,6 @@ public class HotbarManager : MonoBehaviour
     }
 
     // ====================================================================
-    // 🎨 EKRANDAKİ İKON VE ADETLERİ CANLI TAZELEME
-    // ====================================================================
-// ====================================================================
     // 🎨 EKRANDAKİ İKON VE ADETLERİ CANLI TAZELEME (KESİN ÇÖZÜM)
     // ====================================================================
     public void HotbarArayuzunuGuncelle()

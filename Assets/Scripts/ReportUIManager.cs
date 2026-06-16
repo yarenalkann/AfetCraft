@@ -23,7 +23,7 @@ public class ReportUIManager : MonoBehaviour
     private HouseInspector currentHouse;
 
     // Hafızada oyuncunun seçimini tutmak için geçici değişkenler
-    private HouseData.BuildingStatus geciciOyuncuSecimi;
+    private EvVerisi.BuildingStatus geciciOyuncuSecimi;
 
     private void Awake()
     {
@@ -81,7 +81,7 @@ public class ReportUIManager : MonoBehaviour
         else if (statusIndex == 1 && tikOnarilmali != null) tikOnarilmali.SetActive(true);
         else if (statusIndex == 2 && tikYikilmali != null) tikYikilmali.SetActive(true);
 
-        geciciOyuncuSecimi = (HouseData.BuildingStatus)statusIndex;
+        geciciOyuncuSecimi = (EvVerisi.BuildingStatus)statusIndex;
 
         // ====================================================================
         // 🎯 GÜVENLİK KİLİDİ: Oyuncu butona bastığı an bu evin E tuşu hakkı kapanır!
@@ -105,7 +105,7 @@ public class ReportUIManager : MonoBehaviour
         // Sonuç sayfasını Vertex Color ayarıyla tetikliyoruz
         if (FeedbackPopupManager.Instance != null && currentHouse != null)
         {
-            HouseData.BuildingStatus correctChoice = currentHouse.data.correctStatus;
+            EvVerisi.BuildingStatus correctChoice = currentHouse.data.correctStatus;
 
             // ====================================================================
             // 🎯 DOĞRU SEÇİM YAPILDIĞINDA ÇALIŞAN ALAN
@@ -116,7 +116,7 @@ public class ReportUIManager : MonoBehaviour
                 FeedbackPopupManager.Instance.UyariSayfasiniAc(dogruMesaj, Color.green);
 
                 // 🔨 SİHİRLİ DOKUNUŞ: Eğer doğru şık "Onarılmalı" ise...
-                if (correctChoice == (HouseData.BuildingStatus)1)
+                if (correctChoice == (EvVerisi.BuildingStatus)1)
                 {
                     // Tam senin HouseInspector içindeki fonksiyon isminle tetikliyoruz!
                     currentHouse.OnarimIzniniAktifEt();

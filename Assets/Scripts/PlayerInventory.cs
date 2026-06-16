@@ -43,10 +43,6 @@ public class PlayerInventory : MonoBehaviour
         ArayuzuTazele();
     }
 
-    [Header("Bağımsız Test Ayarları")]
-    [Tooltip("Test etmek istediğin ItemData kartlarını (Çimento, Balyoz vb.) sırayla buraya sürükle.")]
-    public List<ItemData> testEsyaKartlari = new List<ItemData>();
-
     [Header("Arayüz Açma/Kapatma Ayarları")]
     [Tooltip("Sahnede tasarladığın o en dıştaki siyah çerçeveli ana Tablet UI objesini buraya sürükle.")]
     public GameObject anaTabletUIObjesi; 
@@ -106,26 +102,8 @@ public class PlayerInventory : MonoBehaviour
                 Debug.LogWarning("[Tablet] Ana Tablet UI Objesi PlayerInventory scriptine atanmamış!");
             }
         }
-
-        // ====================================================================
-        // [BAĞIMSIZ TEST MODU]
-        // ====================================================================
-        if (Input.GetKeyDown(KeyCode.Alpha1)) { TestEsyaEkleByIndex(0); }
-        if (Input.GetKeyDown(KeyCode.Alpha2)) { TestEsyaEkleByIndex(1); }
-        if (Input.GetKeyDown(KeyCode.Alpha3)) { TestEsyaEkleByIndex(2); }
-        if (Input.GetKeyDown(KeyCode.Alpha4)) { TestEsyaEkleByIndex(3); }
-        if (Input.GetKeyDown(KeyCode.Alpha5)) { TestEsyaEkleByIndex(4); }
-        if (Input.GetKeyDown(KeyCode.Alpha6)) { TestEsyaEkleByIndex(5); }
     }
 
-    private void TestEsyaEkleByIndex(int index)
-    {
-        if (testEsyaKartlari != null && testEsyaKartlari.Count > index && testEsyaKartlari[index] != null)
-        {
-            EsyaEkle(testEsyaKartlari[index], 1);
-            Debug.Log($"<color=cyan>[Bağımsız Test] {index + 1}'e basıldı: {testEsyaKartlari[index].esyaAdi} eklendi!</color>");
-        }
-    }
 
     // ====================================================================
     // EŞYA EKLEME (Dükkandan satın alınınca veya dünyadan toplanınca)
@@ -162,7 +140,7 @@ public class PlayerInventory : MonoBehaviour
             }
         }
 
-        ArayuzuTazele();
+         TümArayüzleriVeHotbariSenkronizeEt(); // Hem mor tableti hem hotbarı aynı anda yenilesin!
     }
 
     // ====================================================================

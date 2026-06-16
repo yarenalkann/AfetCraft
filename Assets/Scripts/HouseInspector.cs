@@ -3,7 +3,7 @@ using UnityEngine;
 public class HouseInspector : MonoBehaviour, IInteractable
 {
     [Header("Ev Veri Kartı")]
-    public HouseData data; 
+    public EvVerisi data; 
 
     [Header("Model Ayarları")]
     public GameObject hasarliModel;
