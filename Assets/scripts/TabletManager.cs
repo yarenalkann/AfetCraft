@@ -19,6 +19,8 @@ public class TabletManager : MonoBehaviour
 
     [Header("Ana Tablet Objesi")]
     public GameObject tabletPanel;
+    public GameObject inventoryPanel; 
+    public Texture2D customCursorTexture;
 
     [Header("Tablet Sayfaları (Paneller)")]
     public GameObject basvurularPage;
@@ -137,8 +139,17 @@ public class TabletManager : MonoBehaviour
         SeviyeKontrolEt();
     }
 
+
+
+
     void Update()
     {
+        // Eğer envanter paneliniz açıkça tablet açılmasın
+        if (inventoryPanel != null && inventoryPanel.activeSelf)
+        {
+            return; 
+        }
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             isTabletOpen = !isTabletOpen;
@@ -147,21 +158,34 @@ public class TabletManager : MonoBehaviour
             if (isTabletOpen)
             {
                 OpenBasvurular();
+            
+                // 1️⃣ DÜNYAYI DONDURMA: Zaman akışını sıfırlıyoruz, arkadaki her şey donuyor!
+                Time.timeScale = 0f; 
+
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+
+                // 2️⃣ ÖZEL İMLECİ AKTİF ETME: Senin tasarladığın imleci ekrana basıyoruz
+                if (customCursorTexture != null)
+                {
+                    Cursor.SetCursor(customCursorTexture, Vector2.zero, CursorMode.Auto);
+                }
             }
             else
             {
+                // 3️⃣ DÜNYAYI GERİ OYNATMA: Zamanı normale (1) döndürüyoruz, oyun devam ediyor!
+                Time.timeScale = 1f; 
+
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+
+                // İmleci eski orijinal Windows/Unity haline geri döndürüyoruz
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
             }
         }
     }
 
     // ====================================================================
-    // MAĞAZA FONKSİYONU: SCRIPTABLEOBJECT KARTLARINA VE GÜVENLİ KÖPRÜYE BAĞLANDI
-    // ====================================================================
-// ====================================================================
     // MAĞAZA FONKSİYONU: SCRIPTABLEOBJECT KARTLARINA VE GÜVENLİ KÖPRÜYE BAĞLANDI
     // ====================================================================
     public void EsyaSatinAl(int esyaID)
@@ -199,7 +223,7 @@ public class TabletManager : MonoBehaviour
             System.Type envanterTipi = System.Type.GetType("PlayerInventory");
             if (envanterTipi != null)
             {
-                Component envanter = FindObjectOfType(envanterTipi) as Component;
+                Component envanter = FindAnyObjectByType(envanterTipi) as Component;
                 if (envanter != null)
                 {
                     // 1. Eşyayı arkadaşının sözlük (Dictionary) yapısına ekle
@@ -214,11 +238,11 @@ public class TabletManager : MonoBehaviour
         }
     }
 
-    public void ParaYazisiniGuncelle() { if (bakiyeEkrani != null) bakiyeEkrani.text = oyuncuParasi + " TL"; }
+    public void ParaYazisiniGuncelle() 
+    {  
+        if (bakiyeEkrani != null) bakiyeEkrani.text = oyuncuParasi + " TL"; 
+    }
     
-    // BİZİM SİLECEĞİMİZ YER TAM OLARAK BURASIYDI:
-    // MiktarlariGuncelle fonksiyonunun içindeki o dükkan textlerini ezen kısımları sildik.
-    // Arkadaşın dükkandaki textlerin bağlantısını Inspector'dan tamamen kopardığı an, buton fiyatları sabit kalacak!
     public void MiktarlariGuncelle()
     {
         if (cimentoMiktarText != null) cimentoMiktarText.text = "x" + cimentoSayisi;

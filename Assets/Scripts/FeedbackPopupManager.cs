@@ -6,12 +6,11 @@ public class FeedbackPopupManager : MonoBehaviour
     public static FeedbackPopupManager Instance;
 
     [Header("Yeni Sayfa Tasarımı Referansları")]
-    public GameObject yanlisSayfasiPaneli; // Tasarladığın SonucSayfasiPaneli buraya gelecek
-    public TextMeshProUGUI txtUyariMesaji; // İçindeki TxtSonucMesaji buraya gelecek
+    public GameObject yanlisSayfasiPaneli; 
+    public TextMeshProUGUI txtUyariMesaji; 
 
     private void Awake()
     {
-        // Diğer kodlardan bu sayfaya rahatça erişebilmek için köprü kuruyoruz
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
@@ -19,29 +18,46 @@ public class FeedbackPopupManager : MonoBehaviour
     // Bu fonksiyonu çağırarak ekrana yazıyı fırlatacağız
     public void UyariSayfasiniAc(string mesaj, Color hedefRenk)
     {
-        // 1. Adım: Yeni kağıdın içindeki TextMeshPro alanına bizim gönderdiğimiz yazıyı yazar
         txtUyariMesaji.text = mesaj; 
-    
-        // 2. Adım: Gönderdiğin resimdeki "Vertex Color" kutucuğunun rengini ayarlar (Yeşil veya Kırmızı)
         txtUyariMesaji.color = hedefRenk; 
-
-        // 3. Adım: Sahnedeki o gizli (Deaktif) olan sonuç panelini şak diye görünür yapar
         yanlisSayfasiPaneli.SetActive(true); 
 
-        // 4. Adım: Fare imlecini serbest bırakır ki oyuncu "Tamam" butonuna basabilsin
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        // 💰💰💰 PARA GÜNCELLEME SİHRETMİZ TAM BURADA BAŞLIYOR 💰💰💰
+        
+// 📊 Paranın tutulduğu scripti sahnede buluyoruz
+    TabletManager envanter = FindAnyObjectByType<TabletManager>(); 
+
+    if (envanter != null)
+    {
+        // 🎯 MÜHENDİSLİK HİLESİ: Gelen rengin yeşillik oranını (g) ve kırmızılık oranını (r) kıyaslıyoruz.
+        // Tonu ne olursa olsun (açık yeşil, koyu yeşil, zeytin yeşili vb.) yeşil baskınsa DOĞRU kabul edilir!
+        if (hedefRenk.g > hedefRenk.r)
+        {
+            envanter.oyuncuParasi += 2000; // 500 TL Ödül verdik!
+        }
+        else // Kırmızı baskınsa veya yeşil değilse YANLIŞ kabul edilir!
+        {
+            envanter.oyuncuParasi -= 1000; // 250 TL Ceza kestik!
+            
+            // Paranın sıfırın altına düşmesini engelliyoruz
+            if (envanter.oyuncuParasi < 0) envanter.oyuncuParasi = 0;
+        }
+
+        // Arayüzdeki o pixel art paneli güncelliyoruz
+        envanter.ParaYazisiniGuncelle(); 
+    }
     }
 
-    // "Tamam" butonuna basıldığında oyuna geri döndüren fonksiyon
     public void SayfayiKapat()
     {
         if (yanlisSayfasiPaneli != null)
         {
-            yanlisSayfasiPaneli.SetActive(false); // Sayfayı kapat
+            yanlisSayfasiPaneli.SetActive(false); 
         }
 
-        // Fareyi tekrar gizleyip oyuna geri döndürüyoruz
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

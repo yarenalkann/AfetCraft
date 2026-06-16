@@ -46,6 +46,7 @@ public class PlayerInventory : MonoBehaviour
     [Header("Arayüz Açma/Kapatma Ayarları")]
     [Tooltip("Sahnede tasarladığın o en dıştaki siyah çerçeveli ana Tablet UI objesini buraya sürükle.")]
     public GameObject anaTabletUIObjesi; 
+    public GameObject tabletPanel;
 
     [Header("Özel İmleç (Cursor) Ayarları")]
     [Tooltip("Envanter açıldığında görünecek olan kendi tasarladığın pikselli imleç resmini (Sprite/Texture2D) buraya sürükle.")]
@@ -57,6 +58,8 @@ public class PlayerInventory : MonoBehaviour
         // ====================================================================
         // I TUŞUNA BASINCA TABLETİ AÇMA / KAPATMA, OYUNU DURDURMA VE ÖZEL FARE
         // ====================================================================
+        if (tabletPanel.activeSelf) return; // Tablet açıksa envanteri açma!
+
         if (Input.GetKeyDown(KeyCode.I))
         {
             if (anaTabletUIObjesi != null)

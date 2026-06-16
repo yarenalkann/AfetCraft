@@ -15,7 +15,7 @@ public class BinaKontrol : MonoBehaviour
         // Eğer bu bir görev binasıysa seviye artsın
             if (isGorevBinasi)
             {
-                TabletManager tablet = FindFirstObjectByType<TabletManager>();
+                TabletManager tablet = FindAnyObjectByType<TabletManager>();
                 if (tablet != null)
                 {
                     tablet.oyuncuSeviyesi++;

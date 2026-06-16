@@ -9,9 +9,8 @@ public class MenuManager : MonoBehaviour
     // BAŞLA butonuna tıklandığında bu fonksiyon çalışacak
     public void OyunuBaslat()
     {
-        // "OyunSahnesi" yazan yere senin binalarının, tabletinin olduğu asıl oyun sahnesinin adı neyse onu yazmalıyız.
-        // Eğer asıl sahnenin adı "SampleScene" ise burayı "SampleScene" yap.
-        SceneManager.LoadScene("0 (18)");
+        // Ana menüden direkt senin ana haritana (Character sahnesine) geçiş yapar
+        SceneManager.LoadScene("Character"); 
     }
 
     // AYARLAR butonuna tıklandığında bu fonksiyon çalışacak
